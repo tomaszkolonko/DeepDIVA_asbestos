@@ -1,0 +1,17 @@
+\chapter{Introduction}
+
+Convolutional Neural Networks (CNNs) have become the standard in many areas such as image recognition, classification, object detection, identifying faces and others. Although CNNs have existed already since 1988, recent progress in computational power through GPU's have made bigger neural networks possible. In 2012, Alex Krizhevsky and his group won the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) with a CNN and since then research into this type of Neural Networks has increased drastically with new CNNs surpassing human performance in many fields.
+
+\section{Motivation}
+
+A Convolutional Neural Network is a specific type of an Artifical Neural Network (ANN) which gets its name from trying to model a biological neural network. It consists of many neurons often called nodes or units that process information in a feed forward manner. A neuron receives input from other neurons very similar to brain cells that are interconnected with other brain cells, building up a huge network. The input from many different neurons is weighted and processed before forwarding the information/output to the next neuron. A network is created where many neurons are fully connected to the next layer of neurons leading up to a Multi Layer Perceptron.
+
+For image classification having fully connected layers of hidden units is not very useful, since no spatial information can be retrieved from the image itself. Convolutional Neural Networks are able to scan through the image and retrieve spatial feature maps, that find characteristic patterns throughout the image. These convolutional layers are connected to form a bigger and deeper network. 
+
+\section{Study Subject}
+
+The goal of this thesis is to find a suitable architecture to recognize asbestos in microscopic images. I will frist start with AlexNet to get a good baseline, from which to improve on. The current state of the art architectures are all based on natural images as found in the ImageNet dataset from the ILSVRC. To achieve good accuracies I will need to understand how the different layers of a CNN interact with each other in order to be able to alter the width, depth and other parameters of an architecture to better suite the given asbestos dataset. The dataloader will need re-implementation since the asbestos images are big images and resizing them leads to losing the fine structure of the asbestos fibers, making it impossible to classify the images correctly. Transfer learning will be applied in order to start with already pre-trained weights. Holding some of the layers fixed and fine-tuning the last couples of layers should improve efficiency and accuracy considerably. In the end I will need to optimize all used hyper-parameters in order to achieve best possible results and run the architecture for a long period of time.
+
+\section{Outline}
+
+The remainder of this thesis is organized as follows. Chapter 2 explains shortly 
