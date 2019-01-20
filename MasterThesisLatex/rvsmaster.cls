@@ -49,7 +49,7 @@
   	\vskip 5em%
 	{\LARGE\textsf{Masterthesis\\Swiss Joint Master of Science in Computer Science}\par}%
   	\vskip 12em%
-  	{\Large\textsf{vorgelegt von}\par}%
+  	{\Large\textsf{written by}\par}%
   	\vskip 1.5em%
   	{\Large\textsf{\@author}\par}%
   	{\Large\textsf{\@date}\par}%
