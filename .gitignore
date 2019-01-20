@@ -113,3 +113,10 @@ ENV/
 _build
 _static
 _templates
+masterthesis.aux
+masterthesis.lof
+masterthesis.lot
+masterthesis.toc
+masterthesis.synctex.gz
+masterthesis.pdf
+masterthesis.out
