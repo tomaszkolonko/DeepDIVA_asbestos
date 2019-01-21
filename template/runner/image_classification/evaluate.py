@@ -136,8 +136,9 @@ def _evaluate(data_loader, model, criterion, writer, epoch, logging_label, no_cu
     # Logging the epoch-wise accuracy and confusion matrix
     if multi_run is None:
         writer.add_scalar(logging_label + '/accuracy', top1.avg, epoch)
-        save_image_and_log_to_tensorboard(writer, tag=logging_label + '/confusion_matrix',
-                                          image_tensor=confusion_matrix_heatmap, global_step=epoch)
+        # TODO: ERROR: save_image_and_log_tensorboard() got an unexpected keyword argument 'image_tensore'
+        # save_image_and_log_to_tensorboard(writer, tag=logging_label + '/confusion_matrix',
+        #                                  image_tensor=confusion_matrix_heatmap, global_step=epoch)
     else:
         writer.add_scalar(logging_label + '/accuracy_{}'.format(multi_run), top1.avg, epoch)
         save_image_and_log_to_tensorboard(writer, tag=logging_label + '/confusion_matrix_{}'.format(multi_run),
