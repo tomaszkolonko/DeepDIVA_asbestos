@@ -245,6 +245,7 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
 
         # Set up dataset transforms
         logging.debug('Setting up dataset transforms')
+        # TODO: Cropping not resizing needed.
         transform = transforms.Compose([
             transforms.Resize(model_expected_input_size),
             transforms.ToTensor(),
