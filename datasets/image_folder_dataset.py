@@ -15,6 +15,9 @@ import torch.utils.data as data
 import torchvision
 from PIL import Image
 
+# Refactored libraries
+from datasets.ImageFolder import ImageFolder
+
 from util.misc import get_all_files_in_folders_and_subfolders, has_extension
 
 
@@ -91,9 +94,9 @@ def load_dataset(dataset_folder, in_memory=False, workers=1):
     # If its requested online, delegate to torchvision.datasets.ImageFolder()
     if not in_memory:
         # Get an online dataset for each split
-        train_ds = torchvision.datasets.ImageFolder(train_dir)
-        val_ds = torchvision.datasets.ImageFolder(val_dir)
-        test_ds = torchvision.datasets.ImageFolder(test_dir)
+        train_ds = ImageFolder(train_dir)
+        val_ds = ImageFolder(val_dir)
+        test_ds = ImageFolder(test_dir)
         return train_ds, val_ds, test_ds
     else:
         # Get an offline (in-memory) dataset for each split
