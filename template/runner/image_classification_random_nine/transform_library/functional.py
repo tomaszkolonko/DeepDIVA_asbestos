@@ -350,6 +350,82 @@ def five_crop(img, size):
     center = center_crop(img, (crop_h, crop_w))
     return (tl, tr, bl, br, center)
 
+def custom_nine_crop(img, size):
+    """Crop the given PIL Image into four corners and the central crop.
+
+    .. Note::
+        This transform returns a tuple of images and there may be a
+        mismatch in the number of inputs and targets your ``Dataset`` returns.
+
+    Args:
+       size (sequence or int): Desired output size of the crop. If size is an
+           int instead of sequence like (h, w), a square crop (size, size) is
+           made.
+    Returns:
+        tuple: tuple (tl, tr, bl, br, center) corresponding top left,
+            top right, bottom left, bottom right and center crop.
+    """
+    if isinstance(size, numbers.Number):
+        size = (int(size), int(size))
+    else:
+        assert len(size) == 2, "Please provide only two dimensions (h, w) for size."
+
+    w, h = img.size
+    crop_h, crop_w = size
+    if crop_w > w or crop_h > h:
+        raise ValueError("Requested crop size {} is bigger than input size {}".format(size,
+                                                                                      (h, w)))
+
+    # Check image size
+    step_to_right = 299
+    step_down = 299
+    correction = 0
+    if h < 1000:
+        step_down = 250
+        correction = 100
+
+    start_x = w / 2 - int(1.5 * step_to_right)
+    start_y = h / 2 - int(1.5 * step_down)
+
+    x11 = start_x
+    y11 = start_y
+
+    x12 = start_x + crop_w
+    y12 = start_y
+
+    x13 = start_x + 2 * crop_w
+    y13 = start_y
+
+    x21 = start_x
+    y21 = start_y + crop_h - correction
+
+    x22 = start_x + crop_w
+    y22 = start_y + crop_h - correction
+
+    x23 = start_x + 2 * crop_w
+    y23 = start_y + crop_h - correction
+
+    x31 = start_x
+    y31 = start_y + 2 * crop_h - 2 * correction
+
+    x32 = start_x + crop_w
+    y32 = start_y + 2 * crop_h - 2 * correction
+
+    x33 = start_x + 2 * crop_w
+    y33 = start_y + 2 * crop_h - 2 * correction
+
+    upper_left = img.crop((x11, y11, x11 + crop_w, y11 + crop_h))
+    upper_center = img.crop((x12, y12, x12 + crop_w, y12 + crop_h))
+    upper_right = img.crop((x13, y13, x13 + crop_w, y13 + crop_h))
+    center_left = img.crop((x21, y21, x21 + crop_w, y21 + crop_h))
+    center_center = img.crop((x22, y22, x22 + crop_w, y22 + crop_h))
+    center_right = img.crop((x23, y23, x23 + crop_w, y23 + crop_h))
+    lower_left = img.crop((x31, y31, x31 + crop_w, y31 + crop_h))
+    lower_center = img.crop((x32, y32, x32 + crop_w, y32 + crop_h))
+    lower_right = img.crop((x33, y33, x33 + crop_w, y33 + crop_h))
+
+    return (upper_left, upper_center, upper_right, center_left, center_center, center_right,
+            lower_left, lower_center, lower_right)
 
 def ten_crop(img, size, vertical_flip=False):
     """Crop the given PIL Image into four corners and the central crop plus the

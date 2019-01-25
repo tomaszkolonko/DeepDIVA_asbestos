@@ -18,7 +18,7 @@ from . import functional as F
 __all__ = ["Compose", "ToTensor", "ToPILImage", "Normalize", "Resize", "Scale", "CenterCrop", "Pad",
            "Lambda", "RandomCrop", "RandomHorizontalFlip", "RandomVerticalFlip", "RandomResizedCrop",
            "RandomSizedCrop", "FiveCrop", "TenCrop", "LinearTransformation", "ColorJitter", "RandomRotation",
-           "Grayscale", "RandomGrayscale", "ToTensorTwinImage", "RandomTwinCrop"]
+           "RandomNineCrop", "Grayscale", "RandomGrayscale", "ToTensorTwinImage", "RandomTwinCrop"]
 
 
 class Compose(object):
@@ -37,10 +37,10 @@ class Compose(object):
     def __init__(self, transforms):
         self.transforms = transforms
 
-    def __call__(self, img, gt, crop_size):
+    def __call__(self, img):
         for t in self.transforms:
-            img, gt = t(img, gt, crop_size)
-        return img, gt
+            img = t(img)
+        return img
 
 
 class ToTensor(object):
@@ -506,6 +506,40 @@ class FiveCrop(object):
     def __call__(self, img):
         return F.five_crop(img, self.size)
 
+class RandomNineCrop(object):
+    """Crop the given PIL Image into four corners and the central crop
+
+    .. Note::
+         This transform returns a tuple of images and there may be a mismatch in the number of
+         inputs and targets your Dataset returns. See below for an example of how to deal with
+         this.
+
+    Args:
+         size (sequence or int): Desired output size of the crop. If size is an ``int``
+            instead of sequence like (h, w), a square crop of size (size, size) is made.
+
+    Example:
+         >>> transform = Compose([
+         >>>    FiveCrop(size), # this is a list of PIL Images
+         >>>    Lambda(lambda crops: torch.stack([ToTensor()(crop) for crop in crops])) # returns a 4D tensor
+         >>> ])
+         >>> #In your test loop you can do the following:
+         >>> input, target = batch # input is a 5d tensor, target is 2d
+         >>> bs, ncrops, c, h, w = input.size()
+         >>> result = model(input.view(-1, c, h, w)) # fuse batch size and ncrops
+         >>> result_avg = result.view(bs, ncrops, -1).mean(1) # avg over crops
+    """
+
+    def __init__(self, size):
+        self.size = size
+        if isinstance(size, numbers.Number):
+            self.size = (int(size), int(size))
+        else:
+            assert len(size) == 2, "Please provide only two dimensions (h, w) for size."
+            self.size = size
+
+    def __call__(self, img):
+        return F.custom_nine_crop(img, self.size)
 
 class TenCrop(object):
     """Crop the given PIL Image into four corners and the central crop plus the flipped version of
