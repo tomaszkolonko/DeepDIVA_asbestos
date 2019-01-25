@@ -73,20 +73,34 @@ def _evaluate(data_loader, model, criterion, writer, epoch, logging_label, no_cu
 
     pbar = tqdm(enumerate(data_loader), total=len(data_loader), unit='batch', ncols=150, leave=False)
     for batch_idx, (input, target) in pbar:
-
-        # In your test loop you can do the following:
-        # input, target = batch  # input is a 5d tensor, target is 2d
-        # bs, ncrops, c, h, w = input.size()
-        # result = model(input.view(-1, c, h, w))  # fuse batch size and ncrops
-        # result_avg = result.view(bs, ncrops, -1).mean(1)  # avg over crops
+        # todo: how to you implement sliding window accross batches
 
          # input [64, 5, 3, 299, 299]
         bs, ncrops, c, h, w = input.size()
         # input.view leaves the 3rd 4th and 5th dimension as is, but multiplies the 1st and 2nd together
         # result [320, 3, 299, 299]
-        result = input.view(-1, c, h, w)
+        result = input.view(-1, c, h, w) # fuse batch size and ncrops
+        yolo = []
+        yolo_per_batch = []
+
+        # TESTING
+        # =======
+        #for i in range(bs):
+        #    for j in range(ncrops):
+        #        print(input[i, j, 2, 2, 2])
+        #        yolo.append(input[i, j, 2, 2, 2])
+        #    print("****")
+        #    yolo_per_batch.append(np.mean(yolo))
+        #    yolo = []
 
         result_avg = result.view(bs, -1, c, h, w).mean(1)
+
+        #for i in range(bs):
+        #    print("batch number " + str(i) + " : " + str(result_avg[i, 2, 2, 2]))
+
+        #print(yolo_per_batch)
+
+         # todo: what dimensions do you get here?
         input = result_avg
 
         # Measure data loading time
@@ -98,6 +112,7 @@ def _evaluate(data_loader, model, criterion, writer, epoch, logging_label, no_cu
             target = target.cuda(async=True)
 
         # Convert the input and its labels to Torch Variables
+         # todo: check them out in debugger
         input_var = torch.autograd.Variable(input, volatile=True)
         target_var = torch.autograd.Variable(target, volatile=True)
 

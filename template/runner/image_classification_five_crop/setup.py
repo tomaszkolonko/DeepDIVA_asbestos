@@ -247,7 +247,7 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
         logging.debug('Setting up dataset transforms')
         # TODO: Cropping not resizing needed.
         transform = transforms.Compose([
-            transforms.TenCrop(model_expected_input_size),
+            transforms.FiveCrop(model_expected_input_size),
             transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
             transforms.Lambda(lambda items: torch.stack([transforms.Normalize(mean=mean, std=std)(item) for item in items]))
         ])

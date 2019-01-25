@@ -1,3 +1,3 @@
-from .image_classification_five_crop import ImageClassificationFiveCrop
+from .image_classification_random_nine import ImageClassificationRandomNine
 
-__all__ = ['ImageClassificationFiveCrop']
+__all__ = ['ImageClassificationRandomNine']

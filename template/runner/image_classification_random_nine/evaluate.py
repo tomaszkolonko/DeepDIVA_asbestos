@@ -83,29 +83,10 @@ def _evaluate(data_loader, model, criterion, writer, epoch, logging_label, no_cu
         yolo = []
         yolo_per_batch = []
 
-        for i in range(bs):
-            for j in range(ncrops):
-                print(input[i, j, 2, 2, 2])
-                yolo.append(input[i, j, 2, 2, 2])
-            print("****")
-            yolo_per_batch.append(np.mean(yolo))
-            yolo = []
-
         result_avg = result.view(bs, -1, c, h, w).mean(1)
-
-        for i in range(bs):
-            print("batch number " + str(i) + " : " + str(result_avg[i, 2, 2, 2]))
-
-        print(yolo_per_batch)
 
          # todo: what dimensions do you get here?
         input = result_avg
-
-
-
-
-        # >> > result = model(input.view(-1, c, h, w))  # fuse batch size and ncrops
-        # >> > result_avg = result.view(bs, ncrops, -1).mean(1)  # avg over crops
 
         # Measure data loading time
         data_time.update(time.time() - end)

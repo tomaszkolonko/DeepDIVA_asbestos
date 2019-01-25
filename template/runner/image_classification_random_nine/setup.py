@@ -19,7 +19,7 @@ import torch.nn as nn
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
-import torchvision.transforms as transforms
+from template.runner.image_classification_random_nine.transform_library import transforms
 from tensorboardX import SummaryWriter
 
 # DeepDIVA
