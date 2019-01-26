@@ -68,8 +68,8 @@ def train(train_loader, model, criterion, optimizer, writer, epoch, no_cuda=Fals
         # result [320, 3, 299, 299]
         result = input.view(-1, c, h, w)
 
-        result_avg = result.view(bs, -1, c, h, w).mean(1)
-        input = result_avg
+        result_avg = result.view(bs, -1, c, h, w).max(1)
+        input = result_avg[0]
 
         # Measure data loading time
         data_time.update(time.time() - end)

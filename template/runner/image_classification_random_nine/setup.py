@@ -249,6 +249,7 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
         transform = transforms.Compose([
             transforms.RandomHorizontalFlip(),
             transforms.RandomVerticalFlip(),
+            transforms.RandomRotation(transforms.RandomRotation.get_params((0, 359))),
             transforms.RandomNineCrop(model_expected_input_size),
             transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
             transforms.Lambda(lambda items: torch.stack([transforms.Normalize(mean=mean, std=std)(item) for item in items]))
