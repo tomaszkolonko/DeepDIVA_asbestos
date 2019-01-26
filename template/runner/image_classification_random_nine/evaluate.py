@@ -83,10 +83,10 @@ def _evaluate(data_loader, model, criterion, writer, epoch, logging_label, no_cu
         yolo = []
         yolo_per_batch = []
 
-        result_avg = result.view(bs, -1, c, h, w).mean(1)
+        result_avg = result.view(bs, -1, c, h, w).max(1)
 
          # todo: what dimensions do you get here?
-        input = result_avg
+        input = result_avg[0]
 
         # Measure data loading time
         data_time.update(time.time() - end)
