@@ -3,6 +3,7 @@ import torch
 import math
 import random
 from PIL import Image, ImageOps, ImageEnhance
+
 try:
     import accimage
 except ImportError:
@@ -40,7 +41,7 @@ def to_tensor(pic):
     Returns:
         Tensor: Converted image.
     """
-    if not(_is_pil_image(pic) or _is_numpy_image(pic)):
+    if not (_is_pil_image(pic) or _is_numpy_image(pic)):
         raise TypeError('pic should be PIL Image or ndarray. Got {}'.format(type(pic)))
 
     if isinstance(pic, np.ndarray):
@@ -92,7 +93,7 @@ def to_pil_image(pic, mode=None):
     Returns:
         PIL Image: Image converted to PIL Image.
     """
-    if not(_is_numpy_image(pic) or _is_tensor_image(pic)):
+    if not (_is_numpy_image(pic) or _is_tensor_image(pic)):
         raise TypeError('pic should be Tensor or ndarray. Got {}.'.format(type(pic)))
 
     npimg = pic
@@ -350,6 +351,42 @@ def five_crop(img, size):
     center = center_crop(img, (crop_h, crop_w))
     return (tl, tr, bl, br, center)
 
+
+def exhaustive_crop_with_overlap(img, size):
+    """
+        Crop the given PIL Image into exhaustive croppings with overlapp
+
+        :param img:
+        :param size:
+        :return:
+    """
+    if isinstance(size, numbers.Number):
+        size = (int(size), int(size))
+    else:
+        assert len(size) == 2, "Please provide only two dimensions (h, w) for size."
+
+    w, h = img.size
+    crop_h, crop_w = size
+    if crop_w > w or crop_h > h:
+        raise ValueError("Requested crop size {} is bigger than input size {}".format(size, (h, w)))
+
+    # Get some important numbers -- 5 for both
+    number_horizontal_crops = math.ceil(w / crop_h)
+    number_vertical_crops = number_horizontal_crops
+
+    horizontal_overlap = math.ceil(((number_horizontal_crops * crop_w) - w) / number_horizontal_crops)
+    vertical_overlap = math.ceil(((number_vertical_crops * crop_h) - w) / number_vertical_crops)
+
+    result_tuple = ()
+    for i in number_vertical_crops:
+        for j in number_horizontal_crops:
+            result_tuple = result_tuple + (
+                img.crop((j * crop_w - j * horizontal_overlap, i * crop_h - i * vertical_overlap,
+                          (j + 1) * crop_w - j * horizontal_overlap, (i + 1) * crop_h - i * vertical_overlap)),)
+
+    return result_tuple
+
+
 def custom_nine_crop(img, size):
     """Crop the given PIL Image into four corners and the central crop.
 
@@ -373,8 +410,7 @@ def custom_nine_crop(img, size):
     w, h = img.size
     crop_h, crop_w = size
     if crop_w > w or crop_h > h:
-        raise ValueError("Requested crop size {} is bigger than input size {}".format(size,
-                                                                                      (h, w)))
+        raise ValueError("Requested crop size {} is bigger than input size {}".format(size, (h, w)))
 
     # Check image size
     step_to_right = 299
@@ -426,6 +462,7 @@ def custom_nine_crop(img, size):
 
     return (upper_left, upper_center, upper_right, center_left, center_center, center_right,
             lower_left, lower_center, lower_right)
+
 
 def ten_crop(img, size, vertical_flip=False):
     """Crop the given PIL Image into four corners and the central crop plus the
@@ -546,7 +583,7 @@ def adjust_hue(img, hue_factor):
     Returns:
         PIL Image: Hue adjusted image.
     """
-    if not(-0.5 <= hue_factor <= 0.5):
+    if not (-0.5 <= hue_factor <= 0.5):
         raise ValueError('hue_factor is not in [-0.5, 0.5].'.format(hue_factor))
 
     if not _is_pil_image(img):
