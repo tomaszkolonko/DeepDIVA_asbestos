@@ -4,11 +4,13 @@ Created on Sat Nov 18 23:12:08 2017
 @author: Utku Ozbulak - github.com/utkuozbulak
 """
 import os
+import sys
 import numpy as np
 
 import torch
 from torch.optim import Adam
 from torchvision import models
+import models
 
 from misc_functions import preprocess_image, recreate_image, save_image
 
@@ -24,7 +26,7 @@ class CNNLayerVisualization():
         self.selected_layer = selected_layer
         self.selected_filter = selected_filter
         self.conv_output = 0
-        self.path_to_output_files = '/Users/tomasz/visualizations/cnn_layer_visualization'
+        self.path_to_output_files = '/home/thomas.kolonko/vgg16/vgg16/ASBESTOS_MINI/model_name=vgg16/epochs=10/lr=0.09573/decay_lr=2/momentum=0.046003/weight_decay=0.0007938/19-02-19-20h-22m-26s/generated'
         # Create the folder to export images if not exists
         if not os.path.exists(self.path_to_output_files):
             os.makedirs(self.path_to_output_files)
@@ -116,12 +118,30 @@ class CNNLayerVisualization():
                 save_image(self.created_image, im_path)
 
 
+def load_model_from_file():
+    path_to_checkpoint = '/home/thomas.kolonko/vgg16/vgg16/ASBESTOS_MINI/model_name=vgg16/epochs=10/lr=0.09573/decay_lr=2/momentum=0.046003/weight_decay=0.0007938/19-02-19-20h-22m-26s/checkpoint.pth.tar'
+    model = models.__dict__['vgg19'](output_channels=2, pretrained=False)
+    if os.path.isfile(path_to_checkpoint):
+        # TODO: Remove or make param: map_location
+        model_dict = torch.load(path_to_checkpoint, map_location='cpu')
+        print('Loading a saved model')
+        try:
+            model.load_state_dict(model_dict['state_dict'], strict=False)
+        except Exception as exp:
+            print(exp)
+    else:
+        print("couldn't load model from checkpoint")
+        sys.exit(-1)
+    return model.features
+
 if __name__ == '__main__':
-    cnn_layer = 17
-    filter_pos = 5
+    cnn_layer = 1
+    filter_pos = 1
     # Fully connected layer is not needed
-    pretrained_model = models.vgg16(pretrained=True).features
-    layer_vis = CNNLayerVisualization(pretrained_model, cnn_layer, filter_pos)
+    load_model_from_file()
+    pretrained_model_original = models.vgg16(pretrained=True).features
+    pretrained_model_new = load_model_from_file()
+    layer_vis = CNNLayerVisualization(pretrained_model_new, cnn_layer, filter_pos)
 
     # Layer visualization with pytorch hooks
     layer_vis.visualise_layer_with_hooks()
