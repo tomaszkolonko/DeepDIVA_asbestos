@@ -1,0 +1,37 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{#1}
+\csname url@rmstyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand\BIBentrySTDinterwordspacing{\spaceskip=0pt\relax}
+\providecommand\BIBentryALTinterwordstretchfactor{4}
+\providecommand\BIBentryALTinterwordspacing{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand\BIBforeignlanguage[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+
+\bibitem{alberti2018tampering}
+M.~Alberti, V.~Pondenkandath, M.~W\"ursch, M.~Bouillon, M.~Seuret, R.~Ingold,
+  and M.~Liwicki, ``{Are You Tampering With My Data?}'' in \emph{2018 15th
+  European Conference on Computer Vision (ECCV), Workshop on Objectionable
+  Content and Misinformation (WOCM)}, Munich, Germany, sep 2018.
+
+\bibitem{thrun2012learning}
+S.~Thrun and L.~Pratt, \emph{Learning to learn}.\hskip 1em plus 0.5em minus
+  0.4em\relax Springer Science \& Business Media, 2012.
+
+\bibitem{tensmeyer2017convolutional}
+C.~Tensmeyer, D.~Saunders, and T.~Martinez, ``Convolutional neural networks for
+  font classification,'' in \emph{Document Analysis and Recognition (ICDAR),
+  2017 14th IAPR International Conference on}, vol.~1.\hskip 1em plus 0.5em
+  minus 0.4em\relax IEEE, 2017, pp. 985--990.
+
+\end{thebibliography}
