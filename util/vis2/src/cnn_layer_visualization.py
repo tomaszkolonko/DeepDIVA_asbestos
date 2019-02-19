@@ -24,9 +24,10 @@ class CNNLayerVisualization():
         self.selected_layer = selected_layer
         self.selected_filter = selected_filter
         self.conv_output = 0
+        self.path_to_output_files = '/Users/tomasz/visualizations/cnn_layer_visualization'
         # Create the folder to export images if not exists
-        if not os.path.exists('../generated'):
-            os.makedirs('../generated')
+        if not os.path.exists(self.path_to_output_files):
+            os.makedirs(self.path_to_output_files)
 
     def hook_layer(self):
         def hook_function(module, grad_in, grad_out):
@@ -60,7 +61,7 @@ class CNNLayerVisualization():
             # Loss function is the mean of the output of the selected layer/filter
             # We try to minimize the mean of the output of that specific filter
             loss = -torch.mean(self.conv_output)
-            print('Iteration:', str(i), 'Loss:', "{0:.2f}".format(loss.data.numpy()))
+            print('Iteration:', str(i), 'Loss:', "{0:.2f}".format(loss[0].data.numpy()[0]))
             # Backward
             loss.backward()
             # Update image
@@ -69,7 +70,7 @@ class CNNLayerVisualization():
             self.created_image = recreate_image(processed_image)
             # Save image
             if i % 5 == 0:
-                im_path = '../generated/layer_vis_l' + str(self.selected_layer) + \
+                im_path = self.path_to_output_files + '/layer_vis_l' + str(self.selected_layer) + \
                     '_f' + str(self.selected_filter) + '_iter' + str(i) + '.jpg'
                 save_image(self.created_image, im_path)
 
@@ -101,7 +102,7 @@ class CNNLayerVisualization():
             # Loss function is the mean of the output of the selected layer/filter
             # We try to minimize the mean of the output of that specific filter
             loss = -torch.mean(self.conv_output)
-            print('Iteration:', str(i), 'Loss:', "{0:.2f}".format(loss.data.numpy()))
+            print('Iteration:', str(i), 'Loss:', "{0:.2f}".format(loss[0].data.numpy()[0]))
             # Backward
             loss.backward()
             # Update image
@@ -110,7 +111,7 @@ class CNNLayerVisualization():
             self.created_image = recreate_image(processed_image)
             # Save image
             if i % 5 == 0:
-                im_path = '../generated/layer_vis_l' + str(self.selected_layer) + \
+                im_path = self.path_to_output_files + '/layer_vis_l' + str(self.selected_layer) + \
                     '_f' + str(self.selected_filter) + '_iter' + str(i) + '.jpg'
                 save_image(self.created_image, im_path)
 
