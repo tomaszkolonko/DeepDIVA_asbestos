@@ -1,6 +1,6 @@
-import matplotlib as mpl
+# import matplotlib as mpl
 # To facilitate plotting on a headless server
-mpl.use('Agg')
+# mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 import seaborn as sns
