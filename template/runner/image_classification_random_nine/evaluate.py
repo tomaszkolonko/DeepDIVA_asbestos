@@ -71,22 +71,26 @@ def _evaluate(data_loader, model, criterion, writer, epoch, logging_label, no_cu
     preds = []
     targets = []
 
+    multi_run = False
+
     pbar = tqdm(enumerate(data_loader), total=len(data_loader), unit='batch', ncols=150, leave=False)
     for batch_idx, (input, target) in pbar:
         # todo: how to you implement sliding window accross batches
 
-         # input [64, 5, 3, 299, 299]
-        bs, ncrops, c, h, w = input.size()
-        # input.view leaves the 3rd 4th and 5th dimension as is, but multiplies the 1st and 2nd together
-        # result [320, 3, 299, 299]
-        result = input.view(-1, c, h, w) # fuse batch size and ncrops
-        yolo = []
-        yolo_per_batch = []
 
-        result_avg = result.view(bs, -1, c, h, w).max(1)
+        if len(input.size()) == 5:
+            multi_run = True
+            # input [64, 5, 3, 299, 299]
+            bs, ncrops, c, h, w = input.size()
+            # input.view leaves the 3rd 4th and 5th dimension as is, but multiplies the 1st and 2nd together
+            # result [320, 3, 299, 299]
+            # result = input.view(-1, c, h, w) # fuse batch size and ncrops
+            # result_avg = input.view(bs, -1, c, h, w).mean(1)
+            input = input.view(-1, c, h, w)
 
-         # todo: what dimensions do you get here?
-        input = result_avg[0]
+            # If you are using tensor.max(1) then you get a tupel with two tensors, choose the first one
+            # which is a floattensor and what you need.
+            # input = result_avg[0]
 
         # Measure data loading time
         data_time.update(time.time() - end)
@@ -97,12 +101,15 @@ def _evaluate(data_loader, model, criterion, writer, epoch, logging_label, no_cu
             target = target.cuda(async=True)
 
         # Convert the input and its labels to Torch Variables
-         # todo: check them out in debugger
+        # todo: check them out in debugger
         input_var = torch.autograd.Variable(input, volatile=True)
         target_var = torch.autograd.Variable(target, volatile=True)
 
         # Compute output
         output = model(input_var)
+
+        if multi_run:
+            output = output.view(bs, ncrops, -1).mean(1)
 
         # Compute and record the loss
         loss = criterion(output, target_var)
