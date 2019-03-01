@@ -46,13 +46,15 @@ class VanillaBackprop():
 
 if __name__ == '__main__':
     # Get params
-    target_example = 1  # Snake
+    target_example = 0  # Snake
     (original_image, prep_img, target_class, file_name_to_export, pretrained_model) =\
         get_example_params(target_example)
     # Vanilla backprop
     VBP = VanillaBackprop(pretrained_model)
+    print("VBP")
     # Generate gradients
     vanilla_grads = VBP.generate_gradients(prep_img, target_class)
+    print("vanilla_grads")
     # Save colored gradients
     save_gradient_images(vanilla_grads, file_name_to_export + '_Vanilla_BP_color')
     # Convert to grayscale

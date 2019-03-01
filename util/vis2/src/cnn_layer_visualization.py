@@ -135,7 +135,7 @@ def load_model_from_file():
     return model.features
 
 if __name__ == '__main__':
-    cnn_layer = 1
+    cnn_layer = 4
     filter_pos = 1
     # Fully connected layer is not needed
     load_model_from_file()

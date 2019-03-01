@@ -4,6 +4,7 @@ Created on Thu Oct 21 11:09:09 2017
 @author: Utku Ozbulak - github.com/utkuozbulak
 """
 import os
+import sys
 import copy
 import numpy as np
 from PIL import Image
@@ -11,7 +12,7 @@ import matplotlib.cm as mpl_color_map
 
 import torch
 from torch.autograd import Variable
-from torchvision import models
+import models
 
 
 def convert_to_grayscale(im_as_arr):
@@ -40,13 +41,14 @@ def save_gradient_images(gradient, file_name):
         gradient (np arr): Numpy array of the gradient with shape (3, 224, 224)
         file_name (str): File name to be exported
     """
-    if not os.path.exists('../results'):
-        os.makedirs('../results')
+    path_to_output_files_on_server = '/home/thomas.kolonko/visualization/vanilla_backprop'
+    if not os.path.exists(path_to_output_files_on_server):
+        os.makedirs(path_to_output_files_on_server)
     # Normalize
     gradient = gradient - gradient.min()
     gradient /= gradient.max()
     # Save image
-    path_to_file = os.path.join('../results', file_name + '.jpg')
+    path_to_file = os.path.join(path_to_output_files_on_server, file_name + '.jpg')
     save_image(gradient, path_to_file)
 
 
@@ -59,18 +61,19 @@ def save_class_activation_images(org_img, activation_map, file_name):
         activation_map (numpy arr): Activation map (grayscale) 0-255
         file_name (str): File name of the exported image
     """
-    if not os.path.exists('../results'):
-        os.makedirs('../results')
+    path_to_output_files_on_server = '/home/thomas.kolonko/visualization/gradcam'
+    if not os.path.exists(path_to_output_files_on_server):
+        os.makedirs(path_to_output_files_on_server)
     # Grayscale activation map
     heatmap, heatmap_on_image = apply_colormap_on_image(org_img, activation_map, 'hsv')
     # Save colored heatmap
-    path_to_file = os.path.join('../results', file_name+'_Cam_Heatmap.png')
+    path_to_file = os.path.join(path_to_output_files_on_server, file_name+'_Cam_Heatmap.png')
     save_image(heatmap, path_to_file)
     # Save heatmap on iamge
-    path_to_file = os.path.join('../results', file_name+'_Cam_On_Image.png')
+    path_to_file = os.path.join(path_to_output_files_on_server, file_name+'_Cam_On_Image.png')
     save_image(heatmap_on_image, path_to_file)
-    # SAve grayscale heatmap
-    path_to_file = os.path.join('../results', file_name+'_Cam_Grayscale.png')
+    # Save grayscale heatmap
+    path_to_file = os.path.join(path_to_output_files_on_server, file_name+'_Cam_Grayscale.png')
     save_image(activation_map, path_to_file)
 
 
@@ -91,7 +94,7 @@ def apply_colormap_on_image(org_im, activation, colormap_name):
     heatmap = Image.fromarray((heatmap*255).astype(np.uint8))
     no_trans_heatmap = Image.fromarray((no_trans_heatmap*255).astype(np.uint8))
 
-    # Apply heatmap on iamge
+    # Apply heatmap on image
     heatmap_on_image = Image.new("RGBA", org_im.size)
     heatmap_on_image = Image.alpha_composite(heatmap_on_image, org_im.convert('RGBA'))
     heatmap_on_image = Image.alpha_composite(heatmap_on_image, heatmap)
@@ -203,18 +206,38 @@ def get_example_params(example_index):
         pretrained_model(Pytorch model): Model to use for the operations
     """
     # Pick one of the examples
-    example_list = (('../input_images/snake.jpg', 56),
-                    ('../input_images/cat_dog.png', 243),
-                    ('../input_images/spider.png', 72))
+    example_list = (('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/asbestos-042_7.png', 1),
+                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/snake.png', 0),
+                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/spider.png', 0))
     img_path = example_list[example_index][0]
     target_class = example_list[example_index][1]
     file_name_to_export = img_path[img_path.rfind('/')+1:img_path.rfind('.')]
     # Read image
     original_image = Image.open(img_path).convert('RGB')
     # Process image
-    prep_img = preprocess_image(original_image)
+    prep_img = preprocess_image(original_image, resize_im=False)
+    # prep_img.save('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/generated/yolo/original_image_two.png')
     # Define model
-    pretrained_model = models.alexnet(pretrained=True)
+
+    def load_model_from_file():
+        path_to_checkpoint = '/home/thomas.kolonko/vgg16/vgg16/ASBESTOS_MINI/model_name=vgg16/epochs=10/lr=0.09573/decay_lr=2/momentum=0.046003/weight_decay=0.0007938/19-02-19-20h-22m-26s/checkpoint.pth.tar'
+        model = models.__dict__['vgg19'](output_channels=2, pretrained=False)
+        if os.path.isfile(path_to_checkpoint):
+            # TODO: Remove or make param: map_location
+            model_dict = torch.load(path_to_checkpoint, map_location='cpu')
+            print('Loading a saved model')
+            try:
+                model.load_state_dict(model_dict['state_dict'], strict=False)
+            except Exception as exp:
+                print(exp)
+        else:
+            print("couldn't load model from checkpoint")
+            sys.exit(-1)
+        return model
+
+
+    # pretrained_model = models.alexnet(pretrained=True)
+    pretrained_model = load_model_from_file()
     return (original_image,
             prep_img,
             target_class,

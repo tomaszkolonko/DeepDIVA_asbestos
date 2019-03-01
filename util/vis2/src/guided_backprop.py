@@ -5,6 +5,7 @@ Created on Thu Oct 26 11:23:47 2017
 """
 import torch
 from torch.nn import ReLU
+import os
 
 from misc_functions import (get_example_params,
                             convert_to_grayscale,
@@ -88,6 +89,7 @@ if __name__ == '__main__':
     guided_grads = GBP.generate_gradients(prep_img, target_class)
     # Save colored gradients
     save_gradient_images(guided_grads, file_name_to_export + '_Guided_BP_color')
+    print("exported to: " + str(os.getcwd()))
     # Convert to grayscale
     grayscale_guided_grads = convert_to_grayscale(guided_grads)
     # Save grayscale gradients
