@@ -11,7 +11,7 @@ from PIL import Image
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 
-__all__ = ['ResNet', 'resnet_two']
+__all__ = ['ResNet', 'resnet_eigth']
 
 model_urls = {
     'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth'
@@ -98,7 +98,7 @@ class _Bottleneck(nn.Module):
 class ResNet(nn.Module):
 
     def __init__(self, block, layers, output_channels=1000):
-        constant_number_of_filters = 2
+        constant_number_of_filters = 8
         self.inplanes = constant_number_of_filters
         self.counter = 0
         super(ResNet, self).__init__()
@@ -186,7 +186,7 @@ class ResNet(nn.Module):
         return x
 
 
-def resnet_two(pretrained=False, **kwargs):
+def resnet_eigth(pretrained=False, **kwargs):
     """Constructs a _ResNet-18 model.
 
     Args:

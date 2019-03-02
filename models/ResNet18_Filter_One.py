@@ -11,7 +11,7 @@ from PIL import Image
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 
-__all__ = ['ResNet', 'resnet_full']
+__all__ = ['ResNet', 'resnet_one']
 
 model_urls = {
     'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth'
@@ -98,23 +98,24 @@ class _Bottleneck(nn.Module):
 class ResNet(nn.Module):
 
     def __init__(self, block, layers, output_channels=1000):
-        self.inplanes = 32
+        constant_number_of_filters = 1
+        self.inplanes = constant_number_of_filters
         self.counter = 0
         super(ResNet, self).__init__()
 
         self.expected_input_size = (224, 224)
 
-        self.conv1 = nn.Conv2d(3, 32, kernel_size=7, stride=2, padding=3,
+        self.conv1 = nn.Conv2d(3, constant_number_of_filters, kernel_size=7, stride=2, padding=3,
                                bias=False)
-        self.bn1 = nn.BatchNorm2d(32)
+        self.bn1 = nn.BatchNorm2d(constant_number_of_filters)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.layer1 = self._make_layer(block, 32, layers[0])
-        self.layer2 = self._make_layer(block, 64, layers[1], stride=2)
-        self.layer3 = self._make_layer(block, 128, layers[2], stride=2)
-        self.layer4 = self._make_layer(block, 256, layers[3], stride=2)
+        self.layer1 = self._make_layer(block, constant_number_of_filters, layers[0])
+        self.layer2 = self._make_layer(block, constant_number_of_filters, layers[1], stride=2)
+        self.layer3 = self._make_layer(block, constant_number_of_filters, layers[2], stride=2)
+        self.layer4 = self._make_layer(block, constant_number_of_filters, layers[3], stride=2)
         self.avgpool = nn.AvgPool2d(7, stride=1)
-        self.fc = nn.Linear(256 * block.expansion, output_channels)
+        self.fc = nn.Linear(constant_number_of_filters * block.expansion, output_channels)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -185,7 +186,7 @@ class ResNet(nn.Module):
         return x
 
 
-def resnet_full(pretrained=False, **kwargs):
+def resnet_one(pretrained=False, **kwargs):
     """Constructs a _ResNet-18 model.
 
     Args:
