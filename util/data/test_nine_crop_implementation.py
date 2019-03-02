@@ -10,7 +10,7 @@ from template.runner.image_classification_random_nine.transform_library import f
 
 
 
-def rotate_images(dataset_folder):
+def test_nine_crop_implementation(dataset_folder):
     """
     Resize all images contained within dataset_folder.
     Parameters
@@ -51,4 +51,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    rotate_images(dataset_folder=args.dataset_folder)
+    test_nine_crop_implementation(dataset_folder=args.dataset_folder)
