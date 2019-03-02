@@ -71,6 +71,10 @@ class ImageClassificationRandomNine:
                                                                             lr=lr,
                                                                             train_loader=train_loader,
                                                                             **kwargs)
+        pytorch_total_params = sum(p.numel() for p in model.parameters())
+        logging.info('Total parameters: ' + str(pytorch_total_params))
+        pytorch_total_params_trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+        logging.info('Total trainable parameters: ' + str(pytorch_total_params_trainable))
 
         # Core routine
         logging.info('Begin training')
