@@ -5,6 +5,12 @@ from .FC_simple import FC_simple
 from .TNet import TNet
 from .AlexNet import alexnet
 from .ResNet import resnet18, resnet34, resnet50, resnet101, resnet152
+from .ResNet18_Filter_One import resnet_one
+from .ResNet18_Filter_Two import resnet_two
+from .ResNet18_Filter_Four import resnet_four
+from .ResNet18_Filter_Eight import resnet_eigth
+from .ResNet18_Filter_Sixteen import resnet_sixteen
+from .ResNet18_Filter_ThirtyTwo import resnet_thirtytwo
 from .BabyResNet import babyresnet18, babyresnet34, babyresnet50, babyresnet101, babyresnet152
 from ._VGG import vgg11, vgg11_bn, vgg13, vgg13_bn, vgg16, vgg16_bn, vgg19, vgg19_bn
 from ._Inception_v3 import inception_v3
