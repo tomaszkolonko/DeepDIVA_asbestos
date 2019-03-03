@@ -8,7 +8,7 @@ from PIL import Image
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 
-__all__ = ['ResNet', 'resnet18_448']
+__all__ = ['ResNet', 'resnet18_896']
 
 model_urls = {
     'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
@@ -104,12 +104,16 @@ class ResNet(nn.Module):
         self.counter = 0
         super(ResNet, self).__init__()
 
-        self.expected_input_size = (448, 448)
+        self.expected_input_size = (896, 896)
 
         # ************************************************************************************************
         self.conv00 = nn.Conv2d(3, constant_number_of_filters, kernel_size=7, stride=2, padding=3,
                                 bias=False)
         self.bn00 = nn.BatchNorm2d(constant_number_of_filters)
+
+        self.conv01 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=2, padding=3,
+                                bias=False)
+        self.bn01 = nn.BatchNorm2d(constant_number_of_filters)
         # ************************************************************************************************
 
         self.conv1 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=2, padding=3,
@@ -155,6 +159,10 @@ class ResNet(nn.Module):
         x = self.bn00(x)
         x = self.relu(x)
 
+        x = self.conv01(x)
+        x = self.bn01(x)
+        x = self.relu(x)
+
 
         x = self.conv1(x)
         #self.print_image(x, 'conv1')
@@ -197,7 +205,7 @@ class ResNet(nn.Module):
         return x
 
 
-def resnet18_448(pretrained=False, **kwargs):
+def resnet18_896(pretrained=False, **kwargs):
     """Constructs a _ResNet-18 model.
 
     Args:

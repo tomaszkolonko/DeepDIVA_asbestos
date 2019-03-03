@@ -8,7 +8,7 @@ from PIL import Image
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 
-__all__ = ['ResNet', 'resnet18_448']
+__all__ = ['ResNet', 'resnet18_1024']
 
 model_urls = {
     'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
@@ -104,12 +104,54 @@ class ResNet(nn.Module):
         self.counter = 0
         super(ResNet, self).__init__()
 
-        self.expected_input_size = (448, 448)
+        self.expected_input_size = (1024, 1024)
 
         # ************************************************************************************************
-        self.conv00 = nn.Conv2d(3, constant_number_of_filters, kernel_size=7, stride=2, padding=3,
-                                bias=False)
-        self.bn00 = nn.BatchNorm2d(constant_number_of_filters)
+        self.conv01 = nn.Conv2d(3, constant_number_of_filters, kernel_size=7, stride=2,
+                                padding=3, bias=False)
+        self.bn01 = nn.BatchNorm2d(constant_number_of_filters)
+
+        self.conv02 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=2,
+                                padding=3, bias=False)
+        self.bn02 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 256
+        self.conv03 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=1,
+                                padding=0, bias=False)
+        self.bn03 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 250
+
+        self.conv04 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=1,
+                                padding=0, bias=False)
+        self.bn04 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 244
+
+        self.conv05 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=1,
+                                padding=0, bias=False)
+        self.bn05 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 238
+
+        self.conv06 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=1,
+                                padding=0, bias=False)
+        self.bn06 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 232
+
+        self.conv07 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=1,
+                                padding=0, bias=False)
+        self.bn07 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 226
+
+        self.conv08 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=3, stride=1,
+                                padding=0, bias=False)
+        self.bn08 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 224
+
         # ************************************************************************************************
 
         self.conv1 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=2, padding=3,
@@ -151,8 +193,37 @@ class ResNet(nn.Module):
 
     def forward(self, x):
         # New Layer that half the image size
-        x = self.conv00(x)
-        x = self.bn00(x)
+
+        x = self.conv01(x)
+        x = self.bn01(x)
+        x = self.relu(x)
+
+        x = self.conv02(x)
+        x = self.bn02(x)
+        x = self.relu(x)
+
+        x = self.conv03(x)
+        x = self.bn03(x)
+        x = self.relu(x)
+
+        x = self.conv04(x)
+        x = self.bn04(x)
+        x = self.relu(x)
+
+        x = self.conv05(x)
+        x = self.bn05(x)
+        x = self.relu(x)
+
+        x = self.conv06(x)
+        x = self.bn06(x)
+        x = self.relu(x)
+
+        x = self.conv07(x)
+        x = self.bn07(x)
+        x = self.relu(x)
+
+        x = self.conv08(x)
+        x = self.bn08(x)
         x = self.relu(x)
 
 
@@ -197,7 +268,7 @@ class ResNet(nn.Module):
         return x
 
 
-def resnet18_448(pretrained=False, **kwargs):
+def resnet18_1024(pretrained=False, **kwargs):
     """Constructs a _ResNet-18 model.
 
     Args:
