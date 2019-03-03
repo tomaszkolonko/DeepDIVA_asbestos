@@ -1,3 +1,3 @@
-from .image_classification_random_nine import ImageClassificationRandomNine
+from .image_classification_full_image import ImageClassificationFullImage
 
-__all__ = ['ImageClassificationRandomNine']
+__all__ = ['ImageClassificationFullImage']

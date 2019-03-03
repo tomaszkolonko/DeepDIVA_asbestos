@@ -18,7 +18,8 @@ from . import functional as F
 __all__ = ["Compose", "ToTensor", "ToPILImage", "Normalize", "Resize", "Scale", "CenterCrop", "Pad",
            "Lambda", "RandomCrop", "RandomHorizontalFlip", "RandomVerticalFlip", "RandomResizedCrop",
            "RandomSizedCrop", "FiveCrop", "TenCrop", "LinearTransformation", "ColorJitter", "RandomRotation",
-           "RandomNineCrop", "Grayscale", "RandomGrayscale", "ToTensorTwinImage", "RandomTwinCrop"]
+           "RandomNineCrop", "Grayscale", "RandomGrayscale", "ToTensorTwinImage", "RandomTwinCrop",
+           "ConditionalMirroring"]
 
 
 class Compose(object):
@@ -579,6 +580,24 @@ class TenCrop(object):
 
     def __call__(self, img):
         return F.ten_crop(img, self.size, self.vertical_flip)
+
+class ConditionalMirroring(object):
+    """
+    Checks if the image is not quadratic and mirrors the image on the right or lower side to
+    match the bigger side.
+    E.g. 1024x768 => 1024x1024
+
+    Args:
+        size (sequence or int): Desired output size of the crop. If size is an
+            int instead of sequence like (h, w), a square crop (size, size) is
+            made.
+    """
+
+    def __init__(self, mode=None):
+        self.mode = mode
+
+    def __call__(self, img):
+        return F.conditional_mirroring(img, self.mode)
 
 class ExhaustiveCrop(object):
     """Crop the given PIL Image into four corners and the central crop plus the flipped version of

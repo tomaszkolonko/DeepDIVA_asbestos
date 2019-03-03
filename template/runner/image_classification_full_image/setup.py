@@ -19,7 +19,7 @@ import torch.nn as nn
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
-from template.runner.image_classification_random_nine.transform_library import transforms
+from template.runner.image_classification_full_image.transform_library import transforms
 from tensorboardX import SummaryWriter
 
 # DeepDIVA
@@ -247,14 +247,12 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
         logging.debug('Setting up dataset transforms')
         # TODO: Cropping not resizing needed.
 
+        print("******************************************************************** full size image classification")
         transform = transforms.Compose([
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomVerticalFlip(),
-            transforms.RandomRotation(transforms.RandomRotation.get_params((0, 359))),
-            transforms.RandomNineCrop(model_expected_input_size),
-            transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
-            transforms.Lambda(
-                lambda items: torch.stack([transforms.Normalize(mean=mean, std=std)(item) for item in items]))
+            transforms.ConditionalMirroring(0),
+            transforms.RandomCrop(model_expected_input_size),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=mean, std=std)
         ])
 
         """
@@ -265,17 +263,9 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
         ])
         """
 
-
-        transform_test = transforms.Compose([
-            transforms.ExhaustiveCrop(model_expected_input_size),
-            transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
-            transforms.Lambda(
-                lambda items: torch.stack([transforms.Normalize(mean=mean, std=std)(item) for item in items]))
-        ])
-
         train_ds.transform = transform
-        val_ds.transform = transform_test
-        test_ds.transform = transform_test
+        val_ds.transform = transform
+        test_ds.transform = transform
 
         train_loader, val_loader, test_loader = _dataloaders_from_datasets(batch_size, train_ds, val_ds, test_ds,
                                                                            workers)
