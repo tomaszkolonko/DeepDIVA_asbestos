@@ -54,8 +54,8 @@ def _general_parameters(parser):
     """
     # List of possible custom runner class. A runner class is defined as a module in template.runner
     runner_class_options = ["image_classification", "image_classification_five_crop",
-                            "image_classification_random_nine", "point_cloud", "triplet",
-                            "apply_model", "process_activation"]
+                            "image_classification_random_nine", "image_classification_full_image",
+                            "point_cloud", "triplet", "apply_model", "process_activation"]
 
     parser_general = parser.add_argument_group('GENERAL', 'General Options')
     parser_general.add_argument('--experiment-name',

@@ -5,14 +5,10 @@ import logging
 import math
 from PIL import Image
 
-import matplotlib.pyplot as plt
-import numpy as np
-
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 
-__all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
-           'resnet152']
+__all__ = ['ResNet', 'resnet18_448']
 
 model_urls = {
     'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
@@ -103,23 +99,34 @@ class _Bottleneck(nn.Module):
 class ResNet(nn.Module):
 
     def __init__(self, block, layers, output_channels=1000):
-        self.inplanes = 64
+        constant_number_of_filters = 16
+        self.inplanes = constant_number_of_filters
         self.counter = 0
         super(ResNet, self).__init__()
 
-        self.expected_input_size = (224, 224)
+        self.expected_input_size = (896, 896)
 
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
+        # ************************************************************************************************
+        self.conv00 = nn.Conv2d(3, constant_number_of_filters, kernel_size=7, stride=2, padding=3,
+                                bias=False)
+        self.bn00 = nn.BatchNorm2d(constant_number_of_filters)
+
+        self.conv01 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=2, padding=3,
+                                bias=False)
+        self.bn01 = nn.BatchNorm2d(constant_number_of_filters)
+        # ************************************************************************************************
+
+        self.conv1 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=2, padding=3,
                                bias=False)
-        self.bn1 = nn.BatchNorm2d(64)
+        self.bn1 = nn.BatchNorm2d(constant_number_of_filters)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.layer1 = self._make_layer(block, 64, layers[0])
-        self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
-        self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
-        self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
+        self.layer1 = self._make_layer(block, constant_number_of_filters, layers[0])
+        self.layer2 = self._make_layer(block, constant_number_of_filters, layers[1], stride=2)
+        self.layer3 = self._make_layer(block, constant_number_of_filters, layers[2], stride=2)
+        self.layer4 = self._make_layer(block, constant_number_of_filters, layers[3], stride=2)
         self.avgpool = nn.AvgPool2d(7, stride=1)
-        self.fc = nn.Linear(512 * block.expansion, output_channels)
+        self.fc = nn.Linear(constant_number_of_filters * block.expansion, output_channels)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -147,8 +154,18 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
+        # New Layer that half the image size
+        x = self.conv00(x)
+        x = self.bn00(x)
+        x = self.relu(x)
+
+        x = self.conv01(x)
+        x = self.bn01(x)
+        x = self.relu(x)
+
+
         x = self.conv1(x)
-        self.print_image(x, 'conv1')
+        #self.print_image(x, 'conv1')
 
         x = self.bn1(x)
         x = self.relu(x)
@@ -188,7 +205,7 @@ class ResNet(nn.Module):
         return x
 
 
-def resnet18(pretrained=False, **kwargs):
+def resnet18_448(pretrained=False, **kwargs):
     """Constructs a _ResNet-18 model.
 
     Args:
@@ -203,61 +220,4 @@ def resnet18(pretrained=False, **kwargs):
     return model
 
 
-def resnet34(pretrained=False, **kwargs):
-    """Constructs a _ResNet-34 model.
 
-    Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
-    """
-    model = ResNet(_BasicBlock, [3, 4, 6, 3], **kwargs)
-    if pretrained:
-        try:
-            model.load_state_dict(model_zoo.load_url(model_urls['resnet34']), strict=False)
-        except Exception as exp:
-            logging.warning(exp)
-    return model
-
-
-def resnet50(pretrained=False, **kwargs):
-    """Constructs a _ResNet-50 model.
-
-    Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
-    """
-    model = ResNet(_Bottleneck, [3, 4, 6, 3], **kwargs)
-    if pretrained:
-        try:
-            model.load_state_dict(model_zoo.load_url(model_urls['resnet50']), strict=False)
-        except Exception as exp:
-            logging.warning(exp)
-    return model
-
-
-def resnet101(pretrained=False, **kwargs):
-    """Constructs a _ResNet-101 model.
-
-    Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
-    """
-    model = ResNet(_Bottleneck, [3, 4, 23, 3], **kwargs)
-    if pretrained:
-        try:
-            model.load_state_dict(model_zoo.load_url(model_urls['resnet101']), strict=False)
-        except Exception as exp:
-            logging.warning(exp)
-    return model
-
-
-def resnet152(pretrained=False, **kwargs):
-    """Constructs a _ResNet-152 model.
-
-    Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
-    """
-    model = ResNet(_Bottleneck, [3, 8, 36, 3], **kwargs)
-    if pretrained:
-        try:
-            model.load_state_dict(model_zoo.load_url(model_urls['resnet152']), strict=False)
-        except Exception as exp:
-            logging.warning(exp)
-    return model
