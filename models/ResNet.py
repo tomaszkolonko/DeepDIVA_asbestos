@@ -3,6 +3,10 @@ Model definition adapted from: https://github.com/pytorch/vision/blob/master/tor
 """
 import logging
 import math
+from PIL import Image
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
@@ -100,6 +104,7 @@ class ResNet(nn.Module):
 
     def __init__(self, block, layers, output_channels=1000):
         self.inplanes = 64
+        self.counter = 0
         super(ResNet, self).__init__()
 
         self.expected_input_size = (224, 224)
@@ -143,6 +148,8 @@ class ResNet(nn.Module):
 
     def forward(self, x):
         x = self.conv1(x)
+        self.print_image(x, 'conv1')
+
         x = self.bn1(x)
         x = self.relu(x)
         x = self.maxpool(x)
@@ -156,6 +163,28 @@ class ResNet(nn.Module):
         x = x.view(x.size(0), -1)
         x = self.fc(x)
 
+        return x
+
+    def print_image(self, x, name='yolo'):
+        self.counter += 1
+        x = self.decompose_image(x)
+        image = Image.fromarray(x)
+        name_as_string = "./yolo/" + name + "_" + self.counter + ".png"
+        image.save(name_as_string)
+
+    def decompose_image(self, x):
+        x -= x.mean()
+        x /= (x.std() + 1e-5)
+        x *= 0.1
+
+        # clip to [0, 1]
+        x += 0.5
+        #x = np.clip(x, 0, 1)
+
+        # convert to RGB array
+        x *= 255
+        #x = x.transpose((1, 2, 0))
+        #x = np.clip(x, 0, 255).astype('uint8')
         return x
 
 

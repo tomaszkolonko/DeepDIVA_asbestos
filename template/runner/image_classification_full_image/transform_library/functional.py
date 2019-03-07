@@ -691,4 +691,7 @@ def to_grayscale(img, num_output_channels=1):
     return img
 
 def conditional_mirroring(img, m):
-    return img.resize((1024, 1024), resample=m)
+    h, w = img.size
+    if h != w:
+        return img.resize((1024, 1024), resample=m)
+    return img

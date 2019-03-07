@@ -246,8 +246,10 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
         # Set up dataset transforms
         logging.debug('Setting up dataset transforms')
         # TODO: Cropping not resizing needed.
+        print("******************************************************************** regular image classification")
         transform = transforms.Compose([
-            transforms.Resize(model_expected_input_size),
+            transforms.ConditionalMirroring(),
+            transforms.RandomCrop(model_expected_input_size),
             transforms.ToTensor(),
             transforms.Normalize(mean=mean, std=std)
         ])
@@ -281,6 +283,7 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
 
         # Set up dataset transforms
         logging.debug('Setting up dataset transforms')
+        print("********************************************************************")
         transform = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize(mean=mean, std=std)

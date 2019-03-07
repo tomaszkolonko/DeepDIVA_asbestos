@@ -19,7 +19,8 @@ import torch.nn as nn
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
-from template.runner.image_classification_full_image.transform_library import transforms
+# from template.runner.image_classification_full_image.transform_library import transforms
+import torchvision.transforms as transforms
 from tensorboardX import SummaryWriter
 
 # DeepDIVA
@@ -248,20 +249,21 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
         # TODO: Cropping not resizing needed.
 
         print("******************************************************************** full size image classification")
+        """
         transform = transforms.Compose([
             transforms.ConditionalMirroring(0),
-            transforms.RandomCrop(model_expected_input_size),
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomVerticalFlip(),
             transforms.ToTensor(),
             transforms.Normalize(mean=mean, std=std)
         ])
-
         """
+
         transform = transforms.Compose([
             transforms.Resize(model_expected_input_size),
             transforms.ToTensor(),
             transforms.Normalize(mean=mean, std=std)
         ])
-        """
 
         train_ds.transform = transform
         val_ds.transform = transform

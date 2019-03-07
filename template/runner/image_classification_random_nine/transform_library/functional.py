@@ -342,8 +342,7 @@ def five_crop(img, size):
     w, h = img.size
     crop_h, crop_w = size
     if crop_w > w or crop_h > h:
-        raise ValueError("Requested crop size {} is bigger than input size {}".format(size,
-                                                                                      (h, w)))
+        raise ValueError("Requested crop size {} is bigger than input size {}".format(size, (h, w)))
     tl = img.crop((0, 0, crop_w, crop_h))
     tr = img.crop((w - crop_w, 0, w, crop_h))
     bl = img.crop((0, h - crop_h, crop_w, h))
@@ -378,11 +377,11 @@ def exhaustive_crop_with_overlap(img, size):
     vertical_overlap = math.ceil(((number_vertical_crops * crop_h) - w) / number_vertical_crops)
 
     result_tuple = ()
-    for i in number_vertical_crops:
-        for j in number_horizontal_crops:
-            result_tuple = result_tuple + (
-                img.crop((j * crop_w - j * horizontal_overlap, i * crop_h - i * vertical_overlap,
-                          (j + 1) * crop_w - j * horizontal_overlap, (i + 1) * crop_h - i * vertical_overlap)),)
+    for i in range(number_vertical_crops):
+        for j in range(number_horizontal_crops):
+            result_tuple = result_tuple + \
+            (img.crop((j * crop_w - j * horizontal_overlap, i * crop_h - i * vertical_overlap,
+            (j + 1) * crop_w - j * horizontal_overlap, (i + 1) * crop_h - i * vertical_overlap)),)
 
     return result_tuple
 

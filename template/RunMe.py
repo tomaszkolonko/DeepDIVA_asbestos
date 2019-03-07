@@ -255,6 +255,7 @@ class RunMe:
             end_time = time.time()
             logging.info('Time taken for train/eval/test is: {}'
                          .format(datetime.timedelta(seconds=int(end_time - start_time))))
+
         except Exception as exp:
             if args.quiet:
                 print('Unhandled error: {}'.format(repr(exp)))
