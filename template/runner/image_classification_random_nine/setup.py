@@ -267,15 +267,15 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
 
 
         transform_test = transforms.Compose([
-            transforms.ExhaustiveCrop(model_expected_input_size),
+            transforms.RandomNineCrop(model_expected_input_size),
             transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
             transforms.Lambda(
                 lambda items: torch.stack([transforms.Normalize(mean=mean, std=std)(item) for item in items]))
         ])
 
         train_ds.transform = transform
-        val_ds.transform = transform_test
-        test_ds.transform = transform_test
+        val_ds.transform = transform
+        test_ds.transform = transform
 
         train_loader, val_loader, test_loader = _dataloaders_from_datasets(batch_size, train_ds, val_ds, test_ds,
                                                                            workers)

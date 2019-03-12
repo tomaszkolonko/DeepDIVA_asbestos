@@ -4,6 +4,7 @@ from .FC_medium import FC_medium
 from .FC_simple import FC_simple
 from .TNet import TNet
 from .AlexNet import alexnet
+from .ResNet import resnet18, resnet34, resnet50, resnet101, resnet152
 
 # DIFFERENT FILTERS IN ARCHITECTURE
 # **********************************

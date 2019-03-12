@@ -244,12 +244,12 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
         mean, std = _load_mean_std_from_file(dataset_folder, inmem, workers)
 
         # Set up dataset transforms
-        logging.debug('Setting up dataset transforms')
+        logging.debug('Setting up dataset transforms - image classification')
         # TODO: Cropping not resizing needed.
-        print("******************************************************************** regular image classification")
+        logging.debug('******************************************************************** regular image'
+                      'classification')
         transform = transforms.Compose([
-            transforms.ConditionalMirroring(),
-            transforms.RandomCrop(model_expected_input_size),
+            transforms.Resize(model_expected_input_size),
             transforms.ToTensor(),
             transforms.Normalize(mean=mean, std=std)
         ])
@@ -282,7 +282,7 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
         std = np.divide((std - train_ds.min_coords), np.subtract(train_ds.max_coords, train_ds.min_coords))
 
         # Set up dataset transforms
-        logging.debug('Setting up dataset transforms')
+        logging.debug('Setting up dataset transforms - dataset as bidimensional')
         print("********************************************************************")
         transform = transforms.Compose([
             transforms.ToTensor(),

@@ -148,7 +148,6 @@ class ResNet(nn.Module):
 
     def forward(self, x):
         x = self.conv1(x)
-        self.print_image(x, 'conv1')
 
         x = self.bn1(x)
         x = self.relu(x)
