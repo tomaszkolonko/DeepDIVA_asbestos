@@ -5,8 +5,8 @@ import logging
 import math
 from PIL import Image
 
-import matplotlib.pyplot as plt
-import numpy as np
+# import matplotlib.pyplot as plt
+# import numpy as np
 
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
