@@ -32,6 +32,8 @@ Since the images are quite large, they will drastically increase in size, once d
 
 There are two valid datasets that were manually labeled and partially verified. The bigger dataset has more labels that are less clear and suspected to have or have not asbestos in them. Images with minor errors, as shown above, are not removed from the training and validation sets. In the smaller datasets, I removed all the images, that were unclear to me. I also removed the images with errors in them.
 
+[[ do I need to provide two links to the datasets? I could link them to my dropbox account ]]
+
 
 \section{Data Augmentation}
 
@@ -52,7 +54,7 @@ This common knowledge that transfer learning always helps even across different 
 
 \section{AlexNext}
 
-It has not been possible to get a baseline for the current performance or even an accurate estimation of human performance in the detection of asbestos fibers in the provided images. Therefore, AlexNet was used to create a baseline on which improvements may be observed and would allow discussions on architectures and their performance. The hyper-parameters learning rate and learning rate decay have been optimized with grid search by running every configuration five times, averaging the results and choosing the hyper-parameters that performed best.
+It has not been possible to get a baseline for the current performance or even an accurate estimation of human performance in the detection of asbestos fibers in the provided images. Therefore, AlexNet was used to create a baseline on which improvements may be observed and would allow discussions on architectures and their performance. The hyper-parameters learning rate and learning rate decay have been optimized with grid search as shown in Table \ref{tbl:similarity-test-map}. The model has been run for 50 epochs, although convergence has been observed much earlier as seen in Figure XXX.
 
 \begin{table}[t] \centering
 \ra{1.3}
@@ -69,7 +71,7 @@ AlexNet		& 0.0005 		& 5		& 78.55\%  \\
 AlexNet		& 0.0001 		& 5		& 77.09\%  \\
 \bottomrule
 \end{tabular}
-\label{tbl:similarity-test-map}
+\label{tbl:AlexNetBaseline}
 \end{table}
 
 
