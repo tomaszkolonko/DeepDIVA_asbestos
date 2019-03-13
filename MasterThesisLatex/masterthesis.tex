@@ -32,9 +32,19 @@
 % offers more possibilities in captions
 \usepackage{caption}
 
-% create nice tables with booktabs
+
+% Tool for handling the figure on multicolumns or multirows
+\usepackage{multicol}
+\usepackage{multirow}
+
+% Fancy tables
 \usepackage{booktabs}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\usepackage[font={small,it}]{caption} 
+\captionsetup[table]{skip=10pt}
+\usepackage{array}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 
 % Commands for package caption
 % - caption

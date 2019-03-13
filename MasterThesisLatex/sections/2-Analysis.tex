@@ -102,7 +102,13 @@ There are some higher level frameworks like Keras \cite{keras} and DeepDIVA \cit
 
 \section{Tools}
 
-Visualizing what the models learn is important to find logical errors and improve the architecture.
+\subsection{Visualization}
+
+WIth CNN's it is very difficult to really know what they have learned. There are several examples that an architecture performed exceptionally well on the test set but later it was found out that it didn't really recognize the object itself but some other characteristics unrelated to the studied class. This is especially important when working with only a few classes. It is indeed very unsatisfactory from a scientific standpoint to use the accuracy alone to determine if an architecture is well suited for a problem or not. Even with other statistical values added, it still lacks deeper understanding. There are several methods on how to study what a model really learns and to visualize it. I will apply a visualization toolbox. Through visualizing and understanding the learning process alterations can be applied to further improve the accuracy of the model.
+
+\subsection{SigOpt}
+
+Gridsearch is one of the optimization methods widely applied to a model in order to find the optimal hyper-parameters for a given task. This approach is time intensive and only touches on a few predefined values of the hyper-parameters. If several hyper-parameters need to be optimized the amound of values increases exponentially and becomes unfeasable to test them all. SigOpt applies baysien DISCUSS FURTHER
 
 \section{Conclusion}
 
