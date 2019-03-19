@@ -38,20 +38,42 @@ For the above mentioned reasons, the sigmoid non-linearity is not used anymore e
   \label{fig:ReLU}
 \end{figure}
 
-The components of an Artificial Neural Network (ANN) are the units (neurons) organized in an acyclic graph. All units that are reached from the input layer by the same amount of hops are organized into layers. These units are not connected to each other but to next layer as shown in Figure \ref{fig:MLP}. As the name suggests cycles are not allowed since the forward and backward pass would not be well defined anymore. Another big difference to the human brain where acyclic connections are possible and very common [TODO: find relevant reference]. Subsequent layers within the ANN are most commonly fully connected with each other, meaning every unit connects to every unit in the next layer. These networks are also often called Multi-Layer Perceptrons (MLP). One of the problems with MLP's is that the fully-connected nature of this architecture increases the number of parameters exponentially. E.g. an RGB image of 256 by 256 pixels as an input size of 196'608. If this is multiplied with the next layer having 1000 hidden units the result is already 196'608'000 meaning there are roughly 197 million parameters to be held in memory and updated with every iteration. Another big disadvantage for image recognition is the fact that there is no spatial encoding in the network. Is is very nicely observed with the MNIST dataset where images (28x28 pixels) of handwritten digits are provided \cite{MNISTdatabase}. The MLP learns that the image contains a certain number only by learning which pixels need to be black in order to match the previously seen labels. That leads to a near perfect recognition of the centered digit 2 but if the digit is moved to the border (different distribution of black pixels) the MLP is not able to recognize the digit anymore.
+The components of an Artificial Neural Network (ANN) are the units (neurons) organized in an acyclic graph. All units that are reached from the input layer by the same amount of hops are organized into layers. These units are not connected to each other but to next layer as shown in Figure \ref{fig:MLP}. As the name suggests cycles are not allowed since the forward and backward pass would not be well defined anymore. Another big difference to the human brain where acyclic connections are possible and very common [TODO: find relevant reference]. Subsequent layers within the ANN are most commonly fully connected with each other, meaning every unit connects to every unit in the next layer. These networks are also often called Multi-Layer Perceptrons (MLP). One of the problems with MLP's is that the fully-connected nature of this architecture increases the number of parameters exponentially. E.g. an RGB image of 256 by 256 pixels as an input size of 196'608 (256x256x3). If this is multiplied with the next layer having 1000 hidden units the result is already 196'608'000 meaning there are roughly 197 million parameters to be held in memory and updated with every iteration just for the first layer. Every unit in this layer would have 196'608 weights which is wasteful since so many parameters with rather simple images lead to severe overfitting. Another big disadvantage for image recognition is the fact that there is no spatial encoding in the network. Is is very nicely observed with the MNIST dataset where images (28x28 pixels) of handwritten digits are provided \cite{MNISTdatabase}. The MLP learns that the image contains a certain number only by learning which pixels need to be black in order to match the previously seen labels. That leads to a near perfect recognition of the centered digit 2 but if the digit is moved to the border (different distribution of black pixels) the MLP is not able to recognize the digit anymore.
 
 \begin{figure}[H]
   \centering
-  \caption{. \cite{cs231neuralnetworks}}
-  \includegraphics[scale=0.35]{chapter3/MLP}
+  \caption{. \cite{cs231nconvolution}}
+  \includegraphics[scale=0.36]{chapter3/MLP}
   \label{fig:MLP}
 \end{figure}
 
 \section{CNN}
 
-What is the architecture of CNNs`?
+Convolutional Neural Networks (CNN) are a subset of Neural Networks so they still share most of the components like an input layer, hidden layers with its units, fully connected layers at the end of the architecture, a loss function, forward and backward propagation. The big difference is that CNN's explicitly expect images as input whereas a Neural Network expects nothing in particular, just a single vector. Knowing that the input is an image, the architecture can be changed accordingly, leading to spatial awareness through convolutions and vastly reduced parameters. Spatial awareness means that additionally to knowing the value of one pixel (in the first layer) a convolution encodes the values of neighboring pixels, thus giving some representation of an area of nearby pixels. Figure \ref{fig:Convolution} shows a simple convolution step where a filter of 5x5x3 is layed over the image. The filters depth (3rd dimension) is always equal to the input volumes dimension. Since the image is RGB encoded the dept of the image is 3, so are the filter in the first layer. The filter, sometimes also called kernel, is then convolved across the whole image and computes a dot product at every position. This gives an activation map, seen in blue on the right side in Figure \ref{fig:Convolution}. Each filter that is convolved across the image produces a different activation map that usually is slightly smaller than the original input but becomes deeper with every additional layer, since more filters are added. The goal of the learning process is to learn filter, that represent specific characteristics of the image and help in correct classification (reducing the loss). As mentioned in the beginning of the chapter, a huge advantage of modern machine learning methods is that the feature maps are learnt automatically by the model. The best filters will get found without the need of manually crafting specific HOG features. That saves time and leads to much more generalizable models.
+
+\begin{figure}[H]
+  \centering
+  \caption{. \cite{cs231nconvolution}}
+  \includegraphics[scale=0.35]{chapter3/Convolution}
+  \label{fig:Convolution}
+\end{figure}
+
+Instead of connecting all the neurons of one layer to all the neurons of the subsequent layer leading to an exponential growth of parameters, now each neuron is only connected to a local region of the input. The 5x5x3 filter shown in Figure \ref{fig:Convolution} has receptive filed of 5x5. The depth of the filter must always be equal to the depth of the input volume (input image in the first layer).
+
+In order to build a CNN three main components are used. The convolution layer which is described above often followed by a Pooling Layer that reduces the width and height, while keeping the depth as is. In the end the third component is a Fully Connected Layer. Often the Fully-Connected Layer also consists of a softmax function that gives the probability of the image being one of each classes. Between the Convolution Layer and the Pooling Layer the activation function (e.g. ReLU) applies elementwise. The activation function does not change the dimensions but simply squashes the values into the range of [0,x] in case of a ReLU. A typical Convolutional Network would have the following architecture [INPUT - x * (CONV - RELU - POOL) - FC]. The higher the variable x the deeper the CNN.
+
+The Pooling Layer's goal is to reduce the width and height of the input volume without reducing its depth. That leads to less parameters in the network and less overfitting. The architecture needs to focus on the relevant parts of the image instead of trying to optimize too many parameters and thus overfit to already seen images. Pooling Layers mostly apply the MAX function and are of size 2x2. The MAX function is computationally very cheap and the size of 2x2 let's the volume half in width and height. The highest value in the 2x2 mask is kept. Figure \ref{fig:MaxPooling} shows the MAX-Pooling process.
+
+\begin{figure}[H]
+  \centering
+  \caption{. \cite{cs231convnetworks}}
+  \includegraphics[scale=0.35]{chapter3/MaxPooling}
+  \label{fig:MaxPooling}
+\end{figure}
 
 \section{AlexNet}
+
+
 
 \section{Inception}
 
