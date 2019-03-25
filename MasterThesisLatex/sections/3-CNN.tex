@@ -82,9 +82,48 @@ It is also worth noting that ImageNet is the most widely used dataset for transf
 
 \section{AlexNet}
 
-In 2012, a paper by Alex Krizhevsky started the new era of Convolutional Neural Networks, where CNN's were not only practibly applicable to current visual problems like the ImageNet Large Scale Visual Recognition Challenge (ILSVRC), but beat the best results by a big margin \cite{krizhevsky2012imagenet, imagenet}. The architecture by Alex Krizhevsky, a 5-layer CNN, achieved 15.3\% top-5 error rate, and was named AlexNet after its creator. The next best result achieved a top-5 error rate of 26.2\% with versions of Fisher Vectors (FV) and Graphical Gaussian Vectors (GGV) after going through a feature extraction process with SIFT, CSIFT, LBP and GIST. Since then the winners of all subsequent ILSVRC challenges apply all a deep learning approach.
+In 2012, a paper by Alex Krizhevsky started the new era of Convolutional Neural Networks, where CNN's were not only practibly applicable to current visual problems like the ImageNet Large Scale Visual Recognition Challenge (ILSVRC), but beat the best results by a big margin \cite{krizhevsky2012imagenet, imagenet}. The architecture by Alex Krizhevsky, a 5-layer CNN, achieved 15.3\% top-5 error rate, and was named AlexNet after its creator. The next best result achieved a top-5 error rate of 26.2\% with versions of Fisher Vectors (FV) and Graphical Gaussian Vectors (GGV) after going through a feature extraction process with SIFT, CSIFT, LBP and GIST. Since then the winners of all subsequent ILSVRC challenges apply all successfully a deep learning approach. \\
 
+AlexNet uses eight learned layers of which five are convolutional, and three are fully-connected layers. After the convolutions, ReLU's are used for the activation function since they train several times faster than equivalent architectures trained with tanh or sigmoid functions. The last fully-connected layer is fed to a 1000-way softmax function that produces a distribution over all the 1000 classes giving the probability of a certain class to be contained in the image. For the input layer the images are first resized to 256 by 256 pixels and then crops of size 227 by 227 by 3 are used as inputs into the model. 96 kernels of size 11 by 11 by 3 with a stride of 4 pixels are then applied on the input image leading to a output volume of 55 by 55 by 96. In the original paper the filters were split across two GPU's but since the GPU's have increased their capacity and performance since 2012 hugely, this splitting is not applied on the current model. The formula for calculating the new output volumes is the following: \\
 
+\[ O = {\frac{(W - F + 2P)}{S}} + 1 \] \\
+
+with O standing for the output dimension (length of the width or height), W standing for the input length, F for the filter size, P for padding and S for stride. Maxpooling is done after the first, second and fifth convolutions. Instead of going with the regular 2x2 pooling that halfes the width and length dimensions of the input volume, AlexNet applies a 3x3 pooling with stride 2. They argue that it helps in reducing overfitting and leads to slightly better accuracies. The architecture can be seen in figure \ref{fig:AlexNet}. \\
+
+\begin{figure}[H]
+  \centering
+  \caption{The original architecture as proposed by Alex Krizhevsky with the distribution of the model and filter over two GPU's. \cite{krizhevsky2012imagenet}}
+  \includegraphics[scale=0.35]{chapter3/AlexNet}
+  \label{fig:AlexNet}
+\end{figure}
+
+The horizontal seperation of the architecture comes from the need to distribute the model and the filters over two GPU's. Unfortunately the image was already cropped that way in the original paper of Alex Krizhevsky. \\
+
+Although the architecture itself is very small compared to the later architectures, it still has over 60 million parameters to learn. These parameters are mostly located in the first and second fully connected layer. Learning so many parameters for classifying only 1000 objects leads to overfitting to the data trained on. For the ILSVRC competition two methods have been used. Heavy data augmentation using label-preserving transformations (increase images by factor 2048) and dropout in which certain hidden units are dropped for the current forward pass with some probability (often 0.5). \\
+
+The winner of the ILSVRC 2013 was ZFNet which basically is the AlexNet architecture with very small alterations \cite{zeiler2014visualizing}. Although the alterations are small they were very guided in their developement through visualization techniques. Zeiler and Fergus visualized the layers and filters and deduced clear and specific improvements on AlexNet.
+
+Karen Simonyan and Andew Zisserman
+
+\section{VGG}
+
+The winner of the ILSVRC 2014 were Karen Simonyan and Andrew Zisserman with their architecture named VGG \cite{simonyan2014very}. Instead of further trying to fine-tune AlexNet they explicitly wanted to explore how depth of an architecture plays out on accuracy and generalizability. For that reason they used only 3 x 3 convolutions with padding of 1 pixel and stride of 1 pixel as well followed by a ReLU activiation function. Therefore the input volume from layer to layer stays the same while the number of filter increase after each maxpooling layer. If the spatial resolution needs to be reduced, maxpooling is applied with a 2 by 2 windows and stride 2. This allowed Simonyan et al. to push the depth of the network to 16-19 layers. In the end there are again 3 fully-connected layers as in AlexNet. The first two have 4096 hidden units and the third performs a softmax on the 1000 classes of ImageNet dataset. Figure shows the original VGG16 architecture.
+
+\begin{figure}[H]
+  \centering
+  \caption{VGG16 architecture with 13 convolutional layers and three fully-connected layers at the end. \cite{ferguson2017automatic}}
+  \includegraphics[scale=0.35]{chapter3/VGG16}
+  \label{fig:vgg16}
+\end{figure}
+
+One of the bigger issues with VGG architectures are their huge size in parameters, which ranges from 133 million parameters for the smaller VGG11 architecture to 144 million parameters for the bigger VGG19. This is problem, since it can be difficult to handle so many parameters and training takes much longer. The last three fully-connected layers contribute the large part of the parameters with the convolutional layers playing a minor role. Because VGG is very uniform with it's 1 type of convolution and easy to understand, it enjoyed large acceptance with the community. Figure \ref{fig:parameters} shows how different architectures perform relative to their size in parameters.
+
+\begin{figure}[H]
+  \centering
+  \caption{Performance of different architectures relative to their number of operations needed for one forward pass. The number of operations is proportional to the number of parameters used by the architecture. \cite{canziani2016analysis}}
+  \includegraphics[scale=0.35]{chapter3/parameters}
+  \label{fig:parameters}
+\end{figure}
 
 \section{Inception}
 
@@ -92,4 +131,27 @@ Explain Inception and why it's so amazing
 
 \section{ResNet}
 
+The winner of the ILSVRC 2015 were Kaiming He et al. with their very deep architectures applying residual connection connections \cite{he2016deep, he2016identity}. Their architecture was named ResNet and was specifically created with depth in mind. Zeiler et al. have shown how deep networks are naturally able to integrate low/mid/high-level features and that depth seems to enrich these features leading to better performance. Leading results in the ImageNet challenge like the aformentioned VGG \cite{simonyan2014very} and LeNet \cite{szegedy2015going} all exploit deeper architectures. There are a few computational obstacle of going simply deeper with the current models except computational power. One issue arises from the vanishing/exploding gradient which happens during backpropagation \cite{glorot2010understanding}. The weights get updated during learning by multiplying the weights with the gradient from the partial derivatives of the error function. This leads to the chain rule being apllied as many times as layers are present in the network. If the gradient is some small number below 0 it gets multiplied many times over leading to a vanishing value that makes is very difficult to train the layers in the beginning of the network. The same holds true if the gradients are big or above 1. Then they explode by getting bigger and bigger with every layer. But even if the vanishing/exploding gradient can be mitigated with better weight initialization and intermediate normalization layers \cite{ioffe2015batch}, the degradation problem prohibits learning of deeper networks, where the accuracy gets saturated and starts degrading with more layers \cite{he2016deep}. This observed degradation is not caused by overfitting to the training data \cite{he2015convolutional, srivastava2015highway}.\\
+
+ResNet architectures address this degradation problem by introducing residual mappings. These residual mappings are easier to optimize than the unreferenced mapping. If for example it would be optimal to apply the identity mapping, pushing the residual mapping to zero is much easier for the network than fit an identity mapping by a stack of nonlinear layers. Figure \ref{fig:ResidualBlock} shows such a residual block.
+
+\begin{figure}[H]
+  \centering
+  \caption{A building block for residual learning. \cite{he2016deep}}
+  \includegraphics[scale=0.35]{chapter3/ResidualBlock}
+  \label{fig:ResidualBlock}
+\end{figure}
+
+As seen in Figure \ref{fig:ResNet} blabla blabla
+
+\begin{figure}[H]
+  \centering
+  \caption{Comparison of the VGG-19 architecture with a 34-layer plain model and its residual counterpart. Notice that only the VGG architecture has 3 fully-connected layers. By omitting these 3 fully-connected layers in the ResNet architecture the overall complexity is drastically reduced. \cite{he2016deep}}
+  \includegraphics[scale=0.35]{chapter3/ResNet}
+  \label{fig:ResNet}
+\end{figure}
+
+\section{Densenet}
+
 Explain Resnet and why it's so amazing
+

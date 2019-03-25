@@ -49,7 +49,52 @@ For the baseline a simple 3-layered CNN was chosen with three convolutions and n
     \label{tbl:cnn-basic-baseline}
 \end{table*}
 
-Although the accuracies look already very promising, it is not clear what the network learned. It could be some lightening that occur with asbestos samples or simply some other characteristics that have nothing to do with the asbestos itself. To be more aware of these issues several other outputs need to be included like a confusion matrix that shows how many true positives and false negatives are found.
+\quad
+
+
+These results are much better than expected and should not be that high since the image size is resized to 32 by 32 pixels. As seen in figure \ref{fig:cnn-basic} the training accuracy achieves 94.54\% while the validation accuracy achieves 71.42\%. Such a big difference between training accuracy and the final test accuracy of 76.74\% means that the model overfitted strongly to the training data, learning it too well and thus decreasing generalizability. Having the accuracies for validation and test sets near each other is good and means that the validation set is representable of the test set.
+
+\begin{figure}[h]
+\centering
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/TrainAccuracy.png}
+}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/ValAccuracy.png}
+}
+\caption{Training and Validation accuarcies for CNN\_basic. The vertical gray lines show when the learning rate decay happens. Convergence is reached after the 30th epoch.}
+\label{fig:cnn-basic}
+\end{figure}
+
+
+Of course, interpreting this model is very difficult due to it's resizing of the image so early. It could be possible that the model simply learns to label all the images as non-asbestos since the dataset is strongly unbalanced but looking at the confusion matrix in Figure \ref{fig:cnn-basic-cm} shows that the model does not cheat in this way and produces sound looking results.
+
+\begin{figure}[h]
+\centering
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/cnn-basic-cm.png}
+}
+\caption{Confusion matrix of the CNN\_basic shows that the learning seems to be correct with images seperated into the two classes of asbestos and non-asbestos.}
+\label{fig:cnn-basic-cm}
+\end{figure}
+
+From the confusion matrix we can deduce type I and type II errors. Type I errors are false positives which is equivalent to a false alarm. In case of asbestos it is better to classify wrongly some structures as asbestos than missing them which would be a type II error or a miss. Recall shows how many positive samples were actually classified as positive which in our case should be as near to 100\% as possible because it brings the type II error in relation to the overall positive samples. Recall is at 80.17\%. Precision on the other hand, how many of the predicted positive sample indeed are positive. If that number is lower, it is less severe because it simply means that more samples were classified as containing asbestos than really is the case (false alarm). Precision is at 67.83\%
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%    ALEXNET    %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
 
 \subsection{AlexNet}
 
@@ -91,7 +136,7 @@ AlexNet was optimized with grid search and additionally with sigopt. With the gr
 
 \subsection{Transfer learning on AlexNet}
 
-When using weights from pre-training on ImageNet, the overall accuracy does get slightly better, although the increase of 0.6645\% could be due to chance. In order to show if pre-training really helps with alexnet, each model has been run 5 times and the results are averaged. A t-test has been run to show it's significance [NEEDS TO BE DONE]
+When using weights from pre-training on ImageNet, the overall accuracy does get slightly better, although the increase of 0.6645\% could be due to chance. In order to show if pre-training really helps with alexnet, each model has been run 5 times and the results are averaged as seen in Table \ref. A t-test has been run to show it's significance [NEEDS TO BE DONE]
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -100,24 +145,39 @@ When using weights from pre-training on ImageNet, the overall accuracy does get 
 \begin{tabular}{@{}rrrrrrr@{}}
 \toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
 \midrule
-AlexNet	 from scratch	& 0.038498 & 0.073146 &  0.004074 & xxx & 81.0631\%  &		 \\
-AlexNet	 pre-trained	& 0.034288 & 0.409378 &  0.005959 & xxx & 81.7276\%  & + 0.6645\\
+AlexNet	 from scratch	& 0.038498 & 0.073146 &  0.004074 & 20 & 81.0631\%  &		 \\
+AlexNet	 pre-trained	& 0.034288 & 0.409378 &  0.005959 & 20 & 81.7276\%  & + 0.6645\\
 \bottomrule
 \end{tabular}}
 \label{tbl:AlexNetBaseline}
 \end{table}
 
-In Figure \ref{fig:alexnet-graph} we see the training and validations accuries plotted over epochs. It can be observed that convergence is not faster with pre-training than without pre-training. Both final accuracies are almost identical. The gray vertical lines seperate the graph into segments with different learning rates. So the learning rate decay happens a first time at epoch 20 and a second time at epoch 40. Convergence can be easily obvserved when the validation accuracy does not change anymore. Another important thing to notice is that validation and training accuracies are quite near to each other. That simply means that during training no severe overfitting occured and that the validation set and train set are indeed very similar to each other. Since the final accuracy is also very near to these values it is save to say that validation and test sets are good representations of the test set and that generalizability has low variance [IF GENERALIZABILITY CAN HAVE A VARIANCE AT ALL... TODO: READ IT UP].
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Hyper parameters for Alexnet optimized with SigOpt and without pre-training}
+\resizebox{0.99\textwidth}{!}{%
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
+\midrule
+AlexNet	 from scratch	& 0.038498 & 0.073146 &  0.004074 & 20 & 78.61$\pm$1.16  & -	 \\
+AlexNet	 pre-trained	& 0.034288 & 0.409378 &  0.005959 & 20 & 79.67$\pm$1.08  & - \\
+AlexNet from scratch (Adam Optimizer) & 0.038498 & Adam & Adam & 20 & 59.80$\pm$0.0 & \\
+\bottomrule
+\end{tabular}}
+\label{tbl:AlexNetMultiRun}
+\end{table}
+
+In Figure \ref{fig:alexnet-graph} we see the training and validations accuries plotted over epochs. It can be observed that convergence is not faster with pre-training than without pre-training. Both final accuracies are almost identical. The gray vertical lines seperate the graph into segments with different learning rates. So the learning rate decay happens a first time at epoch 20 and a second time at epoch 40. Convergence can be easily obvserved when the validation accuracy does not change anymore. Another important thing to notice is that validation and training accuracies are quite near to each other. This means that during training no severe overfitting occured and that the validation set and train set are indeed very representative of each other. Since the final accuracy is also very near to these values it is save to say that validation and test sets are good representations of the test set and that generalizability has low variance [IF GENERALIZABILITY CAN HAVE A VARIANCE AT ALL... TODO: READ IT UP].
 
 \begin{figure}[h]
 \centering
-\subfigure[Example with an asbestos fiber spanning from top to down]{
+\subfigure{
 \includegraphics[width=.46\textwidth]{images/chapter5/TL/AlexNet/TA-AlexNet.png}
 }
-\subfigure[Example without any asbestos fibers]{
+\subfigure{
 \includegraphics[width=.46\textwidth]{images/chapter5/TL/AlexNet/VA-AlexNet.png}
 }
-\caption{Some examples on how the microscopic images look like, and what kind of error in images occur.}
+\caption{No clear difference can be observed between the pre-trained AlexNet and the not pre-trained AlexNet. Both converge roughly equally and reach almost the same final accuracy.}
 \label{fig:alexnet-graph}
 \end{figure}
 
@@ -125,21 +185,217 @@ In Figure \ref{fig:alexnet-cm} the confusion matrix of the final test set is sho
 
 \begin{figure}[h]
 \centering
-\subfigure[Example with an asbestos fiber spanning from top to down]{
+\subfigure{
 \includegraphics[width=.46\textwidth]{images/chapter5/TL/AlexNet/cm-alexnet.png}
 }
-\subfigure[Example without any asbestos fibers]{
+\subfigure{
 \includegraphics[width=.46\textwidth]{images/chapter5/TL/AlexNet/cm-alexnet-pre.png}
 }
-\caption{Some examples on how the microscopic images look like, and what kind of error in images occur.}
+\caption{Confusion matrix from the model trained from scratch on the left side, and the model with pre-trained weights on the right.}
 \label{fig:alexnet-cm}
 \end{figure}
 
 
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%    RESNET18    %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
 \section{ResNet18}
 
-\section{Densenet}
+For ResNet18 only SigOpt was used for tuning the hyperparameters. It was used for training the architecture from scratch and with pretrained weights. Table \ref{tbl:ResNet18} shows a summary of the optimizatino process with the best accuracies and the delta between the pre-trained model and the model trained from scratch.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Hyper parameters for ResNet18 optimized with SigOpt. First row shows hyperparameters training the architecture from scratch. Second row used pre-trained weights from ImageNet}
+\resizebox{0.99\textwidth}{!}{%
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
+\midrule
+ResNet18	 from scratch	& 0.033678 & 0.952630 &  0.007518 & 20 & 83.0565\%  &		 \\
+ResNet18	 pre-trained	& 	0.039918 & 0.170826 &  0.001980 & 20 & 88.0399\%  & + 4.9834\\
+\bottomrule
+\end{tabular}}
+\label{tbl:ResNet18}
+\end{table}
+
+The graphs in Figure \ref{fig:resnet18-graph} show clearly that training converged much faster for the model with pre-trained weights. After only a few epochs it reached convergence while the model without pre-trained weights had to catch up over many epochs and actually overfitted to the training data somewhere after epoch 30. The validation error started to slightly decrease for the model trained from scratch while the training accuracy kept climbing. That is bad and is also reflected in the final accuracies.
+
+\begin{figure}[h]
+\centering
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/TL/ResNet18/TA-ResNet18.png}
+}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/TL/ResNet18/VA-ResNet18.png}
+}
+\caption{Training and validation graphs for ResNet18 once with pre-trained weights from ImageNet and once trained from scratch.}
+\label{fig:resnet18-graph}
+\end{figure}
+
+With the confusion matrix in Figure \ref{resnet18-cm} we can see that the learning did not take any shortcuts and that the distinction between images with asbestos fibers and images without were clearly separated to some extent that is reflected in the overall accuracy reached. The Precision and Recall for the model trained from scratch are 77.78\% and 80.99\%, respectively. For model with pre-trained weight, Precision and Recall are much better with 83.47\% and 87.60\%, respectively.
+
+\begin{figure}[h]
+\centering
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/TL/ResNet18/cm-resnet18.png}
+}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/TL/ResNet18/cm-resnet18-pre.png}
+}
+\caption{On the left: confusion matrix from model trained from scratch. On the right trained with transfer learning applied.}
+\label{fig:resnet18-cm}
+\end{figure}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%    RESNET34    %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+\section{ResNet34}
+
+ResNet34 is a variation of the ResNet architecture and has simply more layers than the Resnet18. Hyperparameter optimization was done with SigOpt and for both variants, training from scratch and training with pre-trained weights from ImageNet.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Hyper parameters for ResNet34 optimized with SigOpt. First row shows hyperparameters training the architecture from scratch. Second row used pre-trained weights from ImageNet}
+\resizebox{0.99\textwidth}{!}{%
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
+\midrule
+ResNet34	 from scratch	& 0.040323 & 0.141704 &  0.004044 & 20 & 83.0565\%  &		 \\
+ResNet34	 pre-trained	& 	0.060848 & 0.460187 &  0.000537 & 20 & 87.0431\%  & +3.9866\\
+\bottomrule
+\end{tabular}}
+\label{tbl:ResNet34}
+\end{table}
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%    DENSENET121    %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+\section{Densenet121}
+
+Hyperparameter optimization for densenet121 was done with SigOpt and for both variants, training from scratch and training with pre-trained weights from ImageNet.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Hyper parameters for densenet121 optimized with SigOpt. First row shows hyperparameters training the architecture from scratch. Second row used pre-trained weights from ImageNet}
+\resizebox{0.99\textwidth}{!}{%
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
+\midrule
+Densenet121	 from scratch	& 0.035925 & 0.057618 &  0.009241 & 20 & 86.0465\%  &		 \\
+Densenet121	 pre-trained	& 	0.018489	 & 0.369998 &  0.004963 & 20 & 88.3721\%  & +2.3256\\
+\bottomrule
+\end{tabular}}
+\label{tbl:Densenet121}
+\end{table}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%    DENSENET169    %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\section{Densenet169}
+
+Hyperparameter optimization for densenet169 was done with SigOpt and for both variants, training from scratch and training with pre-trained weights from ImageNet.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Hyper parameters for densenet121 optimized with SigOpt. First row shows hyperparameters training the architecture from scratch. Second row used pre-trained weights from ImageNet}
+\resizebox{0.99\textwidth}{!}{%
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
+\midrule
+Densenet169 from scratch	& 0.005812 & 0.777249 & 0.006999  & 20 & 85.3821\%  &		 \\
+Densenet169 pre-trained	& 0.006347 & 0.447591 & 0.005180 & 20 & 89.3688\%  & +3.9867\\
+\bottomrule
+\end{tabular}}
+\label{tbl:Densenet169}
+\end{table}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%    INCEPTIONv3   %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
 
 \section{Inception}
 
 
+Hyperparameter optimization for inception v3 was done with SigOpt and for both variants, training from scratch and training with pre-trained weights from ImageNet.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Hyper parameters for inception v3 optimized with SigOpt. First row shows hyperparameters training the architecture from scratch. Second row used pre-trained weights from ImageNet}
+\resizebox{0.99\textwidth}{!}{%
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
+\midrule
+Inception v3 from scratch	& 0.0 & 0.0 & 0.0  & 20 & 0.0\%  &		 \\
+Inception v3 pre-trained	& 0.0 & 0.0 & 0.0 & 20 & 0.0\%  & \\
+\bottomrule
+\end{tabular}}
+\label{tbl:Densenet169}
+\end{table}
+
+\section{Evaluation of own architectures}
+
+The problem here is that I went several ways... sometimes by reduced filter size then I increased batchsize and input size.... I guess I will do many subchapters for this or split the evaluation into 2 parts... evaluation regarding transfer leraning and evaluation regarding my own architectures.
