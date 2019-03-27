@@ -107,7 +107,7 @@ Karen Simonyan and Andew Zisserman
 
 \section{VGG}
 
-The winner of the ILSVRC 2014 were Karen Simonyan and Andrew Zisserman with their architecture named VGG \cite{simonyan2014very}. Instead of further trying to fine-tune AlexNet they explicitly wanted to explore how depth of an architecture plays out on accuracy and generalizability. For that reason they used only 3 x 3 convolutions with padding of 1 pixel and stride of 1 pixel as well followed by a ReLU activiation function. Therefore the input volume from layer to layer stays the same while the number of filter increase after each maxpooling layer. If the spatial resolution needs to be reduced, maxpooling is applied with a 2 by 2 windows and stride 2. This allowed Simonyan et al. to push the depth of the network to 16-19 layers. In the end there are again 3 fully-connected layers as in AlexNet. The first two have 4096 hidden units and the third performs a softmax on the 1000 classes of ImageNet dataset. Figure shows the original VGG16 architecture.
+The 1st runner up winner of the ILSVRC 2014 were Karen Simonyan and Andrew Zisserman with their architecture named VGG \cite{simonyan2014very}. Instead of further trying to fine-tune AlexNet they explicitly wanted to explore how depth of an architecture plays out on accuracy and generalizability. For that reason they used only 3 x 3 convolutions with padding of 1 pixel and stride of 1 pixel as well followed by a ReLU activiation function. Therefore the input volume from layer to layer stays the same while the number of filter increase after each maxpooling layer. If the spatial resolution needs to be reduced, maxpooling is applied with a 2 by 2 windows and stride 2. This allowed Simonyan et al. to push the depth of the network to 16-19 layers. In the end there are again 3 fully-connected layers as in AlexNet. The first two have 4096 hidden units and the third performs a softmax on the 1000 classes of ImageNet dataset. Figure shows the original VGG16 architecture.
 
 \begin{figure}[H]
   \centering
@@ -127,7 +127,70 @@ One of the bigger issues with VGG architectures are their huge size in parameter
 
 \section{Inception}
 
-Explain Inception and why it's so amazing
+The winner of the ILSVRC 2014 image classification were Szegedy et al. with their GoogleLeNet architecture \cite{szegedy2015going}. Their network is quite different to the previous networks winning the ILSVRC competitions and applied 1 by 1 convolutions and global average pooling, both methods inspired from the Network in Network paper \cite{lin2013network}. Another technique added to the architecture is the inception module, which has convolutions of different sizes for the the same input volume and stacking the results all into an output volume. \\
+
+The 1 by 1 convolution is used to reduce the dimension along the length axis. E.g. in VGG with every max pooling layer the spatial dimensions got reduced by half but the length of the volume gets deeper with every additional max pooling layer, adding more filters to the computation. With a 1 by 1 convolution the spatial dimensions are untouched but the length will be recast into the the length of number of filters. Also the computational effort gets reduced drastically with this method. In Figure \ref{fig:InceptionRegularConv} a regular 5 by 5 convolution is performed on the input volume of 14x14x480 with 48 filter leading to an output volume of 14x14x48. Computationally that is very expensive with roughly 113 million single operations ( (14x14x48) x (5x5x480) = 9'408 x 12'000 = 112'896'000 ).
+
+\begin{figure}[H]
+  \centering
+  \caption{5 by 5 convolution is used with only 48 filters reducing the spatial dimensions and also the length of the volume. \cite{ReviewGoogleLeNetv1}}
+  \includegraphics[scale=0.4]{chapter3/InceptionRegularConv}
+  \label{fig:InceptionRegularConv}
+\end{figure}
+
+Adding a 1 by 1 convolution adds an additional step to the whole transformation but both steps are computationally very efficient. The first step is convolving the input volume with 1 by 1 filters. In our example with 16 filter leading to the following computations: (14x14x16) x (1x1x480) = 3'136 x 480 = 1'505'280. Adding the second 5 by 5 convolution to it leads to (14x14x48) x (5x5x16) = 9'408 x 400 = 3'763'200. Adding the total computations of both convolutions together we get approximately 5.3 million operations compared to 112.9 million computations when not using dimensionality reduction. This is a huge gain in computational efficiency.
+
+\begin{figure}[H]
+  \centering
+  \caption{First a 1 by 1 convolution is performed in order to reduce the length of the volume leaving the spatial dimensions as is. In the next step a 5 by 5 convolution is performed with 48 filters. \cite{ReviewGoogleLeNetv1}}
+  \includegraphics[scale=0.4]{chapter3/InceptionOneByOne}
+  \label{fig:parameters}
+\end{figure}
+
+This techinque reduces the model size without loosing important information. In contrast, it has been shown, that this technique reduces overfitting and leads to better generalizability.\\
+
+An inception module combines different convolutions together and stacks their output on top of each other. Table \ref{fig:InceptionModuleNaiv} shows a naive inception module without prior dimensionality reduction that would lead to a huge amount of computations needed. 
+
+\begin{figure}[H]
+  \centering
+  \caption{Naive inception module using different convolution filters and stacking the output on top of each oher. Computationally very expensive. \cite{ReviewGoogleLeNetv1}}
+  \includegraphics[scale=0.4]{chapter3/InceptionModuleNaiv}
+  \label{fig:InceptionModuleNaiv}
+\end{figure}
+
+In Table \ref{fig:InceptionModule} the inceptiton module is shown as it is used in the inception network presented in \cite{szegedy2015going} leading to much more efficient implementation. Prior to the different convolutions a 1 by 1 filter is applied on the input volume to reduce the size before the heavy lifting is done. With max-pooling it is the other way around. Max pooling reduces the size without any computational overhead and is therefore performed before the 1 by 1 convolution which requires some amount of compuation.
+
+\begin{figure}[H]
+  \centering
+  \caption{Inception module with 1 by 1 filters added before doing the different convolutions in order to reduce computation. \cite{ReviewGoogleLeNetv1}}
+  \includegraphics[scale=0.4]{chapter3/InceptionModule}
+  \label{fig:InceptionModule}
+\end{figure}
+
+The third improvement of GoogLeNet is the global average pooling at the end instead of having three fully-connected layers. AlexNet, ZFNet and VGG all used the common practice to have three fully-connected layers with the last layer being a softmax function. These three last layers made up the bulk of all the parameters used increasing the complexity of the models. Figure \ref{fig:GlobalAveragePooling} shows on the left side a common transition from the a layer with many filter (1024 in that case) to the next layer. 1024 filter with dimension 7 x 7 make 50'176 parameters. If they are fully connected with the next layer which consists of 1024 units it results in 50'176 x 1024 = 51'380'224 weights! With global average pooling as seen on the right side of Figure \ref{fig:GlobalAveragePooling} the 7 x 7 filters get averaged into a 1 x 1 scalar of which 1024 are computed. With averaging the values into one new value no new weights are introduced. Not only is that method much more efficient and reduces the overall complexity but it also can help to reduce the problem of overfitting as mentioned in the Network in Network paper \cite{lin2013network}.
+
+\begin{figure}[H]
+  \centering
+  \caption{On the left side a commonly used fully connected layer is shown. On the right side a global pooling layer is shown as introduced in GoogLeNet \cite{ReviewGoogleLeNetv1}}
+  \includegraphics[scale=0.45]{chapter3/GlobalAveragePooling}
+  \label{fig:GlobalAveragePooling}
+\end{figure}
+
+Inception v3 was the first runner up for image classification in ILSVRC 2015 and came with some refinements over the first version described above \cite{szegedy2016rethinking}. Inception v3 is also used in the Implementation and Evaluation part of this thesis. The first refinment was adding batch normalization \cite{ioffe2015batch}. The second refinement was adding factorizing convolutions to reduce even more parameters without decreasing the architectures efficency leading to the inception v3 model. Table \ref{fig:factorization} shows how a 5 by 5 filter with 25 parameters can be realized with two 3 by 3 filters with 9 parameters each summing up to 18 parameters which is a reduction by 28\%.
+
+\begin{figure}[H]
+\centering
+\caption{Factorizational Convolution reduces parameters by using smaller filters.}
+\subfigure{
+\includegraphics[width=.4\textwidth]{chapter3/FactorizationA}
+}
+\subfigure{
+\includegraphics[width=.5\textwidth]{chapter3/FactorizationB}
+}
+\label{fig:factorization}
+\end{figure}
+
+There are additional asymmetric convolutions where a 3 by 3 filter can be realized with two filters of the following sizes: 1 by 3 and 3 by 1. This also reduces the overall parameters used. Another minor modifications are done to the auxiliary classifier and grid size reduction \cite{szegedy2016rethinking}.
 
 \section{ResNet}
 
