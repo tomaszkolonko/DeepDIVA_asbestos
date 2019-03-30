@@ -16,21 +16,21 @@
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
 #
-## Resnet18 ----------------------------------------
-#python ./template/RunMe.py --runner-class image_classification \
-#    --dataset-folder /home/thomas.kolonko/FINAL/ \
-#    --model-name resnet18 --epochs 50 --experiment-name tz_asbestos_resnet18_sigopt \
-#    --output-folder /home/thomas.kolonko/output_asbestos_resnet18_sigopt --ignoregit --lr 0.01 \
-#    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
-#    --sig-opt-runs 30 --sig-opt util/sigopt.json
+# Resnet18 ----------------------------------------
+python ./template/RunMe.py --runner-class image_classification \
+    --dataset-folder /home/thomas.kolonko/FINAL_CLEARED/ \
+    --model-name resnet18 --epochs 50 --experiment-name tz_asbestos_resnet18_sigopt \
+    --output-folder /home/thomas.kolonko/output_asbestos_resnet18_sigopt --ignoregit --lr 0.01 \
+    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
+    --sig-opt-runs 30 --sig-opt util/sigopt.json
 
-## Resnet18 PRE-TRAINED ----------------------------------------
-#python ./template/RunMe.py --runner-class image_classification \
-#    --dataset-folder /home/thomas.kolonko/FINAL/ \
-#    --model-name resnet18 --epochs 50 --experiment-name tz_asbestos_resnet18_sigopt_pre \
-#    --output-folder /home/thomas.kolonko/output_asbestos_resnet18_sigopt --ignoregit --lr 0.01 \
-#    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
-#    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
+# Resnet18 PRE-TRAINED ----------------------------------------
+python ./template/RunMe.py --runner-class image_classification \
+    --dataset-folder /home/thomas.kolonko/FINAL_CLEARED/ \
+    --model-name resnet18 --epochs 50 --experiment-name tz_asbestos_resnet18_sigopt_pre \
+    --output-folder /home/thomas.kolonko/output_asbestos_resnet18_sigopt --ignoregit --lr 0.01 \
+    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
+    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
 #
 ## Resnet34 ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
@@ -64,24 +64,24 @@
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
 
-## densenet169 ----------------------------------------
-#python ./template/RunMe.py --runner-class image_classification \
-#    --dataset-folder /home/thomas.kolonko/FINAL/ \
-#    --model-name densenet169 --epochs 50 --experiment-name tz_asbestos_densenet169_sigopt \
-#    --output-folder /home/thomas.kolonko/output_asbestos_densenet169_sigopt --ignoregit --lr 0.01 \
-#    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
-#    --sig-opt-runs 30 --sig-opt util/sigopt.json
-#
-## densenet169 PRE-TRAINED ----------------------------------------
-#python ./template/RunMe.py --runner-class image_classification \
-#    --dataset-folder /home/thomas.kolonko/FINAL/ \
-#    --model-name densenet169 --epochs 50 --experiment-name tz_asbestos_densenet169_sigopt_pre \
-#    --output-folder /home/thomas.kolonko/output_asbestos_densenet169_sigopt --ignoregit --lr 0.01 \
-#    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
-#    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
+# densenet169 ----------------------------------------
+python ./template/RunMe.py --runner-class image_classification \
+    --dataset-folder /home/thomas.kolonko/FINAL_CLEARED/ \
+    --model-name densenet169 --epochs 50 --experiment-name tz_asbestos_densenet169_sigopt \
+    --output-folder /home/thomas.kolonko/output_asbestos_densenet169_sigopt --ignoregit --lr 0.01 \
+    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
+    --sig-opt-runs 30 --sig-opt util/sigopt.json
+
+# densenet169 PRE-TRAINED ----------------------------------------
+python ./template/RunMe.py --runner-class image_classification \
+    --dataset-folder /home/thomas.kolonko/FINAL_CLEARED/ \
+    --model-name densenet169 --epochs 50 --experiment-name tz_asbestos_densenet169_sigopt_pre \
+    --output-folder /home/thomas.kolonko/output_asbestos_densenet169_sigopt --ignoregit --lr 0.01 \
+    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
+    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
 
 
-## inception_vgg11 ----------------------------------------
+## vgg11 ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg11 --epochs 50 --experiment-name tz_asbestos_vgg11_sigopt \
@@ -89,23 +89,23 @@
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json
 
-# inception_vgg11 PRE-TRAINED ----------------------------------------
-python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg11 --epochs 50 --experiment-name tz_asbestos_vgg11_sigopt_pre \
-    --output-folder /home/thomas.kolonko/output_asbestos_vgg11_sigopt --ignoregit --lr 0.01 \
-    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
-    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
+## vgg11 PRE-TRAINED ----------------------------------------
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name vgg11 --epochs 50 --experiment-name tz_asbestos_vgg11_sigopt_pre \
+#    --output-folder /home/thomas.kolonko/output_asbestos_vgg11_sigopt --ignoregit --lr 0.01 \
+#    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
+#    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
+#
+## vgg11_bn ----------------------------------------
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name vgg11_bn --epochs 50 --experiment-name tz_asbestos_vgg11_bn_sigopt \
+#    --output-folder /home/thomas.kolonko/output_asbestos_vgg11_bn_sigopt --ignoregit --lr 0.01 \
+#    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
+#    --sig-opt-runs 30 --sig-opt util/sigopt.json
 
-# inception_vgg11_bn ----------------------------------------
-python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg11_bn --epochs 50 --experiment-name tz_asbestos_vgg11_bn_sigopt \
-    --output-folder /home/thomas.kolonko/output_asbestos_vgg11_bn_sigopt --ignoregit --lr 0.01 \
-    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
-    --sig-opt-runs 30 --sig-opt util/sigopt.json
-
-## inception_vgg11_bn PRE-TRAINED ----------------------------------------
+## vgg11_bn PRE-TRAINED ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg11_bn --epochs 50 --experiment-name tz_asbestos_vgg11_bn_sigopt_pre \
@@ -113,7 +113,7 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
 
-## inception_vgg13 ----------------------------------------
+## vgg13 ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg13 --epochs 50 --experiment-name tz_asbestos_vgg13_sigopt \
@@ -121,23 +121,23 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json
 
-# inception_vgg13 PRE-TRAINED ----------------------------------------
-python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg13 --epochs 50 --experiment-name tz_asbestos_vgg13_sigopt_pre \
-    --output-folder /home/thomas.kolonko/output_asbestos_vgg13_sigopt --ignoregit --lr 0.01 \
-    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
-    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
+## vgg13 PRE-TRAINED ----------------------------------------
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name vgg13 --epochs 50 --experiment-name tz_asbestos_vgg13_sigopt_pre \
+#    --output-folder /home/thomas.kolonko/output_asbestos_vgg13_sigopt --ignoregit --lr 0.01 \
+#    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
+#    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
+#
+## vgg13_bn ----------------------------------------
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name vgg13_bn --epochs 50 --experiment-name tz_asbestos_vgg13_bn_sigopt \
+#    --output-folder /home/thomas.kolonko/output_asbestos_vgg13_bn_sigopt --ignoregit --lr 0.01 \
+#    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
+#    --sig-opt-runs 30 --sig-opt util/sigopt.json
 
-# inception_vgg13_bn ----------------------------------------
-python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg13_bn --epochs 50 --experiment-name tz_asbestos_vgg13_bn_sigopt \
-    --output-folder /home/thomas.kolonko/output_asbestos_vgg13_bn_sigopt --ignoregit --lr 0.01 \
-    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
-    --sig-opt-runs 30 --sig-opt util/sigopt.json
-
-## inception_vgg13_bn PRE-TRAINED ----------------------------------------
+## vgg13_bn PRE-TRAINED ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg13_bn --epochs 50 --experiment-name tz_asbestos_vgg13_bn_sigopt_pre \
@@ -145,15 +145,15 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
 
-## inception_vgg16 ----------------------------------------
+## vgg16 ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg16 --epochs 50 --experiment-name tz_asbestos_vgg16_sigopt \
 #    --output-folder /home/thomas.kolonko/output_asbestos_vgg16_sigopt --ignoregit --lr 0.01 \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json
-#    
-## inception_vgg16 PRE-TRAINED ----------------------------------------
+#
+## vgg16 PRE-TRAINED ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg16 --epochs 50 --experiment-name tz_asbestos_vgg16_sigopt_pre \
@@ -161,7 +161,7 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
 #
-## inception_vgg16_bn ----------------------------------------
+## vgg16_bn ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg16_bn --epochs 50 --experiment-name tz_asbestos_vgg16_bn_sigopt \
@@ -169,7 +169,7 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json
 #
-## inception_vgg16_bn PRE-TRAINED ----------------------------------------
+## vgg16_bn PRE-TRAINED ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg16_bn --epochs 50 --experiment-name tz_asbestos_vgg16_bn_sigopt_pre \
@@ -177,7 +177,7 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
 #
-## inception_vgg19 ----------------------------------------
+## vgg19 ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg19 --epochs 50 --experiment-name tz_asbestos_vgg19_sigopt \
@@ -185,7 +185,7 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json
 #
-## inception_vgg19 PRE-TRAINED ----------------------------------------
+## vgg19 PRE-TRAINED ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg19 --epochs 50 --experiment-name tz_asbestos_vgg19_sigopt_pre \
@@ -193,7 +193,7 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
 #
-## inception_vgg19_bn ----------------------------------------
+## vgg19_bn ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg19_bn --epochs 50 --experiment-name tz_asbestos_vgg19_bn_sigopt \
@@ -201,7 +201,7 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json
 #
-## inception_vgg19_bn PRE-TRAINED ----------------------------------------
+## vgg19_bn PRE-TRAINED ----------------------------------------
 #python ./template/RunMe.py --runner-class image_classification \
 #    --dataset-folder /home/thomas.kolonko/FINAL/ \
 #    --model-name vgg19_bn --epochs 50 --experiment-name tz_asbestos_vgg19_bn_sigopt_pre \
@@ -209,18 +209,18 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
 #    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
 
-## inception_v3 ----------------------------------------
-#python ./template/RunMe.py --runner-class image_classification \
-#    --dataset-folder /home/thomas.kolonko/FINAL/ \
-#    --model-name inception_v3 --epochs 50 --experiment-name tz_asbestos_inception_v3_sigopt \
-#    --output-folder /home/thomas.kolonko/output_asbestos_inception_v3_sigopt --ignoregit --lr 0.01 \
-#    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
-#    --sig-opt-runs 30 --sig-opt util/sigopt.json
-#
-## inception_v3 PRE-TRAINED ----------------------------------------
-#python ./template/RunMe.py --runner-class image_classification \
-#    --dataset-folder /home/thomas.kolonko/FINAL/ \
-#    --model-name inception_v3 --epochs 50 --experiment-name tz_asbestos_inception_v3_sigopt_pre \
-#    --output-folder /home/thomas.kolonko/output_asbestos_inception_v3_sigopt --ignoregit --lr 0.01 \
-#    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
-#    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
+# inception_v3 ----------------------------------------
+python ./template/RunMe.py --runner-class image_classification \
+    --dataset-folder /home/thomas.kolonko/FINAL_CLEARED/ \
+    --model-name inception_v3 --epochs 50 --experiment-name tz_asbestos_inception_v3_sigopt \
+    --output-folder /home/thomas.kolonko/output_asbestos_inception_v3_sigopt --ignoregit --lr 0.01 \
+    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
+    --sig-opt-runs 30 --sig-opt util/sigopt.json
+
+# inception_v3 PRE-TRAINED ----------------------------------------
+python ./template/RunMe.py --runner-class image_classification \
+    --dataset-folder /home/thomas.kolonko/FINAL_CLEARED/ \
+    --model-name inception_v3 --epochs 50 --experiment-name tz_asbestos_inception_v3_sigopt_pre \
+    --output-folder /home/thomas.kolonko/output_asbestos_inception_v3_sigopt --ignoregit --lr 0.01 \
+    --momentum 0.9 --decay-lr 20 --sig-opt-token CEUJGDONOZMDYVYJLRWBJUGTQZKCLTFFPFGGKQDUDBZDHZCL \
+    --sig-opt-runs 30 --sig-opt util/sigopt.json --pretrained
