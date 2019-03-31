@@ -88,3 +88,42 @@ Talk extensively about my new architectures where I try increase the input image
 \section{Visualization}
 
 Talk about different visualizations and what kind of visualizations make sense for this problem, what can be deduced from it and so on... 
+
+\section{Different Dataset Variations}
+
+The dataset plays an important role in the asbestos recognition task, partly because the dataset is very small and having some miss-classifications in the train set might lead to poor performance. Also with different cropping techniques it might get useful to reduce the size of the training by removing certain images. As will be explained in the next section cropping an image might invalidate the label, therefore making learning almost impossible. The original dataset is called FINAL and consists of all the provided images from the laboratory reduced by images that have obvious quality flaws in them as shown in Figure  \ref{fig:basic_examples}. In all subsets only the training folder has been altered, by adding or removing images. The test set has never been touched and remains the same for all the variations. The first subset of the FINAL dataset is the FINAL\_C dataset. Very unclear or questionable images have been removed from the training folder. In the FINAL\_CH dataset even more images have been removed from the training data, especially asbestos images that have a high chance of being cropped in a way, that there won't be any asbestos in the crops at all. E.g. if an image has a asbestos fiber in the very far corner of the image and nowhere else, it most likely won't be cropped that the label is preserved correctly. The next subset is FINAL\_C\_B which is similar to the FINAL\_C dataset but non-asbestos images have been uniformely removed in order to roughly match the asbestos images in numbers. The FINAL\_CH\_B datset is similar to the FINAL\_CH dataset but again balanced. The last dataset variation is FINAL\_EXTENDED where the validation images have been copied to the training. Evaluation looses it's purpose but the training data is extended by almost 20\% which could possibly lead to better results. That is feasible since the dataset is very small and could benefit from having more images. Table \ref{fig:cnn-basic-baseline} summarizes the datasets and their number of images.
+
+\begin{table*}[h]
+	\ra{1.3}
+    \caption{Accuracy (\%) for several learning rates and lr-decays for CNN\_Basic as a baseline.}
+    \centering
+    \begin{small}
+	\textsc{
+      \resizebox{0.99\textwidth}{!}{%
+      \begin{tabular}{rcclcclcc}
+      \toprule 
+      & \multicolumn{2}{c}{Train Set} && %
+        \multicolumn{2}{c}{Validation Set} && %
+        \multicolumn{2}{c}{Test Set} \\
+      \cmidrule{2-3} \cmidrule{5-6}  \cmidrule{8-9}
+      & asbestos & non-asbestos  && %
+        asbestos & non-asbestos  && %
+        asbestos & non-asbestos  \\ 
+      \midrule
+      FINAL		                   & 485 & 721 && 152 & 227 &&  122 & 181 \\
+      \midrule
+      FINAL\_C		              & 438 & 672 && 152 & 227 &&  122 & 181 \\
+      FINAL\_C\_B		          & 438 & 570 && 152 & 227 &&  122 & 181 \\
+      \midrule
+      FINAL\_CH		          & 359 & 672 && 152 & 227 &&  122 & 181 \\
+      FINAL\_CH\_B		      & 359 & 570 && 152 & 227 &&  122 & 181 \\
+      \midrule
+      FINAL\_EXTENDED		& 636 & 947 && 152 & 227 &&  122 & 181 \\
+    \bottomrule
+    \end{tabular}}
+	}
+    \end{small}
+    %\end{center}
+    \vspace{-3.9mm}
+    \label{tbl:cnn-basic-baseline}
+\end{table*}

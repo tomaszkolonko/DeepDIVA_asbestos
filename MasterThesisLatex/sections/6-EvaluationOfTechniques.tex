@@ -1,0 +1,100 @@
+\chapter{Evaluation on other Techniques}
+
+This chapter will go through some other techniques that could prove to be valuable for the asbestos dataset like the training size of the dataset, different cropping methods, different image augmentations and architectures that have been altered to better meet the underlying tasks' demands.
+
+\section{Evaluation Of Different Dataset Sizes And Variations}
+
+All the different dataset variations are compared against each other within the same architecture. Each result is obtained by running the model three times and averaging over all runs. Table \ref{tbl:resnet18_dataset} shows the results for ResNet18
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Dataset variations with ResNet18. The first group shows how the datasets performed when trained from scratch whereas the second group shows how the datasets performed with pre-training.}
+\resizebox{0.99\textwidth}{!}{%
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
+\midrule
+FINAL						& 0.033844 & 0.257538 &  0.01 & 20 & 81.0631\%  &		 \\
+FINAL\_C					& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+FINAL\_C\_B				& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+FINAL\_CH					& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+FINAL\_CH\_B				& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+FINAL\_EXTENDED		& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+\midrule
+FINAL						& 0.033844 & 0.257538 &  0.01 & 20 & 81.0631\%  &		 \\
+FINAL\_C					& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+FINAL\_C\_B				& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+FINAL\_CH					& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+FINAL\_CH\_B				& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+FINAL\_EXTENDED		& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18_dataset_a}
+\end{table}
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Dataset variations with ResNet18. The first group shows how the datasets performed when trained from scratch whereas the second group shows how the datasets performed with pre-training.}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\midrule
+FINAL						& 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -	 \\
+FINAL\_C					& 	80.73\% $\pm$ 0.3839 & 	84.05\% $\pm$  0.9584 & - \\
+FINAL\_C\_B				& 	81.39\% $\pm$ 1.3827 & 	85.27\% $\pm$  0.7988 & - \\
+FINAL\_CH					& 	81.62\% $\pm$ 0.2942 & 	84.94\% $\pm$  0.3966 & - \\
+FINAL\_CH\_B				& 	80.73\% $\pm$ 0.8371 & 	85.05\% $\pm$  0.3300 & - \\
+FINAL\_EXTENDED		& 	81.06\% $\pm$ 0.3839 & 	84.5\% $\pm$ 0.8649 & - \\
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18_dataset}
+\end{table}
+
+Changing the train set by reducing questionable and unclear images has lead to consistent improvements in the ResNet18 model trained from scratch but to consistently worse results when training from pre-trained weights. [QUESTION: maybe that shows that training from scratch needs better quality images while training from a checkpoint is less sensitive to wrong images but needs more images. I don't think that's true though....]. In Table \ref{fig:densenet121_dataset} the summary shows how DenseNet121 reacts with different datasets.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Dataset variations with DenseNet121. The first group shows how the datasets performed when trained from scratch whereas the second group shows how the datasets performed with pre-training.}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\midrule
+FINAL						& 83.72\%  $\pm$ 1.1963 &   86.16\% $\pm$ 1.1704   & -	 \\
+FINAL\_C					& 	82.61\% $\pm$ 0.9678 & 	83.94\% $\pm$  0.5852 & - \\
+FINAL\_C\_B				& 	80.39\% $\pm$ 0.3840 & 	85.38\% $\pm$  0.1905 & - \\
+FINAL\_CH					& 	79.61\% $\pm$ 2.2322 & 	86.60\% $\pm$  0.3998 & - \\
+FINAL\_CH\_B				& 	83.17\% $\pm$ 0.1100 & 81.775\% $\pm$  3.3806 & - \\
+FINAL\_EXTENDED		& 	83.06\% $\pm$ 1.0169 & 	85.60\% $\pm$ 2.1218 & - \\
+\bottomrule
+\end{tabular}}
+\label{tbl:densenet121_dataset}
+\end{table}
+
+With Densenet121 there is no improvement to be seen by changing the dataset. If trained from scratch all variations lead to worse results. If trained with pre-trained weights, the FINAL\_CH dataset yields marginally better accuracy but that is most certainly due to chance. In Table \ref{fig:inceptionv3_dataset} the summary shows how Inception v3 behaves with different datasets.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Dataset variations with Inception v3. The first group shows how the datasets performed when trained from scratch whereas the second group shows how the datasets performed with pre-training. FINAL\_C\_B died for the non-pre-trained twice. Only one datapoint used.}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\midrule
+FINAL						& 82.83\%  $\pm$ 0.6157 &  85.93\% $\pm$ 0.3998   & -	 \\
+FINAL\_C					& 	80.4\% $\pm$ 0.6926 & 85.82\% $\pm$  0.2942 & - \\
+FINAL\_C\_B				& 	82.06\% $\pm$ 0.0\* & 83.83\% $\pm$  0.3989 & - \\
+FINAL\_CH					& 	?\% $\pm$ ? & 	?\% $\pm$ ? & - \\
+FINAL\_CH\_B				& 	81.06\% $\pm$ 0.3839 & 85.27\% $\pm$  1.2200 & - \\
+FINAL\_EXTENDED		& 	81.72\% $\pm$ 0.3839 & 	84.16\% $\pm$ 0.4433 & - \\
+\bottomrule
+\end{tabular}}
+\label{tbl:inceptionv3_dataset}
+\end{table}
+
+Inception v3 died several times during testing so the datapoints are not complete. But in general it shows the same behaviour as with the other two architectures, there is no improvement by changing the dataset. Also surprising is the fact that FINAL\_EXTENDED yielded better results for ResNet18 trained from scratch only. All other runs resulted in a worse overall accuracy which is difficult to understand.
+
+\section{Evaluation Of Different Cropping And Augmentation Methods}
+
+The problem here is that I went several ways... sometimes by reduced filter size then I increased batchsize and input size.... I guess I will do many subchapters for this or split the evaluation into 2 parts... evaluation regarding transfer leraning and evaluation regarding my own architectures.
+
+\section{Evaluation of Different Data Augmentation Techniques}
+
+\section{Evaluation of Smaller and more Restrictive Training Data}
