@@ -77,7 +77,6 @@ def _evaluate(data_loader, model, criterion, writer, epoch, logging_label, no_cu
     for batch_idx, (input, target) in pbar:
         # todo: how to you implement sliding window accross batches
 
-
         if len(input.size()) == 5:
             multi_run = True
             # input [64, 5, 3, 299, 299]

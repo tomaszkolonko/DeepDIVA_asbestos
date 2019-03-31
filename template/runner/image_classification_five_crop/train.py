@@ -51,25 +51,28 @@ def train(train_loader, model, criterion, optimizer, writer, epoch, no_cuda=Fals
     # Switch to train mode (turn on dropout & stuff)
     model.train()
 
+    multi_crop = False
+    bs = None
+    ncrops = None
+
     # Iterate over whole training set
     end = time.time()
     pbar = tqdm(enumerate(train_loader), total=len(train_loader), unit='batch', ncols=150, leave=False)
     for batch_idx, (input, target) in pbar:
 
-        # In your test loop you can do the following:
-        # input, target = batch  # input is a 5d tensor, target is 2d
-        # bs, ncrops, c, h, w = input.size()
-        # result = model(input.view(-1, c, h, w))  # fuse batch size and ncrops
-        # result_avg = result.view(bs, ncrops, -1).mean(1)  # avg over crops
+        if len(input.size()) == 5:
+            multi_crop = True
+            # input [64, 5, 3, 299, 299]
+            bs, ncrops, c, h, w = input.size()
+            # input.view leaves the 3rd 4th and 5th dimension as is, but multiplies the 1st and 2nd together
+            # result [320, 3, 299, 299]
+            # result = input.view(-1, c, h, w) # fuse batch size and ncrops
+            # result_avg = input.view(bs, -1, c, h, w).mean(1)
+            input = input.view(-1, c, h, w)
 
-         # input [64, 5, 3, 299, 299]
-        bs, ncrops, c, h, w = input.size()
-        # input.view leaves the 3rd 4th and 5th dimension as is, but multiplies the 1st and 2nd together
-        # result [320, 3, 299, 299]
-        result = input.view(-1, c, h, w)
-
-        result_avg = result.view(bs, -1, c, h, w).mean(1)
-        input = result_avg
+            # If you are using tensor.max(1) then you get a tupel with two tensors, choose the first one
+            # which is a floattensor and what you need.
+            # input = result_avg[0]
 
         # Measure data loading time
         data_time.update(time.time() - end)
@@ -83,7 +86,9 @@ def train(train_loader, model, criterion, optimizer, writer, epoch, no_cuda=Fals
         input_var = torch.autograd.Variable(input)
         target_var = torch.autograd.Variable(target)
 
-        acc, loss = train_one_mini_batch(model, criterion, optimizer, input_var, target_var, loss_meter, acc_meter)
+        acc, loss = train_one_mini_batch(model, criterion, optimizer, input_var, target_var, loss_meter, acc_meter,
+                                         multi_crop, bs,
+                                         ncrops)
 
         # Add loss and accuracy to Tensorboard
         if multi_run is None:
@@ -123,7 +128,8 @@ def train(train_loader, model, criterion, optimizer, writer, epoch, no_cuda=Fals
     return acc_meter.avg
 
 
-def train_one_mini_batch(model, criterion, optimizer, input_var, target_var, loss_meter, acc_meter):
+def train_one_mini_batch(model, criterion, optimizer, input_var, target_var, loss_meter, acc_meter, multi_crop, bs,
+                         ncrops):
     """
     This routing train the model passed as parameter for one mini-batch
 
@@ -153,6 +159,9 @@ def train_one_mini_batch(model, criterion, optimizer, input_var, target_var, los
     """
     # Compute output
     output = model(input_var)
+
+    if multi_crop:
+        output = output.view(bs, ncrops, -1).mean(1)
 
     # Compute and record the loss
     loss = criterion(output, target_var)
