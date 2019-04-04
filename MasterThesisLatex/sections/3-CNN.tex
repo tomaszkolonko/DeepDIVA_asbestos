@@ -216,5 +216,23 @@ As seen in Figure \ref{fig:ResNet} blabla blabla
 
 \section{Densenet}
 
-Explain Resnet and why it's so amazing
+A common problem of deep networks is the passing of information from layers to layers. A very deep network needs to pass the input through many layers, which can "wash out" by the time it reaches the softmax function or the global average pooling layers. The same holds true for the gradient being passed back to the the beginning of the network. The gradient can vanish or explode as already described with the ResNet architecture. The Dense Convolutional Network (DenseNet) solved this problem with densly connecting all layers with each other that resides in a dense block \cite{huang2017densely}. A dense block
+consists of several layers of BatchNormalization, activation function (ReLU) and a SAME convolution that retains the spatial size of the input. Such a dense block is shown in Figure \ref{fig:DenseBlock}. All the layers within the dense block are fully connected with each other in order to implement its own skip connection functionality. The short connections are only possible within a denseblock since all the filters are stacked on top of each other and forwarded to every subsequent layer.
 
+\begin{figure}[H]
+  \centering
+  \caption{Shown is one dense block of a DenseNet architecture. In the original paper 4 dense blocks were used to create DenseNet. \cite{huang2017densely}}
+  \includegraphics[scale=0.35]{chapter3/DenseBlock}
+  \label{fig:DenseBlock}
+\end{figure}
+
+After each dense block a 1x1 convolution is used to reduce the number of filters. After this so called bottleneck layer a 2x2 average pooling layer is applied to reduce the spatial dimensions of the input volume as shown in Figure
+
+\begin{figure}[H]
+  \centering
+  \caption{This Figure shows how the isolated dense blocks are connected through convolution and pooling layers into a full DenseNet architecture. \cite{huang2017densely}}
+  \includegraphics[scale=0.35]{chapter3/DenseNet}
+  \label{fig:DenseNet}
+\end{figure}
+
+DenseNet introduces several new parameters like the growth rate k which limits the growth of the network and thus limiting the width of the network. A growth rate of 12 means that each layer may only add another 12 filters to the existing filters prior to this layer. Another interesting parameter is the compression which improves the compactness of the model by defining how much of the feature-maps get transitioned to the next dense block. The compression value is between 0 and 1 without including the value 0.

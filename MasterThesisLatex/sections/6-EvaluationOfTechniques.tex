@@ -93,8 +93,111 @@ Inception v3 died several times during testing so the datapoints are not complet
 
 \section{Evaluation Of Different Cropping And Augmentation Methods}
 
+\subsection{FiveCrop}
+
+The torch library already had a FiveCrop implementation which could be used with minor changes in the code. The FiveCrop implementation crops 5 images of given size from the whole image. All corners and the center are cropped. In training and evaluation these crops are stacked on top of each other and then the average per pixel is comuted.
+
+Table XXX summarizes the results.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\midrule
+FINAL (regular)				& 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -	 \\
+FINAL (fiveCrop)			& 83.72\% &  87.04\%   & -	 \\
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18-fivecrop}
+\end{table}
+
+\subsection{RandomNineCrop}
+
+The torch library already had a FiveCrop implementation which could be used with minor changes in the code. The FiveCrop implementation crops 5 images of given size from the whole image. All corners and the center are cropped. In training and evaluation these crops are stacked on top of each other and then the average per pixel is comuted.
+
+Table XXX summarizes the results.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\midrule
+FINAL (regular)				& 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -	 \\
+FINAL (randomNine)			& 83.39\% &  88.04\%   & -	 \\
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18-randomnine}
+\end{table}
+
+\section{Less Filters (16)}
+
+Using only 16 filters for each layer. Reducing the size of the network drastically.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\midrule
+FINAL (regular)				& 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -	 \\
+FINAL (16 filters)			& 81.75\% &  -   & -	 \\
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18-sixteen}
+\end{table}
+
 The problem here is that I went several ways... sometimes by reduced filter size then I increased batchsize and input size.... I guess I will do many subchapters for this or split the evaluation into 2 parts... evaluation regarding transfer leraning and evaluation regarding my own architectures.
 
-\section{Evaluation of Different Data Augmentation Techniques}
+\section{Evaluation of Different Image Size Inputs to the network}
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\midrule
+FINAL (regular 224)				& 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -	 \\
+FINAL (input 448)			& 76.74\% &  -   & -	 \\
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18-448}
+\end{table}
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\midrule
+FINAL (regular 224)				& 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -	 \\
+FINAL (input 448)			& 76.74\% &  -   & -	 \\
+FINAL (input 896)			& 78.74\% &  -   & -	 \\
+FINAL (input 1024)			& 80.40\% &  -   & -	 \\
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18-896}
+\end{table}
+
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\midrule
+FINAL (regular 224)				& 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -	 \\
+FINAL (input 1024)			& 80.40\% &  -   & -	 \\
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18-1024}
+\end{table}
 
 \section{Evaluation of Smaller and more Restrictive Training Data}
