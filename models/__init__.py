@@ -21,6 +21,10 @@ from models.ResNet_Image_Input.ResNet18_448 import resnet18_448
 from models.ResNet_Image_Input.ResNet18_896 import resnet18_896
 from models.ResNet_Image_Input.ResNet18_1024 import resnet18_1024
 
+# DIFFERENT FC FOR VGG13
+# **********************
+from models.VGG13_Variants.VGG13_FC import *
+
 from .BabyResNet import babyresnet18, babyresnet34, babyresnet50, babyresnet101, babyresnet152
 from ._VGG import vgg11, vgg11_bn, vgg13, vgg13_bn, vgg16, vgg16_bn, vgg19, vgg19_bn
 from ._Inception_v3 import inception_v3
