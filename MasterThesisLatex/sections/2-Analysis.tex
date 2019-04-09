@@ -56,8 +56,35 @@ As one difficult example (of many) I would like to show an image that was labele
 
 \section{Related Work}
 
-There are many different forms of asbestos that occur mostly in different materials and environments, therefore the detection and quantification methods are quite different as well, although most of them are based on microscopic images. After the samples have been collected, trained experts need to quantify and classify the fibers in order to assess the contamination and risk factors to humans. The reason for that is that not all asbestos fibers are toxic to humans or equally toxic. The structure needs to be manually checked and matched exactly to a set of predefined and standardized characteristics. This processes is very time intensive and costly and therefore automated detection and counting methods are being developed. The most important and widely used methods for detecting asbestos from air samples are e.g. phase contrast microscopy (PCM), transmission electron microscopy (TEM), scanning electron microscopy (SEM), and polarized light microscopy (PLM). These techniques mostly are simply adapted for soil samples although soil samples pose many new problems like standardized preperation of the samples. Air samples are much cleaner and the asbestos fibers can be counted relatively objectively. With soil samples there is much more noise in the samples and getting a homogenous sample that can generalize to the whole is one of the biggest problems. \\
+There are many different forms of asbestos that occur in different materials and environments, therefore the detection and quantification methods are quite different as well, although most of them are based on microscopic images. After the samples have been collected, trained experts need to quantify and classify the fibers in order to assess the contamination and risk factors to humans. The reason for that is that not all asbestos fibers are equally toxic to humans. The structure needs to be manually checked and matched exactly to a set of predefined and standardized characteristics, also called templates. This process is very time intensive and costly and therefore automated detection and counting methods are being developed. The most important and widely used methods for detecting asbestos from air samples are e.g. phase contrast microscopy (PCM), transmission electron microscopy (TEM), scanning electron microscopy (SEM) as seen in Figure \ref{fig:chrysotile}, and polarized light microscopy (PLM) \cite{perry2004discussion}. These techniques are mostly adapted for soil samples although soil samples pose many new problems like standardized preparation of the samples. Air samples are much cleaner and the asbestos fibers can be counted more easily without noise interfering, thus the results are more accurate and counts are rather reproducible. With soil samples there is much more debris in the samples and getting a homogenous sample out of a bigger object that can generalize to the whole is one of the biggest problems. Figure \ref{fig:sampleprep} shows how a very simple sample preparation could look like. \\
 
+\begin{figure}[h]
+\centering
+
+\subfigure{
+\includegraphics[width=.4\textwidth]{images/chapter2/SamplePrepOne}
+}
+\subfigure{
+\includegraphics[width=.35\textwidth]{images/chapter2/SamplePrepTwo}
+}
+\subfigure{
+\includegraphics[width=.4\textwidth]{images/chapter2/SamplePrepThree}
+}
+\subfigure{
+\includegraphics[width=.35\textwidth]{images/chapter2/SamplePrepFour}
+}
+\caption{On the upper left image the raw material is seen that needs to be screened for asbestos. In the upper right image it has been processed in a first step manually. In the left lower image a crusher is seen, that takes the pieces and processes them into fine grained powder seen in the lower right image \cite{mohammed2015}. }
+\label{fig:sampleprep}
+\end{figure}
+
+
+There are many other asbestos detection methods and counting strategies like using certain proteins from Escherichia coli that binds strongly to chrysotile, which in turn makes chrysotile easily detectable with fluorescent microscopy \cite{kuroda2008detection}. Other current methods are Polarized light microscopy (PLM), X-ray diffraction (XRD) and Fourier Transform Infrared Spectroscopy (FTIR) \cite{campopiano2018inter}. In a current and rather big inter-laboratory study, 475 laboratories in Italy were tested if they could reliably detect asbestos fibers in several bulk materials using the above mentioned three methods of PLM, XRD and FTIR. Many laboratories (ranging from 3\% to 40\% depending on the material and asbestos fiber) were classified as unsatisfactory having made to many errors in the classification. The authors concluded that asbestos detection is a complex process that uses several different approaches depending on the material and that the  experience and skill of the analyst is very important. Without proper training and an scientific approach it is very difficult to classify asbestos accurately \cite{campopiano2018inter}. \\
+
+There are still many other detections methodologies but they all rely on manual screening which is very time-intensive labor. Searching on Google Scholar leads to very few papers, that applied some sort of machine learning algorithms in combination with one of the mentioned microscopy.
+
+talk about this paper cossio2018innovative which gets accuracies of 49.88 and 78.66 \%
+
+I will try to focus on Scanning Electron Microscopy and 
 In this chapter I will give a brief overview on related work on asbestos detection and focus on asbestos fiber detection from microscopic images with the help of statistical methods and deep learning. \\
 
 

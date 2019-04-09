@@ -2,34 +2,60 @@
 
 This chapter will go through some other techniques that could prove to be valuable for the asbestos dataset like the training size of the dataset, different cropping methods, different image augmentations and architectures that have been altered to better meet the underlying tasks' demands.
 
-\section{Evaluation Of Different Dataset Sizes And Variations}
+\section{Evaluation Of Overall Number Of Parameters in VGG13}
 
-All the different dataset variations are compared against each other within the same architecture. Each result is obtained by running the model three times and averaging over all runs. Table \ref{tbl:resnet18_dataset} shows the results for ResNet18
+Here I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and probably is too big for a task like the asbestos detection. In a first step I will try to reduce the fully connected layers since they  contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table XXX shows the results.
 
 \begin{table}[h] \centering
 \ra{1.3}
-\caption{Dataset variations with ResNet18. The first group shows how the datasets performed when trained from scratch whereas the second group shows how the datasets performed with pre-training.}
-\resizebox{0.99\textwidth}{!}{%
-\begin{tabular}{@{}rrrrrrr@{}}
-\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
+\caption{Variations in the last 3 fully connected layers of the VGG13 architecture. They were all performed with Batch Normalization. The last columne shows how much parameters remain in the varied architecture relative to the original VGG13 implementation.}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule & Accuracy (from scratch) & Accuracy (pre-trained) & Number of Parameters & \% of Original \\
 \midrule
-FINAL						& 0.033844 & 0.257538 &  0.01 & 20 & 81.0631\%  &		 \\
-FINAL\_C					& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
-FINAL\_C\_B				& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
-FINAL\_CH					& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
-FINAL\_CH\_B				& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
-FINAL\_EXTENDED		& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
-\midrule
-FINAL						& 0.033844 & 0.257538 &  0.01 & 20 & 81.0631\%  &		 \\
-FINAL\_C					& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
-FINAL\_C\_B				& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
-FINAL\_CH					& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
-FINAL\_CH\_B				& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
-FINAL\_EXTENDED		& 	0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+VGG13\_4096	& 81.7276\% $\pm$ ??? & 90.3655\% $\pm$ ??? & 128'959'042 & 100\% \\
+VGG13\_1024	& 80.0664\% $\pm$ 0.7177 & 81.0631\% $\pm$ 0.7177 & 36'153'666 & 28.04\% \\
+VGG13\_512	& 80.8416\% $\pm$ 0.7831 & 80.0664\% $\pm$ 0.2713 & 22'520'130 & 17.46\% \\
+
+VGG13\_256	& ???\% $\pm$ ??? & ??? $\pm$ ??? & ??? & 100\% \\
+VGG13\_128	& 81.3954\% $\pm$ 0.9781 & 79.7342\% $\pm$ 1.4095 & 12'639'042 & 9.80\% \\
+VGG13\_64	& 81.6168\% $\pm$ 0.4144 &  81.1738 \% $\pm$ 0.4144 & 11'020'866 & 8.55\% \\
+VGG13\_32	& 80.0665\% $\pm$ 2.3648 & 81.5061 $\pm$ 0.5647 & 10'214'850 & 7.92\% \\
+VGG13\_16	& 82.0598\% $\pm$ 1.6500 & 79.0697 $\pm$ 0.8138 & 9'812'610 & 7.61\% \\
+VGG13\_8	& 78.7375\% $\pm$ 1.5103 & 80.1772 $\pm$ 1.2819 & 9'611'682 & 7.45\% \\
+VGG13\_4	& 79.7342\% $\pm$ 0.9781 & 80.1772 $\pm$ 1.9245 & 9'511'266 & 7.38\% \\
 \bottomrule
 \end{tabular}}
-\label{tbl:resnet18_dataset_a}
+\label{tbl:resnet18_dataset}
 \end{table}
+
+As a next step the fully connected layer is hold fixed at the original size of 4096 and the filters of all previous layers are reduced gradually. First they are all halved until the first layer reaches 16 filters instead of the original 64. Then the layers deeper within the network are halved until all layers have 16 filters. After that all filters all reduced gradually to have 2 filters per layer. Table XXX shows a summary of the filter reduction scheme.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Filter reduction scheme used on the original VGG13 architecture. The fully connected layer at the end is hold fixed and only the intermediate layers are reduced in filter size. The M stands for a max pooling layer.}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rr@{}}
+\toprule & VGG13 architecture variations in number of filters\\
+\midrule
+Original		& [64, 64, M, 128, 128, M, 256, 256, M, 512, 512, M, 512, 512, M]  \\
+A				& [32, 32, M,  64,  64, M, 128, 128, M, 256, 256, M, 256, 256, M]  \\
+B				& [16, 16, M,  32,  32, M,  64,  64, M, 128, 128, M, 128, 128, M]  \\
+C				& [16, 16 M,  16,  16, M,  32,  32, M,  64,  64, M,  64,  64, M]  \\
+D				& [16, 16, M, 16, 16, M, 16, 16, M, 32, 32, M, 32, 32, M]  \\
+E				& [16, 16, M, 16, 16, M, 16, 16, M, 16, 16, M, 16, 16, M]  \\
+F				& [8, 8, M, 8, 8, M, 8, 8, M, 8, 8, M, 8, 8, M]  \\
+G				& [4, 4 M, 4, 4, M, 4, 4, M, 4, 4, M, 4, 4, M]  \\
+H				& [2, 2, M, 2, 2, M, 2, 2, M, 2, 2, M, 2, 2, M]  \\
+
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18_dataset}
+\end{table}
+
+\section{Evaluation Of Different Dataset Sizes And Variations}
+
+All the different dataset variations are compared against each other within the same architecture. Each result is obtained by running the model three times and averaging over all runs. Table \ref{tbl:resnet18_dataset} shows the results for ResNet18
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -133,19 +159,28 @@ FINAL (randomNine)			& 83.39\% &  88.04\%   & -	 \\
 \label{tbl:resnet18-randomnine}
 \end{table}
 
-\section{Less Filters (16)}
+\section{Reducing the Number of Filters}
 
-Using only 16 filters for each layer. Reducing the size of the network drastically.
+The current architectures used for this thesis are all huge with parameters ranging from XX million to XX million. They were originally built to classify a variety of different objects found in ImageNet. Not only object as cars and dogs needed to be distinguished but also different and sometimes similar breeds of dogs. Thus it makes sense to learn hundreds of new feature mappings for each layer of the network. With the asbestos task at hand it might be different and a few filters per layer could possibly suffice. That is not to say, that the task is simple in its nature, but that asbestos has a common looking structure and the networks hard work is to find this structure in many different settings and under difficult conditions. Reducing the amount of filters has another huge benefit of reducing the overall number of trainable parameters and thus speeding up the learning process, using less memory and being much easier to deploy on productive configurations.\\
+
+For the above mentioned reason, the ResNet18 implementation has been altered to contain only a certain amount of filters in each single layer. The amount has been set to different values ranging from 1 to 32 filters. With 32 filters of size 3x3 only 320 parameters are used per layer. In ResNet18 for example there are 4 blocks of 2 layers of 320 parameters making in total 2560 parameters. That does not yet count in the first 7x7 convolution and the fully-connected layer with its softmax function but the number of parameters is reduced dramatically as shown in Table XXXX.
+
 
 \begin{table}[h] \centering
 \ra{1.3}
-\caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
+\caption{Resnet18 with different number of filters on the FINAL dataset. The number of filters present in paranthesis is the number of filters used per layer.}
 \resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\begin{tabular}{@{}rrrrr@{}}
+\toprule & accuracy (from scratch) & trainable parameters &  param reduction (\%) \\
 \midrule
-FINAL (regular)				& 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -	 \\
-FINAL (16 filters)			& 81.75\% &  -   & -	 \\
+ResNet18 (official)			& 79.62\% &  11'177'538 & -	 \\
+ResNet18 (32 filters)			& 78.405\% &  156'578 & -	 \\
+ResNet18 (16 filters)			& 81.06\% &  40'658 & -	 \\
+ResNet18 (8 filters)			& 79.402\% &  10'922 & -	 \\
+ResNet18 (4 filters)			& 79.62\% &  3'110 & -	 \\
+ResNet18 (2 filters)			& 80.066\% &  968 & -	 \\
+ResNet18 (1 filter)				& 75.083\% &  338 & -	 \\
+
 \bottomrule
 \end{tabular}}
 \label{tbl:resnet18-sixteen}
