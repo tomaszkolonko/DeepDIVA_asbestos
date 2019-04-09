@@ -14,12 +14,12 @@
 #    --output-folder /home/thomas.kolonko/f_partfilt_16_output_asbestos_resnet18 --ignoregit \
 #    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
 
-# ResNet18
-python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name resnet_eigth --epochs 50 --experiment-name tz_asbestos_resnet18 \
-    --output-folder /home/thomas.kolonko/f_partfilt_8_output_asbestos_resnet18 --ignoregit \
-    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
+## ResNet18
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name resnet_eigth --epochs 50 --experiment-name tz_asbestos_resnet18 \
+#    --output-folder /home/thomas.kolonko/f_partfilt_8_output_asbestos_resnet18 --ignoregit \
+#    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
 
 ## ResNet18
 #python ./template/RunMe.py --runner-class image_classification \
@@ -28,11 +28,18 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --output-folder /home/thomas.kolonko/f_partfilt_4_output_asbestos_resnet18 --ignoregit \
 #    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
 
+## ResNet18
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name resnet_two --epochs 50 --experiment-name tz_asbestos_resnet18 \
+#    --output-folder /home/thomas.kolonko/f_partfilt_2_output_asbestos_resnet18 --ignoregit \
+#    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
+
 # ResNet18
 python ./template/RunMe.py --runner-class image_classification \
     --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name resnet_two --epochs 50 --experiment-name tz_asbestos_resnet18 \
-    --output-folder /home/thomas.kolonko/f_partfilt_2_output_asbestos_resnet18 --ignoregit \
+    --model-name resnet_one --epochs 50 --experiment-name tz_asbestos_resnet18 \
+    --output-folder /home/thomas.kolonko/f_partfilt_1_output_asbestos_resnet18 --ignoregit \
     --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
 
 ## FINAL_EXTENDED
@@ -51,12 +58,12 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --output-folder /home/thomas.kolonko/fex_partfilt_16_output_asbestos_resnet18 --ignoregit \
 #    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
 
-# ResNet18
-python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL_EXTENDED/ \
-    --model-name resnet_eigth --epochs 50 --experiment-name tz_asbestos_resnet18 \
-    --output-folder /home/thomas.kolonko/fex_partfilt_8_output_asbestos_resnet18 --ignoregit \
-    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
+## ResNet18
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL_EXTENDED/ \
+#    --model-name resnet_eigth --epochs 50 --experiment-name tz_asbestos_resnet18 \
+#    --output-folder /home/thomas.kolonko/fex_partfilt_8_output_asbestos_resnet18 --ignoregit \
+#    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
 
 ## ResNet18
 #python ./template/RunMe.py --runner-class image_classification \
@@ -65,9 +72,16 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --output-folder /home/thomas.kolonko/fex_partfilt_4_output_asbestos_resnet18 --ignoregit \
 #    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
 
+## ResNet18
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name resnet_two --epochs 50 --experiment-name tz_asbestos_resnet18 \
+#    --output-folder /home/thomas.kolonko/f_partfilt_2_output_asbestos_resnet18 --ignoregit \
+#    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
+
 # ResNet18
 python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name resnet_two --epochs 50 --experiment-name tz_asbestos_resnet18 \
-    --output-folder /home/thomas.kolonko/f_partfilt_2_output_asbestos_resnet18 --ignoregit \
+    --dataset-folder /home/thomas.kolonko/FINAL_EXTENDED/ \
+    --model-name resnet_one --epochs 50 --experiment-name tz_asbestos_resnet18 \
+    --output-folder /home/thomas.kolonko/fex_partfilt_1_output_asbestos_resnet18 --ignoregit \
     --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
