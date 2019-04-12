@@ -64,7 +64,7 @@ python ./template/RunMe.py --runner-class image_classification \
 
 python ./template/RunMe.py --runner-class image_classification \
     --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg13_fc_256_bn --epochs 50 --experiment-name vgg13_fc_2564_bn_pre \
+    --model-name vgg13_fc_256_bn --epochs 50 --experiment-name vgg13_fc_256_bn_pre \
     --output-folder /home/thomas.kolonko/f_vgg13_fc256 --ignoregit --lr 0.093533 \
     --momentum 0.041074 --weight-decay 0.009734 --decay-lr 20 --multi-run 3 --pretrained
 
@@ -183,7 +183,7 @@ python ./template/RunMe.py --runner-class image_classification \
 python ./template/RunMe.py --runner-class image_classification \
     --dataset-folder /home/thomas.kolonko/FINAL/ \
     --model-name vgg13_fc_2_bn --epochs 50 --experiment-name vgg13_fc_2_bn \
-    --output-folder /home/thomas.kolonko/f_vgg13_fc4 --ignoregit --lr 0.054173 \
+    --output-folder /home/thomas.kolonko/f_vgg13_fc2 --ignoregit --lr 0.054173 \
     --momentum 0.643504 --weight-decay 0.003223 --decay-lr 20 --multi-run 3
 
 python ./template/RunMe.py --runner-class image_classification \
