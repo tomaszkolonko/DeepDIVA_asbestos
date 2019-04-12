@@ -88,7 +88,7 @@ def vgg13_bn_a(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     final_filters = 256
-    fully_connected_layer_size = 4096
+    fully_connected_layer_size = 16
     model = VGG(final_filters, fully_connected_layer_size, make_layers(cfg['A'], batch_norm=True), **kwargs)
     if pretrained:
         try:
@@ -104,7 +104,7 @@ def vgg13_bn_b(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     final_filters = 128
-    fully_connected_layer_size = 4096
+    fully_connected_layer_size = 16
     model = VGG(final_filters, fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
         try:
@@ -136,7 +136,7 @@ def vgg13_bn_d(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     final_filters = 32
-    fully_connected_layer_size = 4096
+    fully_connected_layer_size = 16
     model = VGG(final_filters, fully_connected_layer_size, make_layers(cfg['D'], batch_norm=True), **kwargs)
     if pretrained:
         try:
@@ -184,7 +184,7 @@ def vgg13_bn_g(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     final_filters = 4
-    fully_connected_layer_size = 4096
+    fully_connected_layer_size = 16
     model = VGG(final_filters, fully_connected_layer_size, make_layers(cfg['G'], batch_norm=True), **kwargs)
     if pretrained:
         try:

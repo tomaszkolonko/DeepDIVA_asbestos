@@ -15,7 +15,8 @@ __all__ = ['VGG', 'vgg13_fc_1024', 'vgg13_fc_1024_bn',
            'vgg13_fc_32', 'vgg13_fc_32_bn',
            'vgg13_fc_16', 'vgg13_fc_16_bn',
            'vgg13_fc_8', 'vgg13_fc_8_bn',
-           'vgg13_fc_4', 'vgg13_fc_4_bn']
+           'vgg13_fc_4', 'vgg13_fc_4_bn',
+           'vgg13_fc_2', 'vgg13_fc_2_bn']
 
 model_urls = {'vgg13': 'https://download.pytorch.org/models/vgg13-c768596a.pth'}
 
@@ -29,7 +30,7 @@ class VGG(nn.Module):
 
         self.features = features
         self.classifier = nn.Sequential(
-            nn.Linear(8 * 7 * 7, fc),
+            nn.Linear(512 * 7 * 7, fc),
             nn.ReLU(True),
             nn.Dropout(),
             nn.Linear(fc, fc),
@@ -121,7 +122,7 @@ def vgg13_fc_1024(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 1024
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B']), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B']), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13']), strict=False)
@@ -137,13 +138,14 @@ def vgg13_fc_1024_bn(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 1024
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B'], batch_norm=True), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
         except Exception as exp:
             logging.warning(exp)
     return model
+
 
 def vgg13_fc_512(pretrained=False, **kwargs):
     """VGG 13-layer model (configuration "B")
@@ -152,7 +154,7 @@ def vgg13_fc_512(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 512
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B']), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B']), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13']), strict=False)
@@ -168,7 +170,7 @@ def vgg13_fc_512_bn(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 512
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B'], batch_norm=True), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
@@ -176,14 +178,15 @@ def vgg13_fc_512_bn(pretrained=False, **kwargs):
             logging.warning(exp)
     return model
 
+
 def vgg13_fc_256(pretrained=False, **kwargs):
     """VGG 13-layer model (configuration "B")
 
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
-    fully_connected_layer_size = 512
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B']), **kwargs)
+    fully_connected_layer_size = 256
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B']), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13']), strict=False)
@@ -198,14 +201,15 @@ def vgg13_fc_256_bn(pretrained=False, **kwargs):
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
-    fully_connected_layer_size = 512
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B'], batch_norm=True), **kwargs)
+    fully_connected_layer_size = 256
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
         except Exception as exp:
             logging.warning(exp)
     return model
+
 
 def vgg13_fc_128(pretrained=False, **kwargs):
     """VGG 13-layer model (configuration "B")
@@ -214,7 +218,7 @@ def vgg13_fc_128(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 128
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B']), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B']), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13']), strict=False)
@@ -230,13 +234,14 @@ def vgg13_fc_128_bn(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 128
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B'], batch_norm=True), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
         except Exception as exp:
             logging.warning(exp)
     return model
+
 
 def vgg13_fc_64(pretrained=False, **kwargs):
     """VGG 13-layer model (configuration "B")
@@ -245,7 +250,7 @@ def vgg13_fc_64(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 64
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B']), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B']), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13']), strict=False)
@@ -261,13 +266,14 @@ def vgg13_fc_64_bn(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 64
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B'], batch_norm=True), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
         except Exception as exp:
             logging.warning(exp)
     return model
+
 
 def vgg13_fc_32(pretrained=False, **kwargs):
     """VGG 13-layer model (configuration "B")
@@ -276,7 +282,7 @@ def vgg13_fc_32(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 32
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B']), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B']), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13']), strict=False)
@@ -292,13 +298,14 @@ def vgg13_fc_32_bn(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 32
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B'], batch_norm=True), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
         except Exception as exp:
             logging.warning(exp)
     return model
+
 
 def vgg13_fc_16(pretrained=False, **kwargs):
     """VGG 13-layer model (configuration "B")
@@ -307,7 +314,7 @@ def vgg13_fc_16(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 16
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B']), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B']), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13']), strict=False)
@@ -323,13 +330,14 @@ def vgg13_fc_16_bn(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 16
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B'], batch_norm=True), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
         except Exception as exp:
             logging.warning(exp)
     return model
+
 
 def vgg13_fc_8(pretrained=False, **kwargs):
     """VGG 13-layer model (configuration "B")
@@ -338,7 +346,7 @@ def vgg13_fc_8(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 8
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B']), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B']), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13']), strict=False)
@@ -354,13 +362,14 @@ def vgg13_fc_8_bn(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 8
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B'], batch_norm=True), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
         except Exception as exp:
             logging.warning(exp)
     return model
+
 
 def vgg13_fc_4(pretrained=False, **kwargs):
     """VGG 13-layer model (configuration "B")
@@ -369,7 +378,7 @@ def vgg13_fc_4(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 4
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B']), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B']), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13']), strict=False)
@@ -385,7 +394,38 @@ def vgg13_fc_4_bn(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     fully_connected_layer_size = 4
-    model = VGG(make_layers(fully_connected_layer_size, cfg['B'], batch_norm=True), **kwargs)
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
+    if pretrained:
+        try:
+            model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
+        except Exception as exp:
+            logging.warning(exp)
+    return model
+
+def vgg13_fc_2(pretrained=False, **kwargs):
+    """VGG 13-layer model (configuration "B")
+
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    fully_connected_layer_size = 2
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B']), **kwargs)
+    if pretrained:
+        try:
+            model.load_state_dict(model_zoo.load_url(model_urls['vgg13']), strict=False)
+        except Exception as exp:
+            logging.warning(exp)
+    return model
+
+
+def vgg13_fc_2_bn(pretrained=False, **kwargs):
+    """VGG 13-layer model (configuration "B") with batch normalization
+
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    fully_connected_layer_size = 2
+    model = VGG(fully_connected_layer_size, make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
