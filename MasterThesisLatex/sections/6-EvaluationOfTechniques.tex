@@ -4,7 +4,7 @@ This chapter will go through some other techniques that could prove to be valuab
 
 \section{Evaluation Of Overall Number Of Parameters in VGG13}
 
-Here I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and probably is too big for a task like the asbestos detection. In a first step I will try to reduce the fully connected layers since they  contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table XXX shows the results.
+Here I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and probably is too big for a task like the asbestos detection. In a first step I will try to reduce the fully connected layers since they  contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table \ref{tbl:vgg13_fc} shows the results. The last fully connected layer can savely be reduced from intially having 4096 units per layer to 16 units without harming the efficiency, or even increase it slightly. It can be observed that applying transfer learning on a slightly altered architecture quickly diminishes it's advantage. This can be explained because the architecture was relying on a specific configuration. Changing filters or fully connected layers might lead to having to retrain the whole architecture although the drop in performance is surprising after only reducing the last layer.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -13,23 +13,23 @@ Here I want to understand how the overall number of parameters affects the perfo
 \begin{tabular}{@{}rrrrr@{}}
 \toprule & Accuracy (from scratch) & Accuracy (pre-trained) & Number of Parameters & \% of Original \\
 \midrule
-VGG13\_4096	& 81.7276\% $\pm$ ??? & 90.3655\% $\pm$ ??? & 128'959'042 & 100\% \\
+VGG13\_4096	& 81.0631\% $\pm$ 0.5425 & 88.0398\% $\pm$ 0.7177 & 128'959'042 & 100\% \\
 VGG13\_1024	& 80.0664\% $\pm$ 0.7177 & 81.0631\% $\pm$ 0.7177 & 36'153'666 & 28.04\% \\
 VGG13\_512	& 80.8416\% $\pm$ 0.7831 & 80.0664\% $\pm$ 0.2713 & 22'520'130 & 17.46\% \\
-
-VGG13\_256	& ???\% $\pm$ ??? & ??? $\pm$ ??? & ??? & 100\% \\
+VGG13\_256	& 80.9524\% $\pm$ 0.8720 & 80.1772 $\pm$ 0.8720 & 15'899'970 & 12.33\% \\
 VGG13\_128	& 81.3954\% $\pm$ 0.9781 & 79.7342\% $\pm$ 1.4095 & 12'639'042 & 9.80\% \\
 VGG13\_64	& 81.6168\% $\pm$ 0.4144 &  81.1738 \% $\pm$ 0.4144 & 11'020'866 & 8.55\% \\
 VGG13\_32	& 80.0665\% $\pm$ 2.3648 & 81.5061 $\pm$ 0.5647 & 10'214'850 & 7.92\% \\
-VGG13\_16	& 82.0598\% $\pm$ 1.6500 & 79.0697 $\pm$ 0.8138 & 9'812'610 & 7.61\% \\
+\textbf{VGG13\_16}	& \textbf{82.0598\%} $\pm$ 1.6500 & 79.0697 $\pm$ 0.8138 & 9'812'610 & 7.61\% \\
 VGG13\_8	& 78.7375\% $\pm$ 1.5103 & 80.1772 $\pm$ 1.2819 & 9'611'682 & 7.45\% \\
 VGG13\_4	& 79.7342\% $\pm$ 0.9781 & 80.1772 $\pm$ 1.9245 & 9'511'266 & 7.38\% \\
+VGG13\_2	& 59.8007\% $\pm$ 0.0 & 74.3079 $\pm$ 10.2805 & 9'461'070 & 7.36\% \\
 \bottomrule
 \end{tabular}}
-\label{tbl:resnet18_dataset}
+\label{tbl:vgg13_fc}
 \end{table}
 
-As a next step the fully connected layer is hold fixed at the original size of 4096 and the filters of all previous layers are reduced gradually. First they are all halved until the first layer reaches 16 filters instead of the original 64. Then the layers deeper within the network are halved until all layers have 16 filters. After that all filters all reduced gradually to have 2 filters per layer. Table XXX shows a summary of the filter reduction scheme.
+As a next step the fully connected layer is hold fixed at the original size of 4096 and the filters of all previous layers are reduced gradually. First they are all halved until the first layer reaches 16 filters instead of the original 64. Then the layers deeper within the network are halved until all layers have 16 filters. After that configuratino is reached all filters all reduced gradually until only 2 filters per layer remain. Table \ref{tbl:vgg_filter_scheme} shows a summary of the filter reduction scheme. The last filter scheme "I" is to see if there is any benefit in increasing filters starting from 2 to the last layer. This imitates the original distribution of the filters, but reducing the overall parameters drastically.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -39,18 +39,63 @@ As a next step the fully connected layer is hold fixed at the original size of 4
 \toprule & VGG13 architecture variations in number of filters\\
 \midrule
 Original		& [64, 64, M, 128, 128, M, 256, 256, M, 512, 512, M, 512, 512, M]  \\
-A				& [32, 32, M,  64,  64, M, 128, 128, M, 256, 256, M, 256, 256, M]  \\
-B				& [16, 16, M,  32,  32, M,  64,  64, M, 128, 128, M, 128, 128, M]  \\
-C				& [16, 16 M,  16,  16, M,  32,  32, M,  64,  64, M,  64,  64, M]  \\
+A				& [32, 32, M, 64, 64, M, 128, 128, M, 256, 256, M, 256, 256, M]  \\
+B				& [16, 16, M, 32, 32, M, 64, 64, M, 128, 128, M, 128, 128, M]  \\
+C				& [16, 16 M, 16, 16, M, 32, 32, M, 64, 64, M, 64, 64, M]  \\
 D				& [16, 16, M, 16, 16, M, 16, 16, M, 32, 32, M, 32, 32, M]  \\
 E				& [16, 16, M, 16, 16, M, 16, 16, M, 16, 16, M, 16, 16, M]  \\
 F				& [8, 8, M, 8, 8, M, 8, 8, M, 8, 8, M, 8, 8, M]  \\
 G				& [4, 4 M, 4, 4, M, 4, 4, M, 4, 4, M, 4, 4, M]  \\
 H				& [2, 2, M, 2, 2, M, 2, 2, M, 2, 2, M, 2, 2, M]  \\
-
+I				& [2, 2, M, 4, 4, M, 8, 8, M, 16, 16, M, 32, 32, M]  \\
 \bottomrule
 \end{tabular}}
-\label{tbl:resnet18_dataset}
+\label{tbl:vgg_filter_scheme}
+\end{table}
+
+As expected going all the way down to 2 filters per layer is not a good 
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Variations in number of Filters throughout the VGG13 architecture as explained in table \ref{tbl:vgg_filter_scheme}.}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule & Accuracy (from scratch) & Accuracy (pre-trained) & Number of Parameters & \% of Original \\
+\midrule
+VGG13\_original	& 81.0631\% $\pm$ 0.5425 & 88.0398\% $\pm$ 0.7177 & 128'959'042 & 100\% \\
+VGG13\_a	& 81.0631\% $\pm$ 0.2712 & 74.6401\% $\pm$ 4.4600 & 70'529'186 & 54.69\% \\
+VGG13\_b	& 80.3986\% $\pm$ 0.2713 & 80.1771\% $\pm$ 1.8464 & 43'073'874 & 33.40\% \\
+VGG13\_c	& 78.7375\% $\pm$ 0.9780 & 80.0664 $\pm$ 0.9780 & 29'790'002 & 23.10\% \\
+VGG13\_d	& 79.4020\% $\pm$ 0.8137 & 80.3986\% $\pm$ 0.4698 & 23'261'010 & 18.04\% \\
+VGG13\_e	& 78.9590\% $\pm$ 1.0270 &  79.7342 \% $\pm$ 1.8988 & 20'026'514 & 15.53\% \\
+VGG13\_f	& 78.7375\% $\pm$ 0.8138 & 79.9557 $\pm$ 0.6826 & 18'404'874 & 14.27\% \\
+VGG13\_g	& 79.2913\% $\pm$ 0.6826 & 79.2913 $\pm$ 1.2231 & 17'597'942 & 13.65\% \\
+VGG13\_h	& 78.1838\% $\pm$ 0.4143 & 78.6268 $\pm$ 0.5647 & 17'195'448 & 13.33\% \\
+\midrule
+VGG13\_i	& 79.1805\% $\pm$ 2.2093 & 79.7342 $\pm$ 1.1824 & 23'234'952 & 18.02\% \\
+\bottomrule
+\end{tabular}}
+\label{tbl:vgg13_fc}
+\end{table}
+
+Connecting both alterations together with 16 units in the fully-connected layer and filter schemes A, B, D and G resulted in the following:
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Variations in number of Filters throughout the VGG13 architecture as explained in table \ref{tbl:vgg_filter_scheme}.}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & Accuracy (from scratch) & run time (hh:mm:ss) & Number of Parameters & \% of Original \\
+\midrule
+VGG13\_original	& 81.0631\% $\pm$ 0.5425 & 1:13:04 & 128'959'042 & 100\% \\
+VGG13\_16_a			& 80.6201\% $\pm$ 1.2529 & 0:27:01 & 2'556'386 & 1.9823\% \\
+VGG13\_16_b			& 80.6201\% $\pm$ 0.6264 & 0:25:37 & 690'834 & 0.5357\% \\
+VGG13\_16_d			& 80.7309\% $\pm$ 1.4354 & 0:25:35 & 70'290 & 0.0545\% \\
+VGG13\_16_g	 		& 79.2912\% $\pm$ 1.8061 & 0:25:34 & 4'982 & 0.0039\% \\
+\midrule
+\bottomrule
+\end{tabular}}
+\label{tbl:vgg13_fc}
 \end{table}
 
 \section{Evaluation Of Different Dataset Sizes And Variations}
