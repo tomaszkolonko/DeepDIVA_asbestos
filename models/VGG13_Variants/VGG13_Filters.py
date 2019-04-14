@@ -8,7 +8,7 @@ import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 
 __all__ = ['VGG', 'vgg13_bn_a', 'vgg13_bn_b', 'vgg13_bn_c', 'vgg13_bn_d', 'vgg13_bn_e',
-           'vgg13_bn_f', 'vgg13_bn_g', 'vgg13_bn_h', 'vgg13_bn_i']
+           'vgg13_bn_f', 'vgg13_bn_g', 'vgg13_bn_h', 'vgg13_bn_i', 'vgg13_bn_j']
 
 model_urls = {'vgg13': 'https://download.pytorch.org/models/vgg13-c768596a.pth'}
 
@@ -78,7 +78,8 @@ cfg = {
     'F': [8, 8, 'M', 8, 8, 'M', 8, 8, 'M', 8, 8, 'M', 8, 8, 'M'],
     'G': [4, 4, 'M', 4, 4, 'M', 4, 4, 'M', 4, 4, 'M', 4, 4, 'M'],
     'H': [2, 2, 'M', 2, 2, 'M', 2, 2, 'M', 2, 2, 'M', 2, 2, 'M'],
-    'I': [2, 2, 'M', 4, 4, 'M', 8, 8, 'M', 16, 16, 'M', 32, 32, 'M']
+    'I': [2, 2, 'M', 4, 4, 'M', 8, 8, 'M', 16, 16, 'M', 32, 32, 'M'],
+    'J': [32, 32, 'M', 16, 16, 'M', 8, 8, 'M', 4, 4, 'M', 2, 2, 'M']
 }
 
 def vgg13_bn_a(pretrained=False, **kwargs):
@@ -218,6 +219,22 @@ def vgg13_bn_i(pretrained=False, **kwargs):
     final_filters = 32
     fully_connected_layer_size = 4096
     model = VGG(final_filters, fully_connected_layer_size, make_layers(cfg['I'], batch_norm=True), **kwargs)
+    if pretrained:
+        try:
+            model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
+        except Exception as exp:
+            logging.warning(exp)
+    return model
+
+def vgg13_bn_j(pretrained=False, **kwargs):
+    """VGG 13-layer model (configuration "B") with batch normalization
+
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    final_filters = 2
+    fully_connected_layer_size = 16
+    model = VGG(final_filters, fully_connected_layer_size, make_layers(cfg['J'], batch_norm=True), **kwargs)
     if pretrained:
         try:
             model.load_state_dict(model_zoo.load_url(model_urls['vgg13_bn']), strict=False)
