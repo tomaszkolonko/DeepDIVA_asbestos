@@ -106,6 +106,21 @@
 \mbox{}
 
 \newpage
+
+\begin{abstract}
+
+Asbestos is a highly toxic silicate mineral that has been used widely in many products for its insulating, non-flammable and heat resistant properties. It may lead to chronic inflammation of the lungs and cancer when exposed to high concentrations. After the toxicity has become known, much effort was undertaken - and is up to this day - in removing asbestos from buildings, roofs and other materials used in industry and by the public. Asbestos detection is a manual, complex and time-intensive process, that requires a lot of experience from an expert in order to have consistent and correct results. In order to reduce manual labor and increase consistency in detection, many machine learning models have been recently adopted to automate the detection process.
+
+\vspace{5mm} %5mm vertical space
+
+Convolutional Neural Networks have the property of automatically extracting feature mappings from the provided dataset and applying these feature mappings on the images in a spatial relevant manner. These feature mappings are adjusted with each iteration in order to represent the training data and thus minimizing the loss function. These properties make Convolutional Neural Networks a very good fit for the task of the detection of asbestos fibers. Especially by reducing the needed knowledge about asbestos which was one of the main prerequisites of a laboratory to be successful in the detection of asbestos fibers.
+
+\vspace{5mm} %5mm vertical space
+
+In this thesis, several state-of-the-art architectures are explained and compared against each other in regard of performance accuracy, size, and complexity. I will evaluate if transfer learning from the ImageNet dataset can be applied in this specific cross-domain task of asbestos fiber detection. Data augmentation with different cropping methods will be implemented and compared with the goal of increasing the overall accuracy of the model. Since the dataset is quite small with only about 2'000 images, several train and valuation datasets and their distribution are evaluated. The test set is fixed in the beginning and never altered. Another branch of investigation will be alterations to the current architectures like reducing the filters and fully connected layers in order to decrease complexity and increase interpretability through visualization or adding new layers in order to allow the input image to be bigger, thus reducing problems that arise with cropping and re-sizing the original image 
+
+\end{abstract}
+
 \pagenumbering{roman}
 \tableofcontents{}
 \listoffigures{}
@@ -120,19 +135,6 @@
 On this page I would like to thank everybody who supported me to write this master thesis.
 First I would like to thank my coach Jacky Casas. He supported me trough the whole process of writing this thesis, giving  me invaluable inputs.
 Then I would like to thank Prof. Elena Mugellini who gave me the opportunity to write this thesis in her research group. I am also very grateful for the resources that were generously provided by the research group of Prof. Elena Mugellini.
-
-\begin{abstract}
-Abstract first part
-
-\vspace{5mm} %5mm vertical space
-
-Abstract second part
-
-\vspace{5mm} %5mm vertical space
-
-Abstract third part
-
-\end{abstract}
 
 \cleardoublepage
 \setcounter{page}{1}	% Reset page numbering to 1
