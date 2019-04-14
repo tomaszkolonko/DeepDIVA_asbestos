@@ -4,10 +4,12 @@ In this chapter I will shortly describe the dataset provided for this task, go o
 
 \section{Dataset}
 
-The provided dataset consists of about 2'000 microscopic images with and without asbestos fibers. The images come in two different dimensions and different qualities. Most of the images are 1024 by 1024 pixels and using up 1.1 MB of disk space but some are in 1024 by 768 pixels and use only around 700 kB of disk space. The smaller images were originally in TIF format which needed to be converted into PNG format for better being able to load them into pyhton objects. All images are in grey color space. [TODO: why are there three channels then in python tensor???]. In figure \ref{fig:asbestos_examples} three images with a asbestos fiber are shown whereas in figure ... three images without asbestos are shown.
+The provided dataset consists of about 2'000 microscopic images with and without asbestos fibers. The images come in two different dimensions and different qualities. Most of the images are 1024 by 1024 pixels and using up 1.1 MB of disk space but some are in 1024 by 768 pixels and use only around 700 kB of disk space. The smaller images were originally in TIF format which needed to be converted into PNG format for better being able to load them into python objects. All images are in grey color space. Since all architectures have been originally trained on color images, the image is transformed into an RGB tensor during dataset preparation. All gray space values ranging from 0 to 255 are simply copied into each channel of RGB. In Figure \ref{fig:asbestos_examples} three images with a asbestos fiber are shown whereas in Figure \ref{fig:non-asbestos_examples} three images without asbestos are shown.\\
+
 
 \begin{figure}[h]
 \centering
+\caption{Three examples of images with asbestos fibers. On the left, the asbestos fibers are clearly visible, in the middle it's much harder to find them. In the right image there might be none, although the image is labeled as having asbestos in it.}
 \subfigure{
 \includegraphics[width=.3\textwidth]{images/chapter2/asbestos_one.png}
 }
@@ -16,14 +18,13 @@ The provided dataset consists of about 2'000 microscopic images with and without
 }
 \subfigure{
 \includegraphics[width=.3\textwidth]{images/chapter2/asbestos_three.png}
-}
-
-\caption{Three examples of images with asbestos fibers. On the left the asbestos fibers are clearly visible, in the middle it's much harder to find them. In the right image there might be none, although the image is labelled as having asbestos in it.}
+} 
 \label{fig:asbestos_examples}
 \end{figure}
 
 \begin{figure}[h]
 \centering
+\caption{Three examples of images without asbestos fibers. On the left image, there is clearly no asbestos to be found. In the middle and left image it's already much more difficult to be certain that there is none.}
 \subfigure{
 \includegraphics[width=.3\textwidth]{images/chapter2/non-asbestos_one.png}
 }
@@ -33,25 +34,21 @@ The provided dataset consists of about 2'000 microscopic images with and without
 \subfigure{
 \includegraphics[width=.3\textwidth]{images/chapter2/non-asbestos_three.png}
 }
-
-\caption{Three examples of images without asbestos fibers. On the left image, there is clearly no asbestos to be found. In the middle and left image it's already much more difficult to be certain that there is none.}
 \label{fig:non-asbestos_examples}
 \end{figure}
 
-As one difficult example (of many) I would like to show an image that was labeled and checked by the laboratory as having no asbestos in it. Nonetheless there are several areas where asbestos like structures emerge once the image is made brighter with an photo editing tool, especially a long fiber on the left side of the image marked by two arrows. This is to show, that the labeling will most certainly have errors in it, and that some images might look like having asbestos fibers in it but actually don't and the other way around. In order to be sure, the probes are examined chemically in a second phase that is not part of the masterthesis. Therefore it is more important to have less false positives than false negatives.
+With the dataset a ground truth folder was provided with 116 images pre-labeled has having asbestos fibers in them or not. From these 116 images the remaining images needed to be manually labeled. Some of the later labeled images were checked by the laboratory but Figure \ref{fig:wrong_asbestos_labeling} shows that even that leaves much space for errors.  According to the laboratory the image shown in Figure \ref{fig:wrong_asbestos_labeling} has no asbestos in it. Nonetheless there are several areas where asbestos like structures emerge once the image is made brighter with an photo-editing tool, especially a long fiber on the left side of the image marked by two arrows. Brightening, sharpening and other simple editing tools are often used prior to classification to make the structures more visible. This is to show, that the labeling will most certainly have errors in it, and that some images might look like having asbestos fibers in it but actually don't and the other way around. In order to be sure, the probes are examined with additional methods in a second phase that is not part of the master thesis. Therefore one of the main goals of this thesis is to be able to label all uncertain images for further examination. That means that the rate of false negatives should be as low as possible.
 
 \begin{figure}[h]
 \centering
-
 \subfigure{
 \includegraphics[width=.4\textwidth]{images/chapter2/probably_wrong_label.png}
 }
 \subfigure{
 \includegraphics[width=.4\textwidth]{images/chapter2/probably_wrong_label_edited.png}
 }
-
 \caption{After brightening up the image and looking at it carefully, many different asbestos like structures emerge.}
-\label{fig:non-asbestos_examples}
+\label{fig:wrong_asbestos_labeling}
 \end{figure}
 
 \section{Related Work}

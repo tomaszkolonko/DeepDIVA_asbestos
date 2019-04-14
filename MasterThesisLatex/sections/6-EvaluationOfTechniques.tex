@@ -4,12 +4,13 @@ This chapter will go through some other techniques that could prove to be valuab
 
 \section{Evaluation Of Overall Number Of Parameters in VGG13}
 
-Here I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and probably is too big for a task like the asbestos detection. In a first step I will try to reduce the fully connected layers since they  contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table \ref{tbl:vgg13_fc} shows the results. The last fully connected layer can savely be reduced from intially having 4096 units per layer to 16 units without harming the efficiency, or even increase it slightly. It can be observed that applying transfer learning on a slightly altered architecture quickly diminishes it's advantage. This can be explained because the architecture was relying on a specific configuration. Changing filters or fully connected layers might lead to having to retrain the whole architecture although the drop in performance is surprising after only reducing the last layer.
+Here I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and is probably too big for a task like the asbestos detection. In a first step I will try to reduce the fully connected layers since they  contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table \ref{tbl:vgg13_fc} shows the results. The last fully connected layer can safely be reduced from initially having 4096 units per layer to 16 units without harming the performance, or even increase it slightly while reducing the overall parameters by 92.39\%. It can be observed that applying transfer learning on a slightly altered architecture quickly diminishes it's advantages as expected. This can be explained because the architecture was relying on a specific configuration. Changing filters or fully connected layers might lead to having to retrain the whole architecture although the drop in performance is surprising for the changes only affect the last fully connected layer of the network. \\
+
 
 \begin{table}[h] \centering
 \ra{1.3}
 \caption{Variations in the last 3 fully connected layers of the VGG13 architecture. They were all performed with Batch Normalization. The last columne shows how much parameters remain in the varied architecture relative to the original VGG13 implementation.}
-\resizebox{0.79\textwidth}{!}{%
+\resizebox{0.9\textwidth}{!}{%
 \begin{tabular}{@{}rrrrr@{}}
 \toprule & Accuracy (from scratch) & Accuracy (pre-trained) & Number of Parameters & \% of Original \\
 \midrule
@@ -29,12 +30,13 @@ VGG13\_2	& 59.8007\% $\pm$ 0.0 & 74.3079 $\pm$ 10.2805 & 9'461'070 & 7.36\% \\
 \label{tbl:vgg13_fc}
 \end{table}
 
-As a next step the fully connected layer is hold fixed at the original size of 4096 and the filters of all previous layers are reduced gradually. First they are all halved until the first layer reaches 16 filters instead of the original 64. Then the layers deeper within the network are halved until all layers have 16 filters. After that configuratino is reached all filters all reduced gradually until only 2 filters per layer remain. Table \ref{tbl:vgg_filter_scheme} shows a summary of the filter reduction scheme. The last filter scheme "I" is to see if there is any benefit in increasing filters starting from 2 to the last layer. This imitates the original distribution of the filters, but reducing the overall parameters drastically.
+As a next step the fully connected layer is hold fixed at the original size of 4096 and the filters of all previous layers are reduced gradually. First, they are all halved until the first layer reaches 16 filters instead of the original 64. Then the layers deeper within the network are halved until all layers have 16 filters. After that configuration is reached all filters all reduced gradually until only 2 filters per layer remain. Table \ref{tbl:vgg_filter_scheme} shows a summary of the filter reduction scheme. The last filter scheme "I" is to see if there is any benefit in increasing filters starting from 2 to the last layer. This imitates the original distribution of the filters, but reducing the overall parameters drastically. \\
 
-\begin{table}[h] \centering
+
+\begin{table}[H] \centering
 \ra{1.3}
 \caption{Filter reduction scheme used on the original VGG13 architecture. The fully connected layer at the end is hold fixed and only the intermediate layers are reduced in filter size. The M stands for a max pooling layer.}
-\resizebox{0.79\textwidth}{!}{%
+\resizebox{0.73\textwidth}{!}{%
 \begin{tabular}{@{}rr@{}}
 \toprule & VGG13 architecture variations in number of filters\\
 \midrule
@@ -48,17 +50,19 @@ F				& [8, 8, M, 8, 8, M, 8, 8, M, 8, 8, M, 8, 8, M]  \\
 G				& [4, 4 M, 4, 4, M, 4, 4, M, 4, 4, M, 4, 4, M]  \\
 H				& [2, 2, M, 2, 2, M, 2, 2, M, 2, 2, M, 2, 2, M]  \\
 I				& [2, 2, M, 4, 4, M, 8, 8, M, 16, 16, M, 32, 32, M]  \\
+J				& [2, 2, M, 4, 4, M, 8, 8, M, 16, 16, M, 32, 32, M]  \\
 \bottomrule
 \end{tabular}}
 \label{tbl:vgg_filter_scheme}
 \end{table}
 
-As expected going all the way down to 2 filters per layer is not a good 
+The goal is to understand how the filters can be reduced and if a pattern can be observed. The results are summarized in Table \ref{tbl:vgg13_fc}. I can be shown that reducing the filters from the original schema to the scheme "A" does no harm the accuracy but reduces the trainable parameters by roughly 50\%. The standard deviation of 0.2721 gives a rather robust result and is lower than the standard deviation of 0.5425 obtained with the original scheme. Surprising is the result obtained with scheme "G" which uses only 4 filter per each layer reducing the overall parameters by 86.35\%. Although it's worse compared to the original scheme, it suffered only 1.7\% which could be attributed to chance. \\
+
 
 \begin{table}[h] \centering
 \ra{1.3}
 \caption{Variations in number of Filters throughout the VGG13 architecture as explained in table \ref{tbl:vgg_filter_scheme}.}
-\resizebox{0.79\textwidth}{!}{%
+\resizebox{0.9\textwidth}{!}{%
 \begin{tabular}{@{}rrrrr@{}}
 \toprule & Accuracy (from scratch) & Accuracy (pre-trained) & Number of Parameters & \% of Original \\
 \midrule
@@ -78,25 +82,46 @@ VGG13\_i	& 79.1805\% $\pm$ 2.2093 & 79.7342 $\pm$ 1.1824 & 23'234'952 & 18.02\% 
 \label{tbl:vgg13_fc}
 \end{table}
 
-Connecting both alterations together with 16 units in the fully-connected layer and filter schemes A, B, D and G resulted in the following:
+Combining both modifications leads to yet another surprise as seen in Table \ref{tbl:vgg13_f_fc}. The modification with only 16 units per fully-connected layer and scheme "D" results in 80.73\% accuracy while reducing the overall complexity of the model by 99.946\%! The time needed to train the model drops from initially 1 hour and 13 minutes to only 25 minutes. But more importantly is that the size of the model is much more deployable for production, e.g. IOT devices. \\
+
 
 \begin{table}[h] \centering
 \ra{1.3}
 \caption{Variations in number of Filters throughout the VGG13 architecture as explained in table \ref{tbl:vgg_filter_scheme}.}
-\resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
+\resizebox{0.9\textwidth}{!}{%
+\begin{tabular}{@{}rrrrr@{}}
 \toprule & Accuracy (from scratch) & run time (hh:mm:ss) & Number of Parameters & \% of Original \\
 \midrule
 VGG13\_original	& 81.0631\% $\pm$ 0.5425 & 1:13:04 & 128'959'042 & 100\% \\
-VGG13\_16_a			& 80.6201\% $\pm$ 1.2529 & 0:27:01 & 2'556'386 & 1.9823\% \\
-VGG13\_16_b			& 80.6201\% $\pm$ 0.6264 & 0:25:37 & 690'834 & 0.5357\% \\
-VGG13\_16_d			& 80.7309\% $\pm$ 1.4354 & 0:25:35 & 70'290 & 0.0545\% \\
-VGG13\_16_g	 		& 79.2912\% $\pm$ 1.8061 & 0:25:34 & 4'982 & 0.0039\% \\
+VGG13\_16\_a			& 80.6201\% $\pm$ 1.2529 & 0:27:01 & 2'556'386 & 1.9823\% \\
+VGG13\_16\_b			& 80.6201\% $\pm$ 0.6264 & 0:25:37 & 690'834 & 0.5357\% \\
+VGG13\_16\_d			& 80.7309\% $\pm$ 1.4354 & 0:25:35 & 70'290 & 0.0545\% \\
+VGG13\_16\_g	 		& 79.2912\% $\pm$ 1.8061 & 0:25:34 & 4'982 & 0.0039\% \\
 \midrule
 \bottomrule
 \end{tabular}}
-\label{tbl:vgg13_fc}
+\label{tbl:vgg13_f_fc}
 \end{table}
+
+Re-optimizing the hyperparameters with SigOpt yielded small improvements as seen in Table \ref{tbl:vgg13_f_fc_optimized}. \\
+
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{SigOpt opimization VGG13 architecture as explained in table \ref{tbl:vgg_filter_scheme}.}
+\resizebox{0.9\textwidth}{!}{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule & Accuracy (from scratch) & run time (hh:mm:ss) & Number of Parameters & \% of Original \\
+\midrule
+VGG13\_original	& 81.0631\% $\pm$ 0.5425 & 1:13:04 & 128'959'042 & 100\% \\
+VGG13\_16\_d			& 81.2846\% $\pm$ 1.0963 & 0:25:34 & 70'290 & 0.0545\% \\
+VGG13\_16\_g	 		& 80.0664\% $\pm$ 0.4698& 0:25:08 & 4'982 & 0.0039\% \\
+\midrule
+\bottomrule
+\end{tabular}}
+\label{tbl:vgg13_f_fc_optimized}
+\end{table} \\
+
 
 \section{Evaluation Of Different Dataset Sizes And Variations}
 
