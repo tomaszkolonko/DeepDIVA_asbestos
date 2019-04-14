@@ -15,8 +15,8 @@ class InvertedRepresentation():
     def __init__(self, model):
         self.model = model
         self.model.eval()
-        if not os.path.exists('../generated'):
-            os.makedirs('../generated')
+        if not os.path.exists('/home/thomas.kolonko/generated/inverted'):
+            os.makedirs('/home/thomas.kolonko/generated/inverted')
 
     def alpha_norm(self, input_matrix, alpha):
         """
@@ -104,7 +104,7 @@ class InvertedRepresentation():
             if i % 5 == 0:
                 print('Iteration:', str(i), 'Loss:', loss.data.numpy())
                 recreated_im = recreate_image(opt_img)
-                im_path = '../generated/Inv_Image_Layer_' + str(target_layer) + \
+                im_path = '/home/thomas.kolonko/generated/inverted/Inv_Image_Layer_' + str(target_layer) + \
                     '_Iteration_' + str(i) + '.jpg'
                 save_image(recreated_im, im_path)
 

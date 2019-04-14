@@ -26,7 +26,7 @@ class CNNLayerVisualization():
         self.selected_layer = selected_layer
         self.selected_filter = selected_filter
         self.conv_output = 0
-        self.path_to_output_files = '/home/thomas.kolonko/vgg16/vgg16/ASBESTOS_MINI/model_name=vgg16/epochs=10/lr=0.09573/decay_lr=2/momentum=0.046003/weight_decay=0.0007938/19-02-19-20h-22m-26s/generated'
+        self.path_to_output_files = '/home/thomas.kolonko/generated'
         # Create the folder to export images if not exists
         if not os.path.exists(self.path_to_output_files):
             os.makedirs(self.path_to_output_files)
@@ -47,7 +47,7 @@ class CNNLayerVisualization():
         processed_image = preprocess_image(random_image, False)
         # Define optimizer for the image
         optimizer = Adam([processed_image], lr=0.1, weight_decay=1e-6)
-        for i in range(1, 31):
+        for i in range(1, 60):
             optimizer.zero_grad()
             # Assign create image to a variable to move forward in the model
             x = processed_image
@@ -119,8 +119,9 @@ class CNNLayerVisualization():
 
 
 def load_model_from_file():
-    path_to_checkpoint = '/home/thomas.kolonko/vgg16/vgg16/ASBESTOS_MINI/model_name=vgg16/epochs=10/lr=0.09573/decay_lr=2/momentum=0.046003/weight_decay=0.0007938/19-02-19-20h-22m-26s/checkpoint.pth.tar'
-    model = models.__dict__['vgg19'](output_channels=2, pretrained=False)
+    path_to_checkpoint = '/home/thomas.kolonko/f_vgg13_g_16_optimized/vgg13_bn_g_16_optimized/FINAL/model_name=vgg13_bn_g/epochs=50/lr=0.1/decay_lr=20/momentum=0.499036/weight_decay=1e-05/13-04-19-00h-11m-17s/checkpoint.pth.tar'
+    # path_to_checkpoint = '/home/thomas.kolonko/yolo/tz_asbestos_densenet121_sigopt/FINAL/model_name=densenet121/epochs=50/lr=0.01/decay_lr=20/momentum=0.9/07-04-19-11h-54m-41s/checkpoint.pth.tar'
+    model = models.__dict__['vgg13_bn_g'](output_channels=2, pretrained=False)
     if os.path.isfile(path_to_checkpoint):
         # TODO: Remove or make param: map_location
         model_dict = torch.load(path_to_checkpoint, map_location='cpu')
@@ -135,16 +136,17 @@ def load_model_from_file():
     return model.features
 
 if __name__ == '__main__':
-    cnn_layer = 4
-    filter_pos = 1
+    cnn_layer = [17,21]
+    filter_pos = [0,1,2,3]
     # Fully connected layer is not needed
     load_model_from_file()
-    pretrained_model_original = models.vgg16(pretrained=True).features
+    pretrained_model_original = models.vgg13_bn_g(pretrained=True).features
     pretrained_model_new = load_model_from_file()
-    layer_vis = CNNLayerVisualization(pretrained_model_new, cnn_layer, filter_pos)
-
+    for actual_layer in cnn_layer:
+        for actual_pos in filter_pos:
+            layer_vis = CNNLayerVisualization(pretrained_model_new, actual_layer, actual_pos)
+            layer_vis.visualise_layer_with_hooks()
     # Layer visualization with pytorch hooks
-    layer_vis.visualise_layer_with_hooks()
 
     # Layer visualization without pytorch hooks
     # layer_vis.visualise_layer_without_hooks()

@@ -41,7 +41,7 @@ def save_gradient_images(gradient, file_name):
         gradient (np arr): Numpy array of the gradient with shape (3, 224, 224)
         file_name (str): File name to be exported
     """
-    path_to_output_files_on_server = '/home/thomas.kolonko/visualization/vanilla_backprop'
+    path_to_output_files_on_server = '/home/thomas.kolonko/generated/viz/vanilla'
     if not os.path.exists(path_to_output_files_on_server):
         os.makedirs(path_to_output_files_on_server)
     # Normalize
@@ -61,7 +61,7 @@ def save_class_activation_images(org_img, activation_map, file_name):
         activation_map (numpy arr): Activation map (grayscale) 0-255
         file_name (str): File name of the exported image
     """
-    path_to_output_files_on_server = '/home/thomas.kolonko/visualization/gradcam'
+    path_to_output_files_on_server = '/home/thomas.kolonko/generated/viz/gradcam'
     if not os.path.exists(path_to_output_files_on_server):
         os.makedirs(path_to_output_files_on_server)
     # Grayscale activation map
@@ -138,7 +138,7 @@ def preprocess_image(pil_im, resize_im=True):
     std = [0.229, 0.224, 0.225]
     # Resize image
     if resize_im:
-        pil_im.thumbnail((512, 512))
+        pil_im.thumbnail((224, 224))
     im_as_arr = np.float32(pil_im)
     im_as_arr = im_as_arr.transpose(2, 0, 1)  # Convert array to D,W,H
     # Normalize the channels
@@ -206,22 +206,21 @@ def get_example_params(example_index):
         pretrained_model(Pytorch model): Model to use for the operations
     """
     # Pick one of the examples
-    example_list = (('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/asbestos-042_7.png', 1),
-                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/snake.png', 0),
-                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/spider.png', 0))
+    example_list = (('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/asbestos-042_7.png', 0),
+                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/snap_121439_22_13.png', 1))
     img_path = example_list[example_index][0]
     target_class = example_list[example_index][1]
     file_name_to_export = img_path[img_path.rfind('/')+1:img_path.rfind('.')]
     # Read image
     original_image = Image.open(img_path).convert('RGB')
     # Process image
-    prep_img = preprocess_image(original_image, resize_im=False)
+    prep_img = preprocess_image(original_image, resize_im=True)
     # prep_img.save('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/generated/yolo/original_image_two.png')
     # Define model
 
     def load_model_from_file():
-        path_to_checkpoint = '/home/thomas.kolonko/vgg16/vgg16/ASBESTOS_MINI/model_name=vgg16/epochs=10/lr=0.09573/decay_lr=2/momentum=0.046003/weight_decay=0.0007938/19-02-19-20h-22m-26s/checkpoint.pth.tar'
-        model = models.__dict__['vgg19'](output_channels=2, pretrained=False)
+        path_to_checkpoint = '/home/thomas.kolonko/f_vgg13_fc4096/vgg13_fc_4096_bn/FINAL/model_name=vgg13_bn/epochs=50/lr=0.054173/decay_lr=20/momentum=0.643504/weight_decay=0.003223/09-04-19-08h-57m-43s/checkpoint.pth.tar'
+        model = models.__dict__['vgg13'](output_channels=2, pretrained=False)
         if os.path.isfile(path_to_checkpoint):
             # TODO: Remove or make param: map_location
             model_dict = torch.load(path_to_checkpoint, map_location='cpu')
