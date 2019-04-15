@@ -27,6 +27,12 @@
 M.~Ahmed, ``Mechanochemical grinding technology for recycling of asbestos
   containing waste,'' Ph.D. dissertation, 08 2015.
 
+\bibitem{cossio2018innovative}
+R.~Cossio, C.~Albonico, A.~Zanella, S.~Fraterrigo-Garofalo, C.~Avataneo,
+  R.~Compagnoni, and F.~Turci, ``Innovative unattended sem-eds analysis for
+  asbestos fiber quantification,'' \emph{Talanta}, vol. 190, pp. 158--166,
+  2018.
+
 \bibitem{alom2018history}
 M.~Z. Alom, T.~M. Taha, C.~Yakopcic, S.~Westberg, M.~Hasan, B.~C. Van~Esesn,
   A.~A.~S. Awwal, and V.~K. Asari, ``The history began from alexnet: A
@@ -116,6 +122,22 @@ A.~Campopiano, A.~Olori, B.~M. Bruni, L.~Benini, M.~Campanella, F.~Cavariani,
   A.~Fava, P.~Garofani, L.~Leone, C.~Martinelli, \emph{et~al.},
   ``Inter-laboratory study for the asbestos detection in bulk materials: First
   italian scheme,'' \emph{Group}, vol.~1, p.~7, 2018.
+
+\bibitem{kawabata2009asbestos}
+K.~Kawabata, Y.~Komori, T.~Mishima, and H.~Asama, ``An asbestos fiber detection
+  technique utilizing image processing based on dispersion color,''
+  \emph{Particulate Science and Technology}, vol.~27, no.~2, pp. 177--192,
+  2009.
+
+\bibitem{moriguchi2008asbestos}
+Y.~Moriguchi, K.~Hotta, and H.~Takahashi, ``Asbestos detection from microscope
+  images using support vector random field of local color features,'' in
+  \emph{International Conference on Neural Information Processing}.\hskip 1em
+  plus 0.5em minus 0.4em\relax Springer, 2008, pp. 344--352.
+
+\bibitem{robson2018fiac}
+M.~Robson, A.~Mian, A.~Mehnert, and R.~Ward, ``Fibrous image analysis and
+  counting,'' in \emph{2018 CEED Seminar Proceedings}, 2018.
 
 \bibitem{tensorflow}
 ``{Tensorflow - An end-to-end open source machine learning platform},''
