@@ -2,8 +2,22 @@
 
 \section{Summary and Conclusion}
 
-What have I learned? Did it work?
+Contrary to some believes that transfer learning is not necessary a good option if using across domains, this work shows that even for microscopic images with one object being looked for, pre-training on ImageNet is a good option. Overall, transfer learning led to improved accuracies by roughly 8\% and often yielded faster convergence. Especially in the asbestos task, where only about 1'000 images were used for training, transfer learning helped a lot. It was surprising though, that even when the models were run 3 times longer from scratch, they did usually not catch up with the pre-trained models.
+Visualizing the layers and creating heatmaps was much more difficult than expected. Finding libraries was difficult and implementing them in PyTorch was a struggle. Every architecture has its own model representation which would need transforming it into another format, known by the library. But the visualization on VGG13 were not as insightful as initially hoped for. Filters didn't show any usable information and going down with the filter didn't really help in layer visualizations that clearly resembled something like asbestos fibers. Maybe the background of the images was visualized a bit better but I am not sure.
+Cropping was especially difficult since the asbestos fibers were not spaced evenly over the image. So cropping would always lead to some crops with and some crops without asbestos.
+
+Talk about datasets
+
+Talk about modifications to the architectures
+
+Talk about never reaching 90\%
+
+Reference the other works that never went over 80\%
+
+All in all I think that the quality of the current dataset it the limiting factor since all the architectures reach values between 80\% and 90\% and never cross the 90\% threshold regardless of different cropping and data augmentation methods, different dataset considerations and different modifications to the architectures. The accuracies stay more or less the same although I was able to achieve parameter reductions of 99.9\%.
 
 \section{Future Work}
 
-As mentioned in several papers, the pre-processing of the image itself might play a vital role in the ease of asbestos detection. For example, thresholding and binarization reduce the noise in the image and transform a grayscale image into a black and white image. This allows to clearly identify the asbestos-like structures and could lead to architectures with less trainable parameters and better performance.
+As mentioned in several papers, the pre-processing of the image itself might play a vital role in the ease of asbestos detection. For example, thresholding and binarization reduce the noise in the image and transform a grayscale image into a black and white image. This allows to clearly identify the asbestos-like structures and could potentially lead to architectures with fewer parameters and better performance.
+The dataset quality is of utmost importance. Future work could be channeled into producing a high-quality dataset with good and correct examples.
+Continued work on the visualizations could be very rewarding. Especially making the visual toolbox work for other architectures and to visualize models that were trained only on grayscale colors instead of RGB. Training on grayscale colors (having only one channel in the input volume) resulted in the same accuracies as training with RGB. I would expect to have more intersting visualizations when focusing on grayscale values.
