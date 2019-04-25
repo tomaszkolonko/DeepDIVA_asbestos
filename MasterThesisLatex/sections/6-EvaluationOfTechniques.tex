@@ -124,7 +124,90 @@ VGG13\_16\_g             & 80.0664\% $\pm$ 0.4698& 0:25:08 & 4'982 & 0.0039\% \\
 
 \subsection{Visualization of VGG}
 
-First lets visualize the architecture with the best results obtained. Since it is 
+First lets visualize the architecture with the best results obtained which is the pre-trained vgg13 model with batch normalization. The GradCam was taken on the last convolutional layer and can be seen in Figure \ref{fig:asbestos_gradcam}. On the 
+
+\begin{figure}[H]
+\centering
+\caption{GradCam visualization applied on the left image once with looking for asbestos structures (right) and once looking for not-asbestos structures (middle).}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/asbestos-original.png}
+}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/asbestos-gradcam-0.png}
+}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/asbestos-gradcam-1.png}
+}
+\label{fig:asbestos_gradcam}
+\end{figure}
+
+Visualizing images that activate certain filters in the last layer maximally are seen in Figure \ref{fig:vgg13_filter_activation}. The images are very similar to the visualizations on ImageNet with structures that do not resemble asbestos at all. Nontheless they achieve the best performance so far. I argue that some filter from ImageNet do indeed capture another structure in real life that resembels that of asbestos fibers, and if these very few filters are activated strongly. The classification in the end is done on these very few filters and the rest (the majority) is ignored. That's why reducing the last fully-connected layer to 16 does not harm the performance at all.
+
+\begin{figure}[H]
+\centering
+\caption{Last Layer visualizations (8 of 512) of the pre-trained VGG13 with batch normalization.}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-pretrained/l22-f1.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-pretrained/l22-f2.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-pretrained/l22-f3.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-pretrained/l22-f4.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-pretrained/l22-f5.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-pretrained/l22-f6.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-pretrained/l22-f7.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-pretrained/l22-f8.jpg}
+}
+\label{fig:vgg13_filter_activation}
+\end{figure}
+
+As oposed to the VGG13 architecture modification with scheme "G" and only 16 units in the fully connected layers. Here all the four filters are shown from the last layer. They don't resemble neither the ImageNet filters, nor something that resembels asbestos.
+
+\begin{figure}[H]
+\centering
+\caption{GradCam visualization applied on the left image once with looking for asbestos structures (right) and once looking for not-asbestos structures (middle).}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/asbestos-original.png}
+}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/layers-g-16/gradcam0.png}
+}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/layers-g-16/gradcam1.png}
+}
+\label{fig:asbestos_gradcam}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\caption{Last Layer visualizations (8 of 512) of the pre-trained VGG13 with batch normalization.}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-g-16/l22-f0.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-g-16/l22-f1.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-g-16/l22-f2.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-g-16/l22-f3.jpg}
+}
+\label{fig:asbestos_gradcam}
+\end{figure}
 
 \section{Evaluation Of Different Dataset Sizes And Variations}
 
