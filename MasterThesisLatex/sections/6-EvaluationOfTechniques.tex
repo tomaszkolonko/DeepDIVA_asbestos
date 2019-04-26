@@ -2,6 +2,8 @@
 
 This chapter will go through some other techniques that could prove to be valuable for the asbestos dataset like the training size of the dataset, different cropping methods, different image augmentations and architectures that have been altered to better meet the underlying tasks' demands.
 
+Data augmentation should add regularization and lead to a model that is better generalizable to the test set. New architectures will then be created to fit better the problem at hand. \\
+
 \section{Evaluation Of Overall Number Of Parameters in VGG13}
 
 Here I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and is probably too big for a task like the asbestos detection. In a first step, I will try to reduce the fully connected layers since they contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table \ref{tbl:vgg13_fc} shows the results. The last fully connected layer can safely be reduced from initially having 4096 units per layer to 16 units without harming the performance, or even increase it slightly while reducing the overall parameters by 92.39\%. It can be observed that applying transfer learning on a slightly altered architecture quickly diminishes it's advantages as expected. This can be explained because the architecture was relying on a specific configuration. Changing filters or fully connected layers might lead to having to retrain the whole architecture although the drop in performance is surprising for the changes only affect the last fully connected layer of the network. \\

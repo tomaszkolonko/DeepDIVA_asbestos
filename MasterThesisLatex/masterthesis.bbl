@@ -108,6 +108,10 @@ E.~P.~A. (EPA), ``Framework for investigating asbestos-contaminated superfund
 ``{Asbestosis},'' \url{https://en.wikipedia.org/wiki/Asbestosis}, 2019,
   [Online; accessed 12-March-2019].
 
+\bibitem{imagenet}
+``{ImageNet},'' \url{http://www.image-net.org/}, 2019, [Online; accessed
+  20-March-2019].
+
 \bibitem{perry2004discussion}
 A.~Perry \emph{et~al.}, ``A discussion of asbestos detection techniques for air
   and soil,'' \emph{Washington, US EPA}, 2004.
@@ -123,6 +127,10 @@ A.~Campopiano, A.~Olori, B.~M. Bruni, L.~Benini, M.~Campanella, F.~Cavariani,
   ``Inter-laboratory study for the asbestos detection in bulk materials: First
   italian scheme,'' \emph{Group}, vol.~1, p.~7, 2018.
 
+\bibitem{robson2018fiac}
+M.~Robson, A.~Mian, A.~Mehnert, and R.~Ward, ``Fibrous image analysis and
+  counting,'' in \emph{2018 CEED Seminar Proceedings}, 2018.
+
 \bibitem{kawabata2009asbestos}
 K.~Kawabata, Y.~Komori, T.~Mishima, and H.~Asama, ``An asbestos fiber detection
   technique utilizing image processing based on dispersion color,''
@@ -135,9 +143,10 @@ Y.~Moriguchi, K.~Hotta, and H.~Takahashi, ``Asbestos detection from microscope
   \emph{International Conference on Neural Information Processing}.\hskip 1em
   plus 0.5em minus 0.4em\relax Springer, 2008, pp. 344--352.
 
-\bibitem{robson2018fiac}
-M.~Robson, A.~Mian, A.~Mehnert, and R.~Ward, ``Fibrous image analysis and
-  counting,'' in \emph{2018 CEED Seminar Proceedings}, 2018.
+\bibitem{he2017mask}
+K.~He, G.~Gkioxari, P.~Doll{\'a}r, and R.~Girshick, ``Mask r-cnn,'' in
+  \emph{Proceedings of the IEEE international conference on computer vision},
+  2017, pp. 2961--2969.
 
 \bibitem{tensorflow}
 ``{Tensorflow - An end-to-end open source machine learning platform},''
@@ -164,15 +173,63 @@ M.~Robson, A.~Mian, A.~Mehnert, and R.~Ward, ``Fibrous image analysis and
 \bibitem{viztoolbox}
 ``{Convolutional Neural Network Filter Visualization},''
   \url{https://github.com/utkuozbulak/pytorch-cnn-visualizations#convolutional-neural-network-filter-visualization/},
-  2019, [Online; accessed 11-March-2019].
+  2019, [Online; accessed 15-April-2019].
+
+\bibitem{sigopt}
+``{SigOpt - Automate Optimization to Accelerate and Amplify Model
+  Development},'' \url{https://sigopt.com/}, 2019, [Online; accessed
+  14-April-2019].
+
+\bibitem{sigoptObservationBudget}
+``{SigOpt - Set Observation Budget},''
+  \url{https://app.sigopt.com/docs/overview/observation_budget}, 2019, [Online;
+  accessed 14-April-2019].
+
+\bibitem{sigoptBayesian}
+``{SigOpt - Bayesian Optimization Primer},''
+  \url{https://app.sigopt.com/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf},
+  2019, [Online; accessed 14-April-2019].
+
+\bibitem{PyCharm}
+``{PyCharm - The Python IDE for professional developers},''
+  \url{https://www.jetbrains.com/pycharm/}, 2019, [Online; accessed
+  15-April-2019].
+
+\bibitem{GitHub}
+``{GitHub},'' \url{https://github.com}, 2019, [Online; accessed 15-April-2019].
+
+\bibitem{SourceTree}
+``{Sourcetree - Simplicity and power in a beautiful Git GUI},''
+  \url{https://www.sourcetreeapp.com}, 2019, [Online; accessed 15-April-2019].
+
+\bibitem{statR}
+``{The R Project for Statisttical Computing},''
+  \url{https://www.r-project.org/}, 2019, [Online; accessed 18-April-2019].
+
+\bibitem{rstudio}
+``{RStudio - Open source and enterprise-ready professional software for R},''
+  \url{https://www.rstudio.com/}, 2019, [Online; accessed 18-April-2019].
+
+\bibitem{brunel2014single}
+N.~Brunel, V.~Hakim, and M.~J. Richardson, ``Single neuron dynamics and
+  computation,'' \emph{Current opinion in neurobiology}, vol.~25, pp. 149--155,
+  2014.
+
+\bibitem{london2005dendritic}
+M.~London and M.~H{\"a}usser, ``Dendritic computation,'' \emph{Annu. Rev.
+  Neurosci.}, vol.~28, pp. 503--532, 2005.
+
+\bibitem{goodale1992separate}
+M.~A. Goodale and A.~D. Milner, ``Separate visual pathways for perception and
+  action,'' \emph{Trends in neurosciences}, vol.~15, no.~1, pp. 20--25, 1992.
+
+\bibitem{caswell2016loopy}
+I.~Caswell, C.~Shen, and L.~Wang, ``Loopy neural nets: Imitating feedback loops
+  in the human brain,'' Tech. Report. 3, Tech. Rep., 2016.
 
 \bibitem{MNISTdatabase}
 ``{The MNIST Database of handwritten digits},''
   \url{http://yann.lecun.com/exdb/mnist/}, 2019, [Online; accessed
-  20-March-2019].
-
-\bibitem{imagenet}
-``{ImageNet},'' \url{http://www.image-net.org/}, 2019, [Online; accessed
   20-March-2019].
 
 \bibitem{everingham2010pascal}
@@ -260,6 +317,11 @@ K.~He and J.~Sun, ``Convolutional neural networks at constrained time cost,''
 \bibitem{srivastava2015highway}
 R.~K. Srivastava, K.~Greff, and J.~Schmidhuber, ``Highway networks,''
   \emph{arXiv preprint arXiv:1505.00387}, 2015.
+
+\bibitem{randolph2005free}
+J.~J. Randolph, ``Free-marginal multirater kappa (multirater k [free]): An
+  alternative to fleiss' fixed-marginal multirater kappa.'' \emph{Online
+  submission}, 2005.
 
 \bibitem{sharif2014cnn}
 A.~Sharif~Razavian, H.~Azizpour, J.~Sullivan, and S.~Carlsson, ``Cnn features

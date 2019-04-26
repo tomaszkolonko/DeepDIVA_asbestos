@@ -1,20 +1,67 @@
 \chapter{Evaluation}
 
-As mentioned in Chapter 4 there is no reliable baseline and one needs to be established first with some basic CNN architectures. Then different architectures will be compared against each other with and without pre-training in order to find out if transfer learning is a valid option for this problem task. Data augmentation should add regularization and lead to a model that is better generalizable to the test set. New architectures will then be created to fit better the problem at hand. \\
+As mentioned in Chapter 4 there is no reliable baseline and one needs to be established first with some basic CNN architectures. Additionally an annotators inter-agreement rate is computed to have a good guess what is realistically possible and how difficult the test set is. Then different architectures will be compared against each other with and without pre-training in order to find out if transfer learning is a valid option for this problem task. \\
 
 The learning rate decay is defined as reducing the learning rate by a factor of 10 every N epochs and holds true for all the experiments: \\
 
 \[ lr = lr * (0.1^{\frac{epoch}{decay}}) \] \\
 
-For the baseline, I used a grid search approach in optimizing the learning rate and the learning rate decay. For all later architectures, I used Sigopt which utilizes bayesian optimization. With SIgopt I followed the official guideline to run the model for 10 times for every hyperparameter which needs to be optimized. For Alexnet and all state-of-the-art architectures I optimize the following three hyperparameters: learning rate [0.0001 - 0.1]; momentum [0 - 1]; weight\_decay [0.00001 - 0.01]. \\
+For the baseline, I used a grid search approach in optimizing the learning rate and the learning rate decay. For all later architectures, I used SigOpt which utilizes bayesian optimization. With SIgOpt I followed the official guideline to run the model for 10 times for every hyperparameter which needs to be optimized. For Alexnet and all state-of-the-art architectures I optimize the following three hyperparameters: \\
 
-Preliminary runs have shown that 50 epochs are long enough to converge as will be shown for every architecture separately. \\
+\begin{itemize}
+  \item learning rate [0.0001 - 0.1]
+  \item momentum [0 - 1]
+  \item weight\_decay [0.00001 - 0.01]
+\end{itemize} 
+
+\quad
+
+Preliminary runs have shown that 50 epochs are long enough to converge as will be shown for every architecture separately. Running for longer did potentially further increase the accuracy of the training set but not of the test set. Sometimes it even degraded slightly due to overfitting to the training data. SigOpt optimization were all conducted with 50 epochs, so were the follow up runs.
 
 The remaining of this chapter is in the following format. I introduce the optimized hyperparameters for each architecture and show the achieved accuracies. I compare the results with transfer learning and discuss the graphs and confusion matrices. For transfer learning a separate optimization with Sigopt is performed, since the hyperparameters need to be different if the starting point of the model is not randomly defined. Then I will attempt to shed some light into what exactly was learned by showing some of the visualizations.
 
+
+
+
+
+
+
+
+\section{Annotator Inter-Agreement Rate}
+
+The inter-agreement agreement rate gives a score of how much consensus there is between the different raters. Although it cannot be used as a baseline directly since the computation differs from the computation on how the accuracy is computed, it can show how difficult it is to classify the given test samples. For this task 4 raters were recruited a PhD candidate in Computer Science, a PhD candidate in Virology and Immunology, a PhD candidate in History and a Computer Scientist. They were given 168 images to classify into containing asbestos or not. In order to know what to look for, they were given the same (but slightly reduced in number) pre-classified images that were provided by the laboratory with a note explaining the task. They were allowed to switch forward and back between ground truth examples and the unlabeled samples. They were allowed to ask, make a break and take as much time as they saw fit in order to be certain, that they made the best possible decision.\\
+
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Inter-agreement rate (Randolph's kappa) of 4 annotators.}
+\resizebox{0.8\textwidth}{!}{%
+\begin{tabular}{@{}rccc@{}}
+\toprule & Overall Agreement & Free-margin kappa & 95\% confidence interval \\
+\midrule
+Randolph's kappa     & 78.27\%   & 0.57 &  [0.48, 0.65]     \\
+\bottomrule
+\end{tabular}}
+\label{tbl:interagreement}
+\end{table}
+
+\quad
+
+Although the overall agreement percentage is at 78.27\% the Randolph's kappa is only at 0.57. The kappa value ranges from -1 (total disagreement below chance) to 1 (total agreement above chance). Kappa values below 0.4 are considered as "poor", values from 0.4 to 0.75  are considered "intermediate to good" and values  above 0.75 are considered "excellent". Therefore the obtained value of 0.57 is between "intermediate" and "good" gives a quality measure of the reached 78.27\%. \\
+
+
+
+
+
+
+
+
+
+
+
 \section{CNN\_Basic - Baseline}
 
-For the baseline, a simple 3-layered CNN was chosen with three convolutions and no maxpooling. For the activation function, a leaky ReLU is applied after each convolution. A simple grid search is applied to the model as seen in table \ref{tbl:cnn-basic-baseline}. The best result is achieved with a rather small learning rate of 0.0005 and an lr-decay of 20.
+For the baseline, a simple 3-layered CNN was chosen with three convolutions and no maxpooling. For the activation function, a leaky ReLU is applied after each convolution. A simple grid search is applied to the model as seen in Table \ref{tbl:cnn-basic-baseline}. The best result is achieved with a rather small learning rate of 0.0005 and an lr-decay of 20.\\
 
 \begin{table*}[h]
     \ra{1.3}
@@ -52,7 +99,7 @@ For the baseline, a simple 3-layered CNN was chosen with three convolutions and 
 \quad
 
 
-These results are much better than expected and should not be that high since the image size is resized to 32 by 32 pixels. As seen in figure \ref{fig:cnn-basic} the training accuracy achieves 94.54\% while the validation accuracy achieves 71.42\%. Such a big difference between training accuracy and the final test accuracy of 76.74\% means that the model overfitted strongly to the training data, learning it too well and thus decreasing generalizability. Having the accuracies for validation and test sets near each other is good and means that the validation set is representable of the test set.
+These results are much better than expected and should not be that high since the image size is resized to 32x32 pixels. As seen in Figure \ref{fig:cnn-basic} the training accuracy achieves 94.54\% while the validation accuracy achieves 71.42\%. Such a big difference between training accuracy and the final test accuracy of 76.74\% means that the model overfitted strongly to the training data, learning it too well and thus decreasing generalizability. Having the accuracies for validation and test sets near each other is good and means that the validation set is representable of the test set.
 
 \begin{figure}[h]
 \centering
@@ -77,6 +124,7 @@ Of course, interpreting this model is very difficult due to it's resizing of the
 \caption{Confusion matrix of the CNN\_basic shows that the learning seems to be correct with images seperated into the two classes of asbestos and non-asbestos.}
 \label{fig:cnn-basic-cm}
 \end{figure}
+
 
 From the confusion matrix, we can deduce type I and type II errors. Type I errors are false positives which is equivalent to a false alarm. In case of asbestos, it is better to classify wrongly some structures as asbestos than missing them which would be a type II error or a miss. Recall shows how many positive samples were actually classified as positive which in our case should be as near to 100\% as possible because it brings the type II error in relation to the overall positive samples. Recall is at 80.17\%. Precision on the other hand, how many of the predicted positive sample indeed are positive. If that number is lower, it is less severe because it simply means that more samples were classified as containing asbestos than really is the case (false alarm). Precision is at 67.83\%
 
@@ -215,7 +263,7 @@ In Figure \ref{fig:alexnet-cm} the confusion matrix of the final test set is sho
 
 \section{VGG}
 
-For the following VGG architectures, the hyperparameter optimization was done with SigOpt. Every architecture was performed with and without batch normalization as well as with and without pre-training. Table \ref{tbl:VGG11} summarizes the results for the VGG architectures with the common depths of 11, 13 and 16. These are all the best achieved values in one run only.
+For the following VGG architectures, the hyperparameter optimization was done with SigOpt. Every architecture was performed with and without batch normalization as well as with and without pre-training. Table \ref{tbl:VGG_overview} summarizes the results for the VGG architectures with the common depths of 11, 13 and 16. These are all the best achieved values in one run only.
 
 \begin{table}[H] \centering
 \ra{1.3}
@@ -452,5 +500,7 @@ Inception v3 pre-trained    & 0.029269 & 0.0 & 0.006320 & 20 & 88.7043\%  & +5.3
 
 \section{Conclusion on Transfer Learning}
 
+Using pre-trained weights from ImagNet increased accuracy of every single run performed on the above mentioned architectures. Apparently the learned feature representations are general enough to be of high  value regardles of the target domain. These findings align perfectly well with other research done on cross-domain transfer learning. By average ALKJJDLFKJDFLKJLKDFJ
 
+At first it was very surprising that learning from scratch never caught up with the models using transfer learning from ImageNet. I was certain that given enough epochs and different runs the models from scratch should find at least equally suited feature mappings with random initialization of weights. But visualizing  some of the filters quickly made it clear that learning from scratch  with the provided dataset doesn't create elaborate feature mappings as seen from ImageNet. I argue that although the vast majority of feature mappings are absolutely useless for the asbestos classification, some feature mappings of e.g. grass or hair might be similar enough for the filter to activate maximally. Since the asbestos task is only a binary classification few of these filters are enogh to predict asbestos with a high accuracy. These elaborate feature mappings are not able to be created from scratch with a dataset of only a few hundred, partially wrongly labeled images, thus the model trained from scratch never reaches the accuracy of the pre-trained model.
 

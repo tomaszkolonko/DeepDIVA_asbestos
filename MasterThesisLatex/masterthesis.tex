@@ -111,7 +111,7 @@
 
 \newpage
 
-\begin{abstract}
+\chapter*{Abstract}
 
 Asbestos is a highly toxic silicate mineral that has been used widely in many products for its insulating, non-flammable and heat resistant properties. It may lead to chronic inflammation of the lungs and cancer when exposed to high concentrations. After the toxicity has become known, much effort was undertaken - and is up to this day - in removing asbestos from buildings, roofs and other materials used in industry and in the public. Asbestos detection is a manual, complex and time-intensive process, that requires a lot of experience from an expert in order to have consistent and correct results. In order to reduce manual labor and increase consistency in detection, machine learning models have been recently adopted to automate the detection process.
 
@@ -123,7 +123,10 @@ Convolutional Neural Networks have the property of automatically extracting feat
 
 In this thesis, several state-of-the-art architectures are explained and compared against each other in regard of performance accuracy, size, and complexity. I will evaluate if transfer learning from the ImageNet dataset can be applied in this specific cross-domain task of asbestos fiber detection. in microscopic images. Data augmentation with different cropping methods will be implemented and compared with the goal of increasing the overall accuracy of the model. Since the dataset is quite small, with only about 2'000 images, several train and valuation datasets and their distribution are evaluated. The test set is fixed in the beginning and never altered. Another branch of investigation will be alterations to the current architectures like reducing the filters and fully connected layers in order to decrease complexity and increase interpretability through visualization. Also, adding new layers in order to allow the input image to be bigger, thus reducing problems that arise with cropping and re-sizing the original image are investigated.
 
-\end{abstract}
+\vspace{5mm} %5mm vertical space
+
+++  here you have to put also the final results you achieved. The abstract is like a summary of the work: problems + how you tackle it + the final results. So you can add a paragraph with the main results...
+
 
 \pagenumbering{roman}
 \tableofcontents{}
@@ -143,7 +146,7 @@ I would first like to thank my thesis advisor and professor Elena Mugellini for 
 Then, I would like to thank my coach and thesis advisor Jacky Casas. He supported me through the whole process of writing this thesis, giving me invaluable inputs and steering me into the right direction when I got lost. He was always available and took his time to listen to my ideas and propose alternatives.\\
 
 
-Also special thanks to Vinay Pondenkandath and Michele Alberti, who I was always able to contact for code and DeepDIVA related issues. They always took plenty of time to explain the framework in detail.\\
+Also special thanks to Vinay Pondenkandath and Michele Alberti, who I was always able to contact for code and DeepDIVA related issues. They always took plenty of time to explain the framework in detail and give implementation advice.\\
 
 
 I would also like to thank the expert, Professor Dr. Denis Lalanne, for his time and invaluable remarks on how to improve the thesis, listen to my presentations and correct the work. \\
@@ -153,6 +156,9 @@ Many thanks to the Microscan Service SA company that provided their high-quality
 
 
 I am also very grateful for the resources that were generously provided by the research group of Prof. Elena Mugellini.
+
+
+Lastly I would like to thank Jacky Casas, Nathalie Vielle, Matthias Fuchs and Andreas Bugmann for their time and effort in acquiring the annotator inter-agreement rate for the asbestos classification task.
 
 \cleardoublepage
 \setcounter{page}{1}	% Reset page numbering to 1
