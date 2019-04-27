@@ -44,10 +44,30 @@ def calculate_agreement_rate(dataset_folder):
             else:
                 d[file_name] += 1
 
+    megacount = 0
     for item in d:
-        if d[item] is number_of_annotators or d[item] is (-number_of_annotators):
+        if d[item] == -4:
+            print("4\t0")
+            megacount += 1
+        elif d[item] == -2:
+            print("3\t1")
+            megacount += 1
+        elif d[item] == 0:
+            print("2\t2")
+            megacount += 1
+        elif d[item] == 2:
+            print("1\t3")
+            megacount += 1
+        elif d[item] == 4:
+            print("0\t4")
+            megacount += 1
+
+        if abs(d[item]) is number_of_annotators:
             counter += 1
 
+    print("megacount " + str(megacount))
+    print("counter " + str(counter))
+    print("length " + str(d.__len__()))
     print(str(counter / d.__len__()))
 
     return
