@@ -5,15 +5,15 @@
 
 python ./template/RunMe.py --runner-class image_classification \
     --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg13_bn --epochs 50 --experiment-name vgg13_fc_4096_bn \
-    --output-folder /home/thomas.kolonko/f_vgg13_fc4096 --ignoregit --lr 0.054173 \
-    --momentum 0.643504 --weight-decay 0.003223 --decay-lr 20 --multi-run 3
+    --model-name vgg16 --epochs 50 --experiment-name tz_asbestos_vgg16_pre \
+    --output-folder /home/thomas.kolonko/tz_asbestos_vgg16_pre --ignoregit --lr 0.054173 \
+    --momentum 0.643504 --weight-decay 0.003223 --decay-lr 20 --pretrained
 
 python ./template/RunMe.py --runner-class image_classification \
     --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg13_bn --epochs 50 --experiment-name vgg13_fc_4096_bn_pre \
-    --output-folder /home/thomas.kolonko/f_vgg13_fc4096 --ignoregit --lr 0.093533 \
-    --momentum 0.041074 --weight-decay 0.009734 --decay-lr 20 --multi-run 3 --pretrained
+    --model-name vgg16_bn --epochs 50 --experiment-name tz_asbestos_vgg16_bn \
+    --output-folder /home/thomas.kolonko/tz_asbestos_vgg16_bn --ignoregit --lr 0.093533 \
+    --momentum 0.041074 --weight-decay 0.009734 --decay-lr 20
 
 
 #
@@ -53,20 +53,20 @@ python ./template/RunMe.py --runner-class image_classification \
 
 
 
-# FC_256
-# ******
-
-python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg13_fc_256_bn --epochs 50 --experiment-name vgg13_fc_256_bn \
-    --output-folder /home/thomas.kolonko/f_vgg13_fc256 --ignoregit --lr 0.054173 \
-    --momentum 0.643504 --weight-decay 0.003223 --decay-lr 20 --multi-run 3
-
-python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg13_fc_256_bn --epochs 50 --experiment-name vgg13_fc_256_bn_pre \
-    --output-folder /home/thomas.kolonko/f_vgg13_fc256 --ignoregit --lr 0.093533 \
-    --momentum 0.041074 --weight-decay 0.009734 --decay-lr 20 --multi-run 3 --pretrained
+## FC_256
+## ******
+#
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name vgg13_fc_256_bn --epochs 50 --experiment-name vgg13_fc_256_bn \
+#    --output-folder /home/thomas.kolonko/f_vgg13_fc256 --ignoregit --lr 0.054173 \
+#    --momentum 0.643504 --weight-decay 0.003223 --decay-lr 20 --multi-run 3
+#
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name vgg13_fc_256_bn --epochs 50 --experiment-name vgg13_fc_256_bn_pre \
+#    --output-folder /home/thomas.kolonko/f_vgg13_fc256 --ignoregit --lr 0.093533 \
+#    --momentum 0.041074 --weight-decay 0.009734 --decay-lr 20 --multi-run 3 --pretrained
 
 
 
@@ -176,18 +176,18 @@ python ./template/RunMe.py --runner-class image_classification \
 #    --output-folder /home/thomas.kolonko/f_vgg13_fc4 --ignoregit --lr 0.093533 \
 #    --momentum 0.041074 --weight-decay 0.009734 --decay-lr 20 --multi-run 3 --pretrained
 
-
-# FC_2
-# *****
-
-python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg13_fc_2_bn --epochs 50 --experiment-name vgg13_fc_2_bn \
-    --output-folder /home/thomas.kolonko/f_vgg13_fc2 --ignoregit --lr 0.054173 \
-    --momentum 0.643504 --weight-decay 0.003223 --decay-lr 20 --multi-run 3
-
-python ./template/RunMe.py --runner-class image_classification \
-    --dataset-folder /home/thomas.kolonko/FINAL/ \
-    --model-name vgg13_fc_2_bn --epochs 50 --experiment-name vgg13_fc_2_bn_pre \
-    --output-folder /home/thomas.kolonko/f_vgg13_fc2 --ignoregit --lr 0.093533 \
-    --momentum 0.041074 --weight-decay 0.009734 --decay-lr 20 --multi-run 3 --pretrained
+#
+## FC_2
+## *****
+#
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name vgg13_fc_2_bn --epochs 50 --experiment-name vgg13_fc_2_bn \
+#    --output-folder /home/thomas.kolonko/f_vgg13_fc2 --ignoregit --lr 0.054173 \
+#    --momentum 0.643504 --weight-decay 0.003223 --decay-lr 20 --multi-run 3
+#
+#python ./template/RunMe.py --runner-class image_classification \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name vgg13_fc_2_bn --epochs 50 --experiment-name vgg13_fc_2_bn_pre \
+#    --output-folder /home/thomas.kolonko/f_vgg13_fc2 --ignoregit --lr 0.093533 \
+#    --momentum 0.041074 --weight-decay 0.009734 --decay-lr 20 --multi-run 3 --pretrained
