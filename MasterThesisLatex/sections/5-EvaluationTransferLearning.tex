@@ -267,7 +267,7 @@ For the following VGG architectures, the hyperparameter optimization was done wi
 
 \begin{table}[H] \centering
 \ra{1.3}
-\caption{Hyper parameters for VGG11 and VGG11 with Batch Normalization (bn) optimized with SigOpt. First row shows hyperparameters training the architecture from scratch. Second row used pre-trained weights from ImageNet}
+\caption{Hyper parameters for VGG11, VGG13 and VGG16 with and without batch normalization (bn) optimized with SigOpt. First row of each grouping shows training the architecture from scratch. Second row of each grouping shows training with pre-trained weights from ImageNet}
 \resizebox{0.99\textwidth}{!}{%
 \begin{tabular}{@{}rrrrrrr@{}}
 \toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
@@ -285,16 +285,16 @@ VGG13\_bn from scratch    			& 0.054173 & 0.643504 &  0.003223 & 20 & 81.7276\% 
 \textbf{VGG13\_bn  pre-trained}    &  \textbf{0.093533} & \textbf{0.041074} &  \textbf{0.009734} & \textbf{20} & \textbf{90.3655\%}  & \textbf{+8.6379} \\
 \midrule
 VGG16 from scratch   	& 0.019590 & 0.383297 &  0.00001 & 20 & 81.7276\%  &         \\
-VGG16 pre-trained    	&     - & - & 0.01 & 20 & -\%  & + \\
+\textbf{VGG16 pre-trained}    	& \textbf{0.009735} & \textbf{0.529937} & \textbf{0.01} & \textbf{20} & \textbf{90.6977\%}  & \textbf{+8.9701} \\
 \midrule
-VGG16\_bn from scratch	&     - & - &  - & 20 & -\%  &         \\
-VGG16\_bn pre-trained		&     0.083995 & 0.242109 &  0.002634 & 20 & 89.0366\%  & + \\
+VGG16\_bn from scratch	&     0.031702 & 0.370868 &  0.006288 & 20 & 83.0565\%  &         \\
+VGG16\_bn pre-trained		&     0.083995 & 0.242109 &  0.002634 & 20 & 89.0366\%  & +5.9801 \\
 \bottomrule
 \end{tabular}}
 \label{tbl:VGG_overview}
 \end{table}
 
-It can be seen that transfer learning helps in every single case and yields better performance by roughly additional 8\%. Also VGG performs always better with batch normalization than without. VGG13 with batch normalization seems to perform the best, although by a very small margin, since it is also less complex than VGG16, it will be used for further investigation. First, it is run three times witht the found hyperparameters and then averaged as seen in Table \ref{tbl:VGG_averaged}. Since the values mentioned in Table \ref{tbl:VGG_overview} are the best values from 30 runs, it does not surprise that they are higher than the averaged values from Table \ref{tbl:VGG_averaged}.
+It can be seen that transfer learning helps in every single case and yields better performance by roughly additional 8\%. Also VGG performs generally better with batch normalization with one exception for VGG16 with pre-trained weights. This architecture outperformed its batch norm counterpart by 1.66\% which could be purely by chance. VGG13 with batch normalization seems to perform very well, although by a very small margin, since it is also less complex than VGG16, it will be used for further investigation. First, it is run three times with the found hyper parameters and then averaged as seen in Table \ref{tbl:VGG_averaged}. Since the values mentioned in Table \ref{tbl:VGG_overview} are the best values from 30 runs, it does not surprise that they are higher than the averaged values from Table \ref{tbl:VGG_averaged}.
 
 \begin{table}[H] \centering
 \ra{1.3}
@@ -310,11 +310,11 @@ VGG13\_bn pre-trained		& 0.093533 	& 0.041074 	& 0.009734 	& 20 	& 88.0399\% $\p
 \label{tbl:VGG_averaged}
 \end{table}
 
-Looking at the training and validation graphs in Figure \ref{fig:vgg13-graph} a very similar behavior can be observed as in the previous AlexNet graph. Training accuracy is overfitting with the pre-trained model very quickly, convergence happens within the first 20 epochs, while training from scratch needs roughly 30 epochs to converge and never catches up with the pre-trained model. For the validation graph, convergence happens for both models shortly after 20 epochs and the validation accuracy is better with pre-trained weights (87.98\%) than from scratch (79.79\%). Both values are very near the actual values obtained in the test set which again confirms the hypothesis that the validation set does represent the test set very well.
+Looking at the training and validation graphs in Figure \ref{fig:vgg13-graph} a very similar behavior can be observed as in the previous graphs of the AlexNet architectures. Training accuracy is overfitting with the pre-trained model very quickly, convergence happens within the first 20 epochs, while training from scratch needs roughly 30 epochs to converge and never catches up with the pre-trained model. For the validation graph, convergence happens for both models shortly after 20 epochs and the validation accuracy is better with pre-trained weights (87.98\%) than from scratch (79.79\%). Both values are very near the actual values obtained in the test set which again confirms the hypothesis that the validation set does represent the test set very well.
 
 \begin{figure}[H]
 \centering
-\caption{Training and validation graphs for VGG13 once with pre-trained weights from ImageNet and once trained from scratch.}
+\caption{Training and validation graphs for VGG13 once with pre-trained weights from ImageNet (orange) and once trained from scratch (green)}
 \subfigure{
 \includegraphics[width=.46\textwidth]{images/chapter5/TL/VGG13/TA-vgg13.png}
 }
@@ -324,12 +324,129 @@ Looking at the training and validation graphs in Figure \ref{fig:vgg13-graph} a 
 \label{fig:vgg13-graph}
 \end{figure}
 
+\subsection{VGG visualization}
 
+In order to shed some light into what is going on, visualizing the CNN layers can show what kind of input images activate a specific filter and thus lead to a certain classification. Several hundred visualizations were checked at different layers for VGG13\_bn with and without transfer learning. In Figure \ref{fig:vgg13_pretrained_filters} 16 interesting layer activations from the pretrained model are shown. Filters that resembled rocks, background or fiber-like structures were selected from 4 different layers.
 
+\begin{figure}[H]
+\centering
+\caption{Each line represents one convolution layer in the VGG13\_bn pre-trained architecture in ascending order. Four interesting activations are shown per layer starting at layer 2, layer 4, layer 7 and layer 9.}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l3-f0.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l3-f1.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l3-f2.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l3-f3.jpg}
+}
 
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l10-f0.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l10-f1.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l10-f2.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l10-f3.jpg}
+}
 
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l21-f0.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l21-f1.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l21-f2.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l21-f3.jpg}
+}
 
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l28-f0.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l28-f1.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l28-f2.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l28-f3.jpg}
+}
+\label{fig:vgg13_pretrained_filters}
+\end{figure}
 
+It can be very well observed that with increasing depth of the network more complex patterns are learned. In Figure \ref{fig:vgg13_app_pretrained_filters} in the Appendix, four images are shown for every layer in the architecture. The first layer learns only to spot plain colors, but already the second layer starts to look for vertical and horizontal rock-like patterns, as seen in Figure \ref{fig:vgg13_fromscratch_filters}. Some of the filters don't resemble anything from the training set but still have a high degree of pattern. These patterns were transferred over from ImageNet and adapted through 50 epochs of learning. Figure \ref{fig:vgg13_fromscratch_filters} shows four layers of the pre-trained VGG13 architectue.
+
+\begin{figure}[H]
+\centering
+\caption{Each line represents one convolution layer in the VGG13\_bn architecture which was trained from scratch in ascending order. Four interesting activations are shown per layer starting at layer 2, layer 4, layer 7 and layer 9.}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l3-f0.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l3-f1.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l3-f2.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l3-f3.jpg}
+}
+
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l10-f0.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l10-f1.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l10-f2.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l10-f3.jpg}
+}
+
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l21-f0.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l21-f1.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l21-f2.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l21-f3.jpg}
+}
+
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l28-f0.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l28-f1.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l28-f2.jpg}
+}
+\subfigure{
+\includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn/l28-f3.jpg}
+}
+\label{fig:vgg13_fromscratch_filters}
+\end{figure}
+
+It is very interesting to observe that no complex patterns can be found in these layer activations. There is a lot of noise in the images. Although rock like structures could be interpreted into these visualizations, fiber like structures are missing completely.
+
+Applying 
 
 
 

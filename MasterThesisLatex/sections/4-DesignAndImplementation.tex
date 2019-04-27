@@ -22,6 +22,8 @@ The provided dataset consists of about 2'000 microscopic images with and without
 \label{fig:basic_examples}
 \end{figure}
 
+\newpage
+
 Since the images are quite large, they will drastically increase in size, once decoded into a PIL object, or Tensor object. On the provided hardware, the memory of four Tesla K80 won't be enough to process whole images during training. Most architectures resize the images to much smaller dimensions ranging from 224x224 for ResNet to 299x299 pixels for Inception v3.
 
 \section{Baseline}
