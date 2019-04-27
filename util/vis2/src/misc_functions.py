@@ -52,7 +52,7 @@ def save_gradient_images(gradient, file_name):
     save_image(gradient, path_to_file)
 
 
-def save_class_activation_images(org_img, activation_map, file_name):
+def save_class_activation_images(org_img, activation_map, file_name, target_layer):
     """
         Saves cam activation map and activation map on the original image
 
@@ -61,19 +61,19 @@ def save_class_activation_images(org_img, activation_map, file_name):
         activation_map (numpy arr): Activation map (grayscale) 0-255
         file_name (str): File name of the exported image
     """
-    path_to_output_files_on_server = '/home/thomas.kolonko/generated/viz/gradcam'
+    path_to_output_files_on_server = '/home/thomas.kolonko/generated/vgg13_gradcam'
     if not os.path.exists(path_to_output_files_on_server):
         os.makedirs(path_to_output_files_on_server)
     # Grayscale activation map
     heatmap, heatmap_on_image = apply_colormap_on_image(org_img, activation_map, 'hsv')
     # Save colored heatmap
-    path_to_file = os.path.join(path_to_output_files_on_server, file_name+'_Cam_Heatmap.png')
+    path_to_file = os.path.join(path_to_output_files_on_server, file_name+'_tl'+ str(target_layer) +'_Cam_Heatmap.png')
     save_image(heatmap, path_to_file)
     # Save heatmap on iamge
-    path_to_file = os.path.join(path_to_output_files_on_server, file_name+'_Cam_On_Image.png')
+    path_to_file = os.path.join(path_to_output_files_on_server, file_name+'_tl'+ str(target_layer) +'_Cam_On_Image.png')
     save_image(heatmap_on_image, path_to_file)
     # Save grayscale heatmap
-    path_to_file = os.path.join(path_to_output_files_on_server, file_name+'_Cam_Grayscale.png')
+    path_to_file = os.path.join(path_to_output_files_on_server, file_name+'_tl'+ str(target_layer) +'_Cam_Grayscale.png')
     save_image(activation_map, path_to_file)
 
 
@@ -206,11 +206,16 @@ def get_example_params(example_index):
         pretrained_model(Pytorch model): Model to use for the operations
     """
     # Pick one of the examples
-    example_list = (('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/asbestos-042_7.png', 0),
-                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/snap_121439_22_13.png', 1))
+    example_list = (('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/asbestos-042_7.png', 1),  #asbestos
+                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/asbestos-113_2.png', 1),  #asbestos
+                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/asbestos-113_8.png', 1),  # asbestos
+                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/snap_120968_5_10.png', 1),  #asbestos
+                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/snap_120968_17_12.png', 1),  #non-asbestos
+                    ('/home/thomas.kolonko/DeepDIVA_asbestos/util/vis2/input_images/snap_120968_7_11.png', 1)) #asbestos
     img_path = example_list[example_index][0]
     target_class = example_list[example_index][1]
     file_name_to_export = img_path[img_path.rfind('/')+1:img_path.rfind('.')]
+    file_name_to_export = file_name_to_export + '-' + str(target_class)
     # Read image
     original_image = Image.open(img_path).convert('RGB')
     # Process image
@@ -219,8 +224,20 @@ def get_example_params(example_index):
     # Define model
 
     def load_model_from_file():
-        path_to_checkpoint = '/home/thomas.kolonko/f_vgg13_fc4096/vgg13_fc_4096_bn/FINAL/model_name=vgg13_bn/epochs=50/lr=0.054173/decay_lr=20/momentum=0.643504/weight_decay=0.003223/09-04-19-08h-57m-43s/checkpoint.pth.tar'
-        model = models.__dict__['vgg13'](output_channels=2, pretrained=False)
+        # path_to_checkpoint = '/home/thomas.kolonko/f_vgg13_g_16_optimized/vgg13_bn_g_16_optimized/FINAL/model_name=vgg13_bn_g/epochs=50/lr=0.1/decay_lr=20/momentum=0.499036/weight_decay=1e-05/13-04-19-00h-11m-17s/checkpoint.pth.tar'
+
+        # VGG13_bn_pre for chapter 5
+        # path_to_checkpoint = '/home/thomas.kolonko/OutputHistory/SIGOPT/output_asbestos_vgg13_bn_sigopt/' \
+        #                      'tz_asbestos_vgg13_bn_sigopt_pre/FINAL/model_name=vgg13_bn/epochs=50/pretrained=True/' \
+        #                      'lr=0.09353319065678362/decay_lr=20/momentum=0.04107414719444524/' \
+        #                      'weight_decay=0.009733960128499166/26-03-19-07h-13m-43s/checkpoint.pth.tar'
+        # VGG13_bn for chapter 5
+        path_to_checkpoint = '/home/thomas.kolonko/OutputHistory/SIGOPT/output_asbestos_vgg13_bn_sigopt/' \
+                             'tz_asbestos_vgg13_bn_sigopt/FINAL/model_name=vgg13_bn/epochs=50/lr=0.05417303921420196/' \
+                             'decay_lr=20/momentum=0.6435035228001551/weight_decay=0.0032227545216798603/' \
+                             '28-03-19-22h-26m-56s/checkpoint.pth.tar'
+
+        model = models.__dict__['vgg13_bn'](output_channels=2, pretrained=False)
         if os.path.isfile(path_to_checkpoint):
             # TODO: Remove or make param: map_location
             model_dict = torch.load(path_to_checkpoint, map_location='cpu')

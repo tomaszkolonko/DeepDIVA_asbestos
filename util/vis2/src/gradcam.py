@@ -97,12 +97,16 @@ class GradCam():
 
 if __name__ == '__main__':
     # Get params
-    target_example = 1  # Asbestos
-    (original_image, prep_img, target_class, file_name_to_export, pretrained_model) = get_example_params(target_example)
-    # Grad cam
-    grad_cam = GradCam(pretrained_model, target_layer=11)
-    # Generate cam mask
-    cam = grad_cam.generate_cam(prep_img, target_class)
-    # Save mask
-    save_class_activation_images(original_image, cam, file_name_to_export)
+    target_example = [0,1,3]
+    target_layer = [0, 3, 7, 10, 14, 17, 21, 24, 28, 31]
+    for te in target_example:
+        (original_image, prep_img, target_class, file_name_to_export, pretrained_model) = get_example_params(te)
+        for tl in target_layer:
+
+            # Grad cam
+            grad_cam = GradCam(pretrained_model, target_layer=tl)
+            # Generate cam mask
+            cam = grad_cam.generate_cam(prep_img, target_class)
+            # Save mask
+            save_class_activation_images(original_image, cam, file_name_to_export, tl)
     print('Grad cam completed')

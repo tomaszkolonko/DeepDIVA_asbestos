@@ -26,7 +26,7 @@ class CNNLayerVisualization():
         self.selected_layer = selected_layer
         self.selected_filter = selected_filter
         self.conv_output = 0
-        self.path_to_output_files = '/home/thomas.kolonko/generated'
+        self.path_to_output_files = '/home/thomas.kolonko/generated_vgg13_bn'
         # Create the folder to export images if not exists
         if not os.path.exists(self.path_to_output_files):
             os.makedirs(self.path_to_output_files)
@@ -47,7 +47,7 @@ class CNNLayerVisualization():
         processed_image = preprocess_image(random_image, False)
         # Define optimizer for the image
         optimizer = Adam([processed_image], lr=0.1, weight_decay=1e-6)
-        for i in range(1, 60):
+        for i in range(1, 31):
             optimizer.zero_grad()
             # Assign create image to a variable to move forward in the model
             x = processed_image
@@ -71,7 +71,7 @@ class CNNLayerVisualization():
             # Recreate image
             self.created_image = recreate_image(processed_image)
             # Save image
-            if i % 5 == 0:
+            if i % 30 == 0:
                 im_path = self.path_to_output_files + '/layer_vis_l' + str(self.selected_layer) + \
                     '_f' + str(self.selected_filter) + '_iter' + str(i) + '.jpg'
                 save_image(self.created_image, im_path)
@@ -112,16 +112,27 @@ class CNNLayerVisualization():
             # Recreate image
             self.created_image = recreate_image(processed_image)
             # Save image
-            if i % 5 == 0:
+            if i % 30 == 0:
                 im_path = self.path_to_output_files + '/layer_vis_l' + str(self.selected_layer) + \
                     '_f' + str(self.selected_filter) + '_iter' + str(i) + '.jpg'
                 save_image(self.created_image, im_path)
 
 
 def load_model_from_file():
-    path_to_checkpoint = '/home/thomas.kolonko/f_vgg13_g_16_optimized/vgg13_bn_g_16_optimized/FINAL/model_name=vgg13_bn_g/epochs=50/lr=0.1/decay_lr=20/momentum=0.499036/weight_decay=1e-05/13-04-19-00h-11m-17s/checkpoint.pth.tar'
+    # VGG13_bn_pre for chapter 5
+    path_to_checkpoint = '/home/thomas.kolonko/OutputHistory/SIGOPT/output_asbestos_vgg13_bn_sigopt/' \
+                         'tz_asbestos_vgg13_bn_sigopt_pre/FINAL/model_name=vgg13_bn/epochs=50/pretrained=True/' \
+                         'lr=0.09353319065678362/decay_lr=20/momentum=0.04107414719444524/' \
+                         'weight_decay=0.009733960128499166/26-03-19-07h-13m-43s/checkpoint.pth.tar'
+    # VGG13_bn for chapter 5
+    path_to_checkpoint = '/home/thomas.kolonko/OutputHistory/SIGOPT/output_asbestos_vgg13_bn_sigopt/' \
+                         'tz_asbestos_vgg13_bn_sigopt/FINAL/model_name=vgg13_bn/epochs=50/lr=0.05417303921420196/' \
+                         'decay_lr=20/momentum=0.6435035228001551/weight_decay=0.0032227545216798603/' \
+                         '28-03-19-22h-26m-56s/checkpoint.pth.tar'
+
+    # path_to_checkpoint = '/home/thomas.kolonko/f_vgg13_g_16_optimized/vgg13_bn_g_16_optimized/FINAL/model_name=vgg13_bn_g/epochs=50/lr=0.1/decay_lr=20/momentum=0.499036/weight_decay=1e-05/13-04-19-00h-11m-17s/checkpoint.pth.tar'
     # path_to_checkpoint = '/home/thomas.kolonko/yolo/tz_asbestos_densenet121_sigopt/FINAL/model_name=densenet121/epochs=50/lr=0.01/decay_lr=20/momentum=0.9/07-04-19-11h-54m-41s/checkpoint.pth.tar'
-    model = models.__dict__['vgg13_bn_g'](output_channels=2, pretrained=False)
+    model = models.__dict__['vgg13_bn'](output_channels=2, pretrained=False)
     if os.path.isfile(path_to_checkpoint):
         # TODO: Remove or make param: map_location
         model_dict = torch.load(path_to_checkpoint, map_location='cpu')
@@ -136,11 +147,12 @@ def load_model_from_file():
     return model.features
 
 if __name__ == '__main__':
-    cnn_layer = [17,21]
-    filter_pos = [0,1,2,3]
+    cnn_layer = [0,3,7,10,14,17,21,24,28,31]
+    # filter_pos = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+    filter_pos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
     # Fully connected layer is not needed
     load_model_from_file()
-    pretrained_model_original = models.vgg13_bn_g(pretrained=True).features
+    pretrained_model_original = models.vgg13_bn(pretrained=False).features
     pretrained_model_new = load_model_from_file()
     for actual_layer in cnn_layer:
         for actual_pos in filter_pos:
