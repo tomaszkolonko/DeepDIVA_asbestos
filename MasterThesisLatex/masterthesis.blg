@@ -11,46 +11,49 @@ Database file #1: sections/biblio.bib
 -- IEEEtran.bst version 1.11 (2003/04/02) by Michael Shell.
 -- http://www.ctan.org/tex-archive/macros/latex/contrib/supported/IEEEtran/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--missing school in mohammed2015
+Warning--empty journal in griffin2007caltech
 
 Done.
-You've used 17 entries,
+You've used 74 entries,
             3975 wiz_defined-function locations,
-            869 strings with 9962 characters,
-and the built_in function-call counts, 10804 in all, are:
-= -- 815
-> -- 249
-< -- 71
-+ -- 140
-- -- 42
-* -- 482
-:= -- 1579
-add.period$ -- 34
-call.type$ -- 17
-change.case$ -- 23
-chr.to.int$ -- 192
-cite$ -- 17
-duplicate$ -- 812
-empty$ -- 978
-format.name$ -- 53
-if$ -- 2492
+            1137 strings with 19366 characters,
+and the built_in function-call counts, 44610 in all, are:
+= -- 3480
+> -- 1005
+< -- 285
++ -- 559
+- -- 174
+* -- 1969
+:= -- 6701
+add.period$ -- 152
+call.type$ -- 74
+change.case$ -- 103
+chr.to.int$ -- 714
+cite$ -- 76
+duplicate$ -- 3432
+empty$ -- 3932
+format.name$ -- 216
+if$ -- 10247
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 149
-newline$ -- 71
-num.names$ -- 11
-pop$ -- 409
+int.to.str$ -- 74
+missing$ -- 649
+newline$ -- 242
+num.names$ -- 45
+pop$ -- 1702
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 854
+skip$ -- 3538
 stack$ -- 0
-substring$ -- 477
-swap$ -- 585
-text.length$ -- 7
+substring$ -- 1800
+swap$ -- 2493
+text.length$ -- 47
 text.prefix$ -- 0
 top$ -- 5
 type$ -- 0
-warning$ -- 0
-while$ -- 39
-width$ -- 19
-write$ -- 162
+warning$ -- 2
+while$ -- 158
+width$ -- 76
+write$ -- 657
+(There were 2 warnings)

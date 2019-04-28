@@ -444,9 +444,67 @@ It can be very well observed that with increasing depth of the network more comp
 \label{fig:vgg13_fromscratch_filters}
 \end{figure}
 
-It is very interesting to observe that no complex patterns can be found in these layer activations. There is a lot of noise in the images. Although rock like structures could be interpreted into these visualizations, fiber like structures are missing completely.
+It is very interesting to observe that no complex patterns can be found in these layer activations instead, there is a lot of noise in the images. Although rock like structures could be interpreted into these visualizations, fiber like structures are missing completely.
 
-Applying 
+Applying Grad-CAM and heatmap visualizations can show important regions of the image that correspond to a certain classification. These areas are colored in deep red to orange, whereas areas that did not contribute are colored in blue to violet. Figure \ref{fig:vgg13_pre_heatmap} shows two Gad-CAM visualizations from different layers. In the first row the second convolution layer is shown with the network recognizing rather fine-grained regions detected by the low-level feature maps. The second row shows the last convolution layer where high-level feature maps are captured.
+
+\begin{figure}[H]
+\centering
+\caption{Grad-Cam and heatmap visualizations are shown for the pre-trained architectures for layers 3 and 31}
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/7-Cam-Grayscale.png}
+}
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/7-Cam-Heatmap.png}
+}
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/7-Cam-Image.png}
+}
+
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/31-Cam-Grayscale.png}
+}
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/31-Cam-Heatmap.png}
+}
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/31-Cam-Image.png}
+}
+\label{fig:vgg13_pre_heatmap}
+\end{figure}
+
+In Figure \ref{fig:vgg13_heatmap} the same Grad-CAM visualizations are shown at the same layers for the model trained from scratch. It can be easily seen that although the low-level features are still similar the last convolution layer yields completely different results.
+
+\begin{figure}[H]
+\centering
+\caption{Grad-Cam and heatmap visualizations are shown for the pre-trained architectures for layers 3 and 31}
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/7-Cam-Grayscale.png}
+}
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/7-Cam-Heatmap.png}
+}
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/7-Cam-Image.png}
+}
+
+
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/31-Cam-Grayscale.png}
+}
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/31-Cam-Heatmap.png}
+}
+\subfigure{
+\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/31-Cam-Image.png}
+}
+\label{fig:vgg13_heatmap}
+\end{figure}
+
+
+
+
+
 
 
 
