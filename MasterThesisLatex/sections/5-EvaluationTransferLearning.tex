@@ -452,23 +452,23 @@ Applying Grad-CAM and heatmap visualizations can show important regions of the i
 \centering
 \caption{Grad-Cam and heatmap visualizations are shown for the pre-trained architectures for layers 3 and 31}
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/7-Cam-Grayscale.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn-pre/7-Cam-Grayscale.png}
 }
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/7-Cam-Heatmap.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn-pre/7-Cam-Heatmap.png}
 }
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/7-Cam-Image.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn-pre/7-Cam-Image.png}
 }
 
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/31-Cam-Grayscale.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn-pre/31-Cam-Grayscale.png}
 }
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/31-Cam-Heatmap.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn-pre/31-Cam-Heatmap.png}
 }
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn-pre/31-Cam-Image.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn-pre/31-Cam-Image.png}
 }
 \label{fig:vgg13_pre_heatmap}
 \end{figure}
@@ -479,27 +479,30 @@ In Figure \ref{fig:vgg13_heatmap} the same Grad-CAM visualizations are shown at 
 \centering
 \caption{Grad-Cam and heatmap visualizations are shown for the pre-trained architectures for layers 3 and 31}
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/7-Cam-Grayscale.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn/7-Cam-Grayscale.png}
 }
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/7-Cam-Heatmap.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn/7-Cam-Heatmap.png}
 }
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/7-Cam-Image.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn/7-Cam-Image.png}
 }
 
 
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/31-Cam-Grayscale.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn/31-Cam-Grayscale.png}
 }
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/31-Cam-Heatmap.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn/31-Cam-Heatmap.png}
 }
 \subfigure{
-\includegraphics[width=.31\textwidth]{images/chapter5/vgg13-bn/31-Cam-Image.png}
+\includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn/31-Cam-Image.png}
 }
 \label{fig:vgg13_heatmap}
 \end{figure}
+
+
+
 
 
 
@@ -515,13 +518,9 @@ In Figure \ref{fig:vgg13_heatmap} the same Grad-CAM visualizations are shown at 
 
 
 
-
-
-
-
 \section{ResNet}
 
-ResNet18 and ResNet34 were both optimized with SigOpt only. Per each hyperparameter 10 runs were conducted summing up to 30 runs. It was used for training the architecture from scratch and with pre-trained weights. Table \ref{tbl:ResNet_overview} shows a summary of the optimization process with the best accuracies and the delta between the pre-trained model and the model trained from scratch.
+ResNet18 and ResNet34 were both optimized with SigOpt only. For each hyper parameter 10 runs were conducted summing up to 30 runs. It was used for training the architecture from scratch and with pre-trained weights. Table \ref{tbl:ResNet_overview} shows a summary of the optimization process with the best accuracies and the delta between the pre-trained model and the model trained from scratch.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -540,32 +539,33 @@ ResNet34     pre-trained    &     0.060848 & 0.460187 &  0.000537 & 20 & 87.0431
 \label{tbl:ResNet18}
 \end{table}
 
-Since ResNet18 performed better while being less complex (having less parameters to train), further investigation will focus on ResNet18.
-The graphs in Figure \ref{fig:resnet18-graph} show clearly that training converged much faster for the model with pre-trained weights. After only a few epochs it reached convergence while the model without pre-trained weights had to catch up over many epochs and actually overfitted to the training data somewhere after epoch 30. The validation error started to slightly decrease for the model trained from scratch while the training accuracy kept climbing. This is considered bad and is also reflected in the final accuracies.
+ResNet18 and ResNet34 perform equally well when trained form scratch but differ slightly when pre-trained weights from ImageNet are used. The increased gain from transfer learning for ResNet18 is thus higher and since it has less parameters, it is the preferred architecture to be further evaluated.\\
+
+The graphs in Figure \ref{fig:resnet18-graph} show clearly that training converged much faster for the model with pre-trained weights. After only a few epochs it reached convergence while the model without pre-trained weights had to catch up over many epochs. Both models overfit strongly to the training data and yield lower results in the validation and test sets. Interestingly the validation accuracy of the model trained from scratch starts to decrease around epoch 30 although training accuracy still rises. This is considered bad and is also reflected in the final accuracies where the model without transfer learning scores around 5\% lower.
 
 \begin{figure}[h]
 \centering
+\caption{Training and validation graphs for ResNet18 once with pre-trained weights from ImageNet and once trained from scratch.}
 \subfigure{
 \includegraphics[width=.46\textwidth]{images/chapter5/TL/ResNet18/TA-ResNet18.png}
 }
 \subfigure{
 \includegraphics[width=.46\textwidth]{images/chapter5/TL/ResNet18/VA-ResNet18.png}
 }
-\caption{Training and validation graphs for ResNet18 once with pre-trained weights from ImageNet and once trained from scratch.}
 \label{fig:resnet18-graph}
 \end{figure}
 
-With the confusion matrix in Figure \ref{resnet18-cm} we can see that the learning did not take any shortcuts and that the distinction between images with asbestos fibers and images without were clearly separated to some extent that is reflected in the overall accuracy reached. The Precision and Recall for the model trained from scratch are 77.78\% and 80.99\%, respectively. For model with pre-trained weight, Precision and Recall are much better with 83.47\% and 87.60\%, respectively.
+With the confusion matrix in Figure \ref{fig:resnet18-cm} we can see that the learning did not take any shortcuts and that the distinction between images with asbestos fibers and images without were clearly separated to some extent that is reflected in the overall accuracy reached. The Precision and Recall for the model trained from scratch are 77.78\% and 80.99\%, respectively. For the model with pre-trained weight, Precision and Recall are much better with 83.47\% and 87.60\%, respectively.
 
 \begin{figure}[h]
 \centering
+\caption{On the left: confusion matrix from model trained from scratch. On the right trained with transfer learning applied.}
 \subfigure{
 \includegraphics[width=.46\textwidth]{images/chapter5/TL/ResNet18/cm-resnet18.png}
 }
 \subfigure{
 \includegraphics[width=.46\textwidth]{images/chapter5/TL/ResNet18/cm-resnet18-pre.png}
 }
-\caption{On the left: confusion matrix from model trained from scratch. On the right trained with transfer learning applied.}
 \label{fig:resnet18-cm}
 \end{figure}
 
@@ -585,15 +585,9 @@ With the confusion matrix in Figure \ref{resnet18-cm} we can see that the learni
 
 
 
-
-
-
-
-
-
 \section{Densenet121}
 
-Hyperparameter optimization for densenet121 was done with SigOpt and for both variants, training from scratch and training with pre-trained weights from ImageNet.
+Densenet121 and densenet169 were both optimized with SigOpt only. For each hyper parameter 10 runs were conducted summing up to 30 runs. It was used for training the architecture from scratch and with pre-trained weights. Table \ref{tbl:Densenet121_overview} shows a summary of the optimization process with the best accuracies and the delta between the pre-trained model and the model trained from scratch.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -604,40 +598,30 @@ Hyperparameter optimization for densenet121 was done with SigOpt and for both va
 \midrule
 Densenet121     from scratch    & 0.035925 & 0.057618 &  0.009241 & 20 & 86.0465\%  &         \\
 Densenet121     pre-trained    &     0.018489     & 0.369998 &  0.004963 & 20 & 88.3721\%  & +2.3256\\
-\bottomrule
-\end{tabular}}
-\label{tbl:Densenet121}
-\end{table}
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%    DENSENET169    %%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-\section{Densenet169}
-
-Hyperparameter optimization for densenet169 was done with SigOpt and for both variants, training from scratch and training with pre-trained weights from ImageNet.
-
-\begin{table}[h] \centering
-\ra{1.3}
-\caption{Hyper parameters for densenet121 optimized with SigOpt. First row shows hyperparameters training the architecture from scratch. Second row used pre-trained weights from ImageNet}
-\resizebox{0.99\textwidth}{!}{%
-\begin{tabular}{@{}rrrrrrr@{}}
-\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
 \midrule
 Densenet169 from scratch    & 0.005812 & 0.777249 & 0.006999  & 20 & 85.3821\%  &         \\
 Densenet169 pre-trained    & 0.006347 & 0.447591 & 0.005180 & 20 & 89.3688\%  & +3.9867\\
 \bottomrule
 \end{tabular}}
-\label{tbl:Densenet169}
+\label{tbl:Densenet121_overview}
 \end{table}
+
+As already seen in the previous comparisons of VGG and ResNet architectues, the parameter size does not seem to play a role in this specific task. If the model is trained from scratch, densenet121 achieves slightly higher accuracies than densenet161. The opposite is true for the model trained with transfer learning where densenet169 performs slightly better. Since the difference is very small densenet121 is preferred for further investigation over the deeper densenet169 architecture.
+
+The graphs in Figure \ref{fig:densenet121-graph} show again a very similar and alread known behavior. Convergence happens much faster with the pre-trained model.
+
+\begin{figure}[h]
+\centering
+\caption{Training and validation graphs for densenet121 once with pre-trained weights from ImageNet and once trained from scratch.}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/TL/Densenet121/TA-densenet121.png}
+}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/TL/Densenet121/VA-densenet121.png}
+}
+\label{fig:densenet121-graph}
+\end{figure}
+
 
 
 
@@ -676,6 +660,8 @@ Inception v3 pre-trained    & 0.029269 & 0.0 & 0.006320 & 20 & 88.7043\%  & +5.3
 \section{Conclusion on Transfer Learning}
 
 Using pre-trained weights from ImagNet increased accuracy of every single run performed on the above mentioned architectures. Apparently the learned feature representations are general enough to be of high  value regardles of the target domain. These findings align perfectly well with other research done on cross-domain transfer learning. By average ALKJJDLFKJDFLKJLKDFJ
+
+Overfitting was often a problem and this should be addressed through cropping and randomization
 
 At first it was very surprising that learning from scratch never caught up with the models using transfer learning from ImageNet. I was certain that given enough epochs and different runs the models from scratch should find at least equally suited feature mappings with random initialization of weights. But visualizing  some of the filters quickly made it clear that learning from scratch  with the provided dataset doesn't create elaborate feature mappings as seen from ImageNet. I argue that although the vast majority of feature mappings are absolutely useless for the asbestos classification, some feature mappings of e.g. grass or hair might be similar enough for the filter to activate maximally. Since the asbestos task is only a binary classification few of these filters are enogh to predict asbestos with a high accuracy. These elaborate feature mappings are not able to be created from scratch with a dataset of only a few hundred, partially wrongly labeled images, thus the model trained from scratch never reaches the accuracy of the pre-trained model.
 
