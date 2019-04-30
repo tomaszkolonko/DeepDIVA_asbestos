@@ -18,78 +18,6 @@
 \fi
 #2}}
 
-\bibitem{chrysoltileFullSizeImage}
-``{Asbestorama - University Museum Chysotile Asbestos Specimen - Flickr},''
-  \url{https://www.flickr.com/photos/asbestos_pix/14900040117/in/photostream/},
-  2019, [Online; accessed 03-April-2019].
-
-\bibitem{mohammed2015}
-M.~Ahmed, ``Mechanochemical grinding technology for recycling of asbestos
-  containing waste,'' Ph.D. dissertation, 08 2015.
-
-\bibitem{cossio2018innovative}
-R.~Cossio, C.~Albonico, A.~Zanella, S.~Fraterrigo-Garofalo, C.~Avataneo,
-  R.~Compagnoni, and F.~Turci, ``Innovative unattended sem-eds analysis for
-  asbestos fiber quantification,'' \emph{Talanta}, vol. 190, pp. 158--166,
-  2018.
-
-\bibitem{alom2018history}
-M.~Z. Alom, T.~M. Taha, C.~Yakopcic, S.~Westberg, M.~Hasan, B.~C. Van~Esesn,
-  A.~A.~S. Awwal, and V.~K. Asari, ``The history began from alexnet: A
-  comprehensive survey on deep learning approaches,'' \emph{arXiv preprint
-  arXiv:1803.01164}, 2018.
-
-\bibitem{cs231neuralnetworks}
-``{CS231n Convolutional Neural Networks for Visual Recognition - Neural
-  Networks 1},'' \url{http://cs231n.github.io/neural-networks-1/}, 2019,
-  [Online; accessed 20-March-2019].
-
-\bibitem{reinventingNN}
-``{Reinventing Neural Networks},''
-  \url{https://www.codeproject.com/Articles/1220276/ReInventing-Neural-Networks},
-  2019, [Online; accessed 20-March-2019].
-
-\bibitem{cs231nconvolution}
-``{Lecture 5 - Convolutional Neural Networks},''
-  \url{http://cs231n.stanford.edu/slides/2018/cs231n_2018_lecture05.pdf}, 2019,
-  [Online; accessed 20-March-2019].
-
-\bibitem{cs231convnetworks}
-``{CS231n Convolutional Neural Networks for Visual Recognition - Convolutional
-  Networks},'' \url{http://cs231n.github.io/convolutional-networks/}, 2019,
-  [Online; accessed 20-March-2019].
-
-\bibitem{krizhevsky2012imagenet}
-A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton, ``Imagenet classification with
-  deep convolutional neural networks,'' in \emph{Advances in neural information
-  processing systems}, 2012, pp. 1097--1105.
-
-\bibitem{ferguson2017automatic}
-M.~Ferguson, R.~Ak, Y.-T.~T. Lee, and K.~H. Law, ``Automatic localization of
-  casting defects with convolutional neural networks,'' in \emph{2017 IEEE
-  International Conference on Big Data (Big Data)}.\hskip 1em plus 0.5em minus
-  0.4em\relax IEEE, 2017, pp. 1726--1735.
-
-\bibitem{canziani2016analysis}
-A.~Canziani, A.~Paszke, and E.~Culurciello, ``An analysis of deep neural
-  network models for practical applications,'' \emph{arXiv preprint
-  arXiv:1605.07678}, 2016.
-
-\bibitem{ReviewGoogleLeNetv1}
-``{Review GoogLeNet (Inception v1) Winner of ILSVRC 2014},''
-  \url{https://medium.com/coinmonks/paper-review-of-googlenet-inception-v1-winner-of-ilsvlc-2014-image-classification-c2b3565a64e7},
-  2019, [Online; accessed 27-March-2019].
-
-\bibitem{he2016deep}
-K.~He, X.~Zhang, S.~Ren, and J.~Sun, ``Deep residual learning for image
-  recognition,'' in \emph{Proceedings of the IEEE conference on computer vision
-  and pattern recognition}, 2016, pp. 770--778.
-
-\bibitem{huang2017densely}
-G.~Huang, Z.~Liu, L.~Van Der~Maaten, and K.~Q. Weinberger, ``Densely connected
-  convolutional networks,'' in \emph{Proceedings of the IEEE conference on
-  computer vision and pattern recognition}, 2017, pp. 4700--4708.
-
 \bibitem{asbestosMaacenter}
 ``{Asbestos - Asbestos is a mineral that has been utilized in thousands of
   products, but exposure to the toxin can cause mesothelioma and other
@@ -100,6 +28,15 @@ G.~Huang, Z.~Liu, L.~Van Der~Maaten, and K.~Q. Weinberger, ``Densely connected
 E.~P.~A. (EPA), ``Framework for investigating asbestos-contaminated superfund
   sites,'' 2008.
 
+\bibitem{chrysoltileFullSizeImage}
+``{Asbestorama - University Museum Chysotile Asbestos Specimen - Flickr},''
+  \url{https://www.flickr.com/photos/asbestos_pix/14900040117/in/photostream/},
+  2019, [Online; accessed 03-April-2019].
+
+\bibitem{mohammed2015}
+M.~Ahmed, ``Mechanochemical grinding technology for recycling of asbestos
+  containing waste,'' Ph.D. dissertation, 08 2015.
+
 \bibitem{MesotheliomaWiki}
 ``{Mesothelioma},'' \url{https://en.wikipedia.org/wiki/Mesothelioma}, 2019,
   [Online; accessed 12-March-2019].
@@ -107,6 +44,11 @@ E.~P.~A. (EPA), ``Framework for investigating asbestos-contaminated superfund
 \bibitem{asbestosisWiki}
 ``{Asbestosis},'' \url{https://en.wikipedia.org/wiki/Asbestosis}, 2019,
   [Online; accessed 12-March-2019].
+
+\bibitem{krizhevsky2012imagenet}
+A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton, ``Imagenet classification with
+  deep convolutional neural networks,'' in \emph{Advances in neural information
+  processing systems}, 2012, pp. 1097--1105.
 
 \bibitem{imagenet}
 ``{ImageNet},'' \url{http://www.image-net.org/}, 2019, [Online; accessed
@@ -130,6 +72,12 @@ A.~Campopiano, A.~Olori, B.~M. Bruni, L.~Benini, M.~Campanella, F.~Cavariani,
 \bibitem{robson2018fiac}
 M.~Robson, A.~Mian, A.~Mehnert, and R.~Ward, ``Fibrous image analysis and
   counting,'' in \emph{2018 CEED Seminar Proceedings}, 2018.
+
+\bibitem{cossio2018innovative}
+R.~Cossio, C.~Albonico, A.~Zanella, S.~Fraterrigo-Garofalo, C.~Avataneo,
+  R.~Compagnoni, and F.~Turci, ``Innovative unattended sem-eds analysis for
+  asbestos fiber quantification,'' \emph{Talanta}, vol. 190, pp. 158--166,
+  2018.
 
 \bibitem{kawabata2009asbestos}
 K.~Kawabata, Y.~Komori, T.~Mishima, and H.~Asama, ``An asbestos fiber detection
@@ -218,6 +166,12 @@ K.~He, G.~Gkioxari, P.~Doll{\'a}r, and R.~Girshick, ``Mask r-cnn,'' in
 ``{The Latex Project},'' \url{https://www.latex-project.org/}, 2019, [Online;
   accessed 26-April-2019].
 
+\bibitem{alom2018history}
+M.~Z. Alom, T.~M. Taha, C.~Yakopcic, S.~Westberg, M.~Hasan, B.~C. Van~Esesn,
+  A.~A.~S. Awwal, and V.~K. Asari, ``The history began from alexnet: A
+  comprehensive survey on deep learning approaches,'' \emph{arXiv preprint
+  arXiv:1803.01164}, 2018.
+
 \bibitem{brunel2014single}
 N.~Brunel, V.~Hakim, and M.~J. Richardson, ``Single neuron dynamics and
   computation,'' \emph{Current opinion in neurobiology}, vol.~25, pp. 149--155,
@@ -226,6 +180,16 @@ N.~Brunel, V.~Hakim, and M.~J. Richardson, ``Single neuron dynamics and
 \bibitem{london2005dendritic}
 M.~London and M.~H{\"a}usser, ``Dendritic computation,'' \emph{Annu. Rev.
   Neurosci.}, vol.~28, pp. 503--532, 2005.
+
+\bibitem{cs231neuralnetworks}
+``{CS231n Convolutional Neural Networks for Visual Recognition - Neural
+  Networks 1},'' \url{http://cs231n.github.io/neural-networks-1/}, 2019,
+  [Online; accessed 20-March-2019].
+
+\bibitem{reinventingNN}
+``{Reinventing Neural Networks},''
+  \url{https://www.codeproject.com/Articles/1220276/ReInventing-Neural-Networks},
+  2019, [Online; accessed 20-March-2019].
 
 \bibitem{goodale1992separate}
 M.~A. Goodale and A.~D. Milner, ``Separate visual pathways for perception and
@@ -239,6 +203,16 @@ I.~Caswell, C.~Shen, and L.~Wang, ``Loopy neural nets: Imitating feedback loops
 ``{The MNIST Database of handwritten digits},''
   \url{http://yann.lecun.com/exdb/mnist/}, 2019, [Online; accessed
   20-March-2019].
+
+\bibitem{cs231nconvolution}
+``{Lecture 5 - Convolutional Neural Networks},''
+  \url{http://cs231n.stanford.edu/slides/2018/cs231n_2018_lecture05.pdf}, 2019,
+  [Online; accessed 20-March-2019].
+
+\bibitem{cs231convnetworks}
+``{CS231n Convolutional Neural Networks for Visual Recognition - Convolutional
+  Networks},'' \url{http://cs231n.github.io/convolutional-networks/}, 2019,
+  [Online; accessed 20-March-2019].
 
 \bibitem{everingham2010pascal}
 M.~Everingham, L.~Van~Gool, C.~K. Williams, J.~Winn, and A.~Zisserman, ``The
@@ -271,6 +245,11 @@ A.~Torralba, R.~Fergus, and W.~T. Freeman, ``80 million tiny images: A large
   transactions on pattern analysis and machine intelligence}, vol.~30, no.~11,
   pp. 1958--1970, 2008.
 
+\bibitem{he2016deep}
+K.~He, X.~Zhang, S.~Ren, and J.~Sun, ``Deep residual learning for image
+  recognition,'' in \emph{Proceedings of the IEEE conference on computer vision
+  and pattern recognition}, 2016, pp. 770--778.
+
 \bibitem{humanlevel2014}
 ``{What I learned from competing against a ConvNet on ImageNet},''
   \url{http://karpathy.github.io/2014/09/02/what-i-learned-from-competing-against-a-convnet-on-imagenet/},
@@ -285,6 +264,17 @@ M.~D. Zeiler and R.~Fergus, ``Visualizing and understanding convolutional
 K.~Simonyan and A.~Zisserman, ``Very deep convolutional networks for
   large-scale image recognition,'' \emph{arXiv preprint arXiv:1409.1556}, 2014.
 
+\bibitem{ferguson2017automatic}
+M.~Ferguson, R.~Ak, Y.-T.~T. Lee, and K.~H. Law, ``Automatic localization of
+  casting defects with convolutional neural networks,'' in \emph{2017 IEEE
+  International Conference on Big Data (Big Data)}.\hskip 1em plus 0.5em minus
+  0.4em\relax IEEE, 2017, pp. 1726--1735.
+
+\bibitem{canziani2016analysis}
+A.~Canziani, A.~Paszke, and E.~Culurciello, ``An analysis of deep neural
+  network models for practical applications,'' \emph{arXiv preprint
+  arXiv:1605.07678}, 2016.
+
 \bibitem{szegedy2015going}
 C.~Szegedy, W.~Liu, Y.~Jia, P.~Sermanet, S.~Reed, D.~Anguelov, D.~Erhan,
   V.~Vanhoucke, and A.~Rabinovich, ``Going deeper with convolutions,'' in
@@ -294,6 +284,11 @@ C.~Szegedy, W.~Liu, Y.~Jia, P.~Sermanet, S.~Reed, D.~Anguelov, D.~Erhan,
 \bibitem{lin2013network}
 M.~Lin, Q.~Chen, and S.~Yan, ``Network in network,'' \emph{arXiv preprint
   arXiv:1312.4400}, 2013.
+
+\bibitem{ReviewGoogleLeNetv1}
+``{Review GoogLeNet (Inception v1) Winner of ILSVRC 2014},''
+  \url{https://medium.com/coinmonks/paper-review-of-googlenet-inception-v1-winner-of-ilsvlc-2014-image-classification-c2b3565a64e7},
+  2019, [Online; accessed 27-March-2019].
 
 \bibitem{szegedy2016rethinking}
 C.~Szegedy, V.~Vanhoucke, S.~Ioffe, J.~Shlens, and Z.~Wojna, ``Rethinking the
@@ -325,6 +320,11 @@ K.~He and J.~Sun, ``Convolutional neural networks at constrained time cost,''
 \bibitem{srivastava2015highway}
 R.~K. Srivastava, K.~Greff, and J.~Schmidhuber, ``Highway networks,''
   \emph{arXiv preprint arXiv:1505.00387}, 2015.
+
+\bibitem{huang2017densely}
+G.~Huang, Z.~Liu, L.~Van Der~Maaten, and K.~Q. Weinberger, ``Densely connected
+  convolutional networks,'' in \emph{Proceedings of the IEEE conference on
+  computer vision and pattern recognition}, 2017, pp. 4700--4708.
 
 \bibitem{randolph2005free}
 J.~J. Randolph, ``Free-marginal multirater kappa (multirater k [free]): An

@@ -216,7 +216,7 @@ As shown with the orignal model, Figure \ref{fig:vgg13_g_filter_activation} list
 
 \begin{figure}[H]
 \centering
-\caption{Last Layer visualizations (8 of 512) of the pre-trained VGG13 with batch normalization.}
+\caption{Last Layer visualizations (4 of 4) of the VGG13\_16\_g architecture trained from scratch and with batch normalization.}
 \subfigure{
 \includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-fs/l31-f0.jpg}
 }
@@ -234,10 +234,37 @@ As shown with the orignal model, Figure \ref{fig:vgg13_g_filter_activation} list
 
 
 
+\section{Evaluation Of Overall Number Of Parameters in ResNet18}
+
+Although VGG13 is the biggest network regarding number of learnable parameters (over 128 million), ResNet18 in its original form also has quite many parameter (over 11 million). It has also been built to recognize 1'000 classes from ImageNet, which even distinguishes different breeds of dogs, and therefore is probably too big and too comples for the asbestos task. That is not to say, that the task is simple in its nature, but that asbestos has a common looking structure and the networks hard work is to find this structure in many different settings and under difficult conditions. Reducing the number of filters has another huge benefit of reducing the overall number of trainable parameters and thus speeding up the learning process, using less memory and being much easier to deploy on productive configurations.\\
+
+For the above-mentioned reason, the ResNet18 implementation has been altered to contain only a certain amount of filters in each single layer. The amount has been set to different values ranging from 1 to 32 filters. With 32 filters of size 3x3 only 320 parameters are used per layer. In ResNet18, for example, there are 4 blocks of 2 layers of 320 parameters making in total 2560 parameters. That does not yet count in the first 7x7 convolution and the fully-connected layer with its softmax function but the number of parameters is reduced dramatically as shown in Table \ref{tbl:resnet18-different-filters}. The original version increases it's layers from the initial 3 channels of an image to 64, 128, 256 and 512 filters up to the fully connected layer. The fully connected layer thus again, makes a big bulk of all trainable parameters. Keeping the filters constant does reduce the amount of trainable parameters within the network and automatically also reduces the parameters in the last fully connected layer.
+
+Since observerations on VGG13 have shown that pre-training is not helpful in this scenario, it has been omitted with ResNet18.
 
 
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Resnet18 with different number of filters on the FINAL dataset. The number of filters present in paranthesis is the number of filters used per layer.}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule & accuracy (from scratch) & trainable parameters &  param reduction (\%) \\
+\midrule
+ResNet18 (official)            & 79.62\% &  11'177'538 & 100\%     \\
+ResNet18 (32 filters)            & 78.405\% &  156'578 & 1.4008\%    \\
+ResNet18 (16 filters)            & 81.06\% &  40'658 & 0.3637\%    \\
+ResNet18 (8 filters)            & 79.402\% &  10'922 & 0.0977\%     \\
+ResNet18 (4 filters)            & 79.62\% &  3'110 & 0.0278\%     \\
+ResNet18 (2 filters)            & 80.066\% &  968 & 0.0087\%    \\
+ResNet18 (1 filter)                & 75.083\% &  338 & 0.0030\%     \\
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18-different-filters}
+\end{table}
 
+It is very surprising that reducing the learnable parameters by 99.64\% for the ResNet18 modification with 16 filters yields better results for the asbestos task trained from scratch. It does indeed confirm the hypothesis that for a binary classification of a mineral the current models are way too big and wasteful. Also the ResNet18 modification with only 2 filters per layer (reduction of parameters by 99.99\%) outperforms the original ResNet18 architecture.
 
+Visualization possible?
 
 
 
@@ -250,17 +277,17 @@ All the different dataset variations are compared against each other within the 
 
 \begin{table}[h] \centering
 \ra{1.3}
-\caption{Dataset variations with ResNet18. The first group shows how the datasets performed when trained from scratch whereas the second group shows how the datasets performed with pre-training.}
+\caption{Dataset variations with ResNet18. The first column shows how the datasets performed when trained from scratch whereas the second column shows how the datasets performed with pre-training.}
 \resizebox{0.79\textwidth}{!}{%
 \begin{tabular}{@{}rrrr@{}}
 \toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
 \midrule
-FINAL                        & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -     \\
-FINAL\_C                    &     80.73\% $\pm$ 0.3839 &     84.05\% $\pm$  0.9584 & - \\
-FINAL\_C\_B                &     81.39\% $\pm$ 1.3827 &     85.27\% $\pm$  0.7988 & - \\
-FINAL\_CH                    &     81.62\% $\pm$ 0.2942 &     84.94\% $\pm$  0.3966 & - \\
-FINAL\_CH\_B                &     80.73\% $\pm$ 0.8371 &     85.05\% $\pm$  0.3300 & - \\
-FINAL\_EXTENDED        &     81.06\% $\pm$ 0.3839 &     84.5\% $\pm$ 0.8649 & - \\
+FINAL                        & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & +7.31\%     \\
+FINAL\_C                    &     80.73\% $\pm$ 0.3839 &     84.05\% $\pm$  0.9584 & +3.32\% \\
+FINAL\_C\_B                &     81.39\% $\pm$ 1.3827 &     85.27\% $\pm$  0.7988 & +3.88\% \\
+FINAL\_CH                    &     81.62\% $\pm$ 0.2942 &     84.94\% $\pm$  0.3966 & +3.32 \\
+FINAL\_CH\_B                &     80.73\% $\pm$ 0.8371 &     85.05\% $\pm$  0.3300 & +4.32 \\
+FINAL\_EXTENDED        &     81.06\% $\pm$ 0.3839 &     84.50\% $\pm$ 0.8649 & +3.44 \\
 \bottomrule
 \end{tabular}}
 \label{tbl:resnet18_dataset}
@@ -270,17 +297,17 @@ Changing the train set by reducing questionable and unclear images has lead to c
 
 \begin{table}[h] \centering
 \ra{1.3}
-\caption{Dataset variations with DenseNet121. The first group shows how the datasets performed when trained from scratch whereas the second group shows how the datasets performed with pre-training.}
+\caption{Dataset variations with DenseNet121. The first column shows how the datasets performed when trained from scratch whereas the second column shows how the datasets performed with pre-training.}
 \resizebox{0.79\textwidth}{!}{%
 \begin{tabular}{@{}rrrr@{}}
 \toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
 \midrule
-FINAL                        & 83.72\%  $\pm$ 1.1963 &   86.16\% $\pm$ 1.1704   & -     \\
-FINAL\_C                    &     82.61\% $\pm$ 0.9678 &     83.94\% $\pm$  0.5852 & - \\
-FINAL\_C\_B                &     80.39\% $\pm$ 0.3840 &     85.38\% $\pm$  0.1905 & - \\
-FINAL\_CH                    &     79.61\% $\pm$ 2.2322 &     86.60\% $\pm$  0.3998 & - \\
-FINAL\_CH\_B                &     83.17\% $\pm$ 0.1100 & 81.775\% $\pm$  3.3806 & - \\
-FINAL\_EXTENDED        &     83.06\% $\pm$ 1.0169 &     85.60\% $\pm$ 2.1218 & - \\
+FINAL                        & 83.72\%  $\pm$ 1.1963 &   86.16\% $\pm$ 1.1704   & +2.44\%     \\
+FINAL\_C                    &     82.61\% $\pm$ 0.9678 & 83.94\% $\pm$  0.5852 & +1.33\% \\
+FINAL\_C\_B                &     80.39\% $\pm$ 0.3840 & 85.38\% $\pm$  0.1905 & +4.99\% \\
+FINAL\_CH                    &     79.61\% $\pm$ 2.2322 &  86.60\% $\pm$  0.3998 & +6.99\% \\
+FINAL\_CH\_B                &     83.17\% $\pm$ 0.1100 & 84.37\% $\pm$  0.8124 & +1.20\% \\
+FINAL\_EXTENDED        &     83.06\% $\pm$ 1.0169 &  85.60\% $\pm$ 2.1218 & 2.54\% \\
 \bottomrule
 \end{tabular}}
 \label{tbl:densenet121_dataset}
@@ -295,19 +322,18 @@ With Densenet121 there is no improvement to be seen by changing the dataset. If 
 \begin{tabular}{@{}rrrr@{}}
 \toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
 \midrule
-FINAL                        & 82.83\%  $\pm$ 0.6157 &  85.93\% $\pm$ 0.3998   & -     \\
-FINAL\_C                    &     80.4\% $\pm$ 0.6926 & 85.82\% $\pm$  0.2942 & - \\
-FINAL\_C\_B                &     82.06\% $\pm$ 1.7749 & 83.05\% $\pm$  2.6700 & - \\
-FINAL\_CH                    &     80.04\% $\pm$ 0.4666 & 84.83\% $\pm$ 1.2492 & - \\
-FINAL\_CH\_B                &     81.06\% $\pm$ 0.3839 & 85.27\% $\pm$  1.2200 & - \\
-FINAL\_EXTENDED        &     81.72\% $\pm$ 0.3839 & 84.16\% $\pm$ 0.4433 & - \\
+FINAL                        & 82.83\%  $\pm$ 0.6157 &  85.93\% $\pm$ 0.3998   & +3.1\%     \\
+FINAL\_C                    &  80.4\% $\pm$ 0.6926 & 85.82\% $\pm$  0.2942 & +5.42\% \\
+FINAL\_C\_B                & 82.06\% $\pm$ 1.7749 & 85.27\% $\pm$  1.5651 & +3.21\% \\
+FINAL\_CH                    & 81.06\% $\pm$ 0.5430 & 85.71\% $\pm$ 0.2735 & +4.65\% \\
+FINAL\_CH\_B                & 81.06\% $\pm$ 0.3839 & 85.27\% $\pm$  1.2200 & +4.21\% \\
+FINAL\_EXTENDED        & 81.72\% $\pm$ 0.3839 & 84.16\% $\pm$ 0.4433 & +2.44\% \\
 \bottomrule
 \end{tabular}}
 \label{tbl:inceptionv3_dataset}
 \end{table}
 
-Inception v3 died several times during testing so the data points are not complete. But in general it shows the same behavior as with the other two architectures, there is no improvement by changing the dataset. Also surprising is the fact that FINAL\_EXTENDED yielded better results for ResNet18 trained from scratch only. All other runs resulted in a worse overall accuracy which is difficult to understand.
-
+For the inception v3 architecture trained from scratch and trained with pre-trained weights there is a very slight but constant disadvantage to use different datasets which I cannot make sense of. Removing images  with errors or  adding the validation images to the training set should increase overall accuracy, but this increase is never significantly  observed.
 
 
 
@@ -322,13 +348,69 @@ Inception v3 died several times during testing so the data points are not comple
 
 \section{Evaluation Of Different Cropping And Augmentation Methods}
 
-In order to mitigate the strong overfitting observed in the 
+In chapter 5, strong overfitting was observed in the training set. ResNet18 with transfer learning for example converged in only about 5 epochs to nearly 100\% accuracy on the training set and stayed there as seen in Figure \ref{fig:resnet18-graph}. The accuracy from the test set, showed that this accuracy was due to overfitting. In order to mitigate this problem, several cropping and resizing methods will be used on ResNet18 with the goal of reducing overfitting on training  and increasing  generalization and thus achieving better results  on the test set. Also, some randomness through random flipping and mirroring is introduced. As for the dataset, only the FINAL variation is used for this part.
+
+\subsection{Randomness}
+
+Here, random cropping is performed first in order to crop the image to the smallest image height in the dataset which is 768 pixels this already allows vertical and horizontal randomness leading to every epoch training on different augmented images. Then the image is resized to the expected input size of the network being 224x224 pixels for ResNet18. With resizing a  smaller image then the orginal image, less information is lost due to the resizing process, which is a good  thing. In the end two transformations happen with a probability of 0.5: flipping horizontally and flipping vertically. All transformations are performed on the training set only. One run was  performed as usual with 50 epochs  and a  learning rate decay every 20 epochs. Since data augmentation yields new images to  train from every epoch, there is  much more variation and less  overfitting. Therefore another 3 runs have been performed with 100 epochs and a learning rate decay every  30 epochs. The summary of these is shown in Table \ref{tbl:ResNet18_cropping}: \\
+
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Cropping, resizing and  random flipping performed on the ResNet18 architecture with and without transfer learning. The first row is a run with the original configuration without any randomness or cropping and serves as comparison.}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\midrule
+ResNet18 original & 79.62\%  $\pm$ 0.9465 &  85.83\% $\pm$ 0.4144 & +6.21\%     \\
+\midrule
+ResNet18 (50 epochs) & 81.73\%  $\pm$ 1.0859 &  84.83\% $\pm$ 0.7825 & +3.1\%     \\
+ResNet18 (100 epochs) &  81.17\% $\pm$ 0.8708 & 85.93\% $\pm$ 0.3158 & +4.76\% \\
+\bottomrule
+\end{tabular}}
+\label{tbl:ResNet18_cropping}
+\end{table}
+
+Unfortunately, the improvement in accuracy of only 2.11\% for the ResNet18 trained from scratch with simple data augmentation is not as high as expected. From the model with the pre-trained weights it even gets worse with a decrase of exactly 1\%. But as seen in Graph \ref{fig:resnet18-da-graph} no overfitting takes place for the model trained from scratch and less overfitting is found in the pre-trained model. This is in strong contrast to Figure \ref{fig:resnet18-graph} from Chapter 5.
+
+\begin{figure}[h]
+\centering
+\caption{Training and validation graphs for ResNet18 with simple data augmentation. Once with pre-trained weights from ImageNet and once trained from scratch.}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter6/resnet18-da/TA-resnet18-da.png}
+}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter6/resnet18-da/VA-resnet18-da.png}
+}
+\label{fig:resnet18-da-graph}
+\end{figure}
+
+Convergence happens at roughly the same amount of epochs. The model trained from scratch does never catch up with the pre-trained model which has already been attributed to the more complex feature mappings of the pre-trained model. A very interesting point can be seen in Table \ref{tbl:ResNet18_cropping_different_acc} where on the first two rows the ResNet runs are shown as performed in Chapter 5. Severe overfitting happens for the pre-trained model after only a few epochs and after the model trained from scratch towards the end. But both are near 100\% accuracy for the training. The validation accuracy is much more realistic since it does only test the network on this data. Validation and test set accuracies should be near each other. For the ResNet18 architecture with cropping and 50 epochs no overfitting can be observed. The training accuracy remains around 82\% for training, validation and test sets. This simple data augmentation is enough to create new images for roughly 50 epochs, but not for 100 epochs. Although there is some randomness introduced, it is not sophisticated enough.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{Different set accuracies. If the training accuracy is much higher than the validation or test accuracy, then there is a problem with overfitting to the training data.}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & accuracy train set  & accuracy validation set &  accuracy test set \\
+\midrule
+ResNet18 original (from scratch)		& 99.28\%   &  77.83\%  & 79.62\%     \\
+ResNet18 original (pre-trained)			& 100\%   &  88.61\%  & 85.83\%     \\
+\midrule
+ResNet18 (50 epochs / from scratch)	& 83.33\%   &  82.25\% & 81.73\%   \\
+ResNet18 (50 epochs / pre-trained)		& 95.85\%   &  88.57\% & 84.83\%     \\
+\midrule
+ResNet18 (100 epochs / from scratch)	& 84.70\%   &  83.22\% & 81.17\%     \\
+ResNet18 (100 epochs / pre-trained)	 	&  98.07\% & 87.57\% & 85.93\% \\
+\bottomrule
+\end{tabular}}
+\label{tbl:ResNet18_cropping_different_acc}
+\end{table}
 
 \subsection{FiveCrop}
 
-The torch library already had a FiveCrop implementation which could be used with minor changes in the code. The FiveCrop implementation crops 5 images of a given size from the whole image. All corners and the center are cropped. In training and evaluation, these crops are stacked on top of each other and then the average per pixel is computed.
+The torch library comes with a FiveCrop implementation which could be used with minor changes in the code. The FiveCrop implementation crops 5 images of a given size from the whole image. All corners and the center are cropped. In training and evaluation, these crops are stacked on top of each other and fed to the network. The output is averaged across all crops before the weights get updated. Table \ref{resnet18-fivecrop} summarizes the results.\\
 
-Table XXX summarizes the results.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -337,18 +419,20 @@ Table XXX summarizes the results.
 \begin{tabular}{@{}rrrr@{}}
 \toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
 \midrule
-FINAL (regular)                & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -     \\
-FINAL (fiveCrop)            & 83.72\% &  87.04\%   & -     \\
+FINAL (regular)                & 79.62\%  $\pm$ 0.9465 & 86.93\% $\pm$ 0.7757   & +7.31\%     \\
+FINAL (fiveCrop)            & 82.28\% $\pm$ 1.8061 &  87.9291\% $\pm$ 1.4940 & +5.65\%   \\
+\midrule
+Increased accuracy		& +2.66\%		& +1.00\% & - \\
 \bottomrule
 \end{tabular}}
 \label{tbl:resnet18-fivecrop}
 \end{table}
 
-\subsection{RandomNineCrop}
+With FiveCrop slightly better results are achieved than without data augmentation. The increase for the model trained from scratch is 2.66\% whereas the increase for the pre-trained model is 1\%. No overfitting is taking place. The training, validation and test accuracies are all around 83\% for the model trained from scratch. For the pre-trained model the training accuracy is around 91\% which is sligthly overfitting. Validation and test accuracies are both around 88\%.
 
-The torch library already had a FiveCrop implementation which could be used with minor changes in the code. The FiveCrop implementation crops 5 images of a given size from the whole image. All corners and the center are cropped. In training and evaluation, these crops are stacked on top of each other and then the average per pixel is computed.
+\subsection{NineCrop}
 
-Table XXX summarizes the results.
+The NineCrop is an own implementation that puts more weight on the center of the image. The nine crops taken form the image are all symmetrically positioned around the center with only minimal or none overlap. Taking nine crops instead of five is not without disadvantages. If many crops end up having no asbestos in them it will rather harm than improve the learning process. Table \ref{tbl:resnet18-randomnine} summarizes the results.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -357,8 +441,8 @@ Table XXX summarizes the results.
 \begin{tabular}{@{}rrrr@{}}
 \toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
 \midrule
-FINAL (regular)                & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -     \\
-FINAL (randomNine)            & 83.39\% &  88.04\%   & -     \\
+FINAL (regular)                & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & +7.31\%    \\
+FINAL (randomNine)            & 83.39\% $\pm$ 0.9526 &  88.04\%   & -     \\
 \bottomrule
 \end{tabular}}
 \label{tbl:resnet18-randomnine}
@@ -367,41 +451,11 @@ FINAL (randomNine)            & 83.39\% &  88.04\%   & -     \\
 
 
 
+\section{Combinations of less filters, reduced dataset and data augmentation}
 
+Run ResNet18 with 16 filters and 2 filters and with FiveCrop and NineCrop and with 2 data set variations
 
-
-
-\section{Reducing the Number of Filters}
-
-The current architectures used for this thesis are all huge with parameters ranging from XX million to XX million. They were originally built to classify a variety of different objects found in ImageNet. Not only object as cars and dogs needed to be distinguished but also different and sometimes similar breeds of dogs. Thus it makes sense to learn hundreds of new feature mappings for each layer of the network. With the asbestos task at hand, it might be different and a few filters per layer could possibly suffice. That is not to say, that the task is simple in its nature, but that asbestos has a common looking structure and the networks hard work is to find this structure in many different settings and under difficult conditions. Reducing the number of filters has another huge benefit of reducing the overall number of trainable parameters and thus speeding up the learning process, using less memory and being much easier to deploy on productive configurations.\\
-
-For the above-mentioned reason, the ResNet18 implementation has been altered to contain only a certain amount of filters in each single layer. The amount has been set to different values ranging from 1 to 32 filters. With 32 filters of size 3x3 only 320 parameters are used per layer. In ResNet18, for example, there are 4 blocks of 2 layers of 320 parameters making in total 2560 parameters. That does not yet count in the first 7x7 convolution and the fully-connected layer with its softmax function but the number of parameters is reduced dramatically as shown in Table XXXX.
-
-
-\begin{table}[h] \centering
-\ra{1.3}
-\caption{Resnet18 with different number of filters on the FINAL dataset. The number of filters present in paranthesis is the number of filters used per layer.}
-\resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrrr@{}}
-\toprule & accuracy (from scratch) & trainable parameters &  param reduction (\%) \\
-\midrule
-ResNet18 (official)            & 79.62\% &  11'177'538 & -     \\
-ResNet18 (32 filters)            & 78.405\% &  156'578 & -     \\
-ResNet18 (16 filters)            & 81.06\% &  40'658 & -     \\
-ResNet18 (8 filters)            & 79.402\% &  10'922 & -     \\
-ResNet18 (4 filters)            & 79.62\% &  3'110 & -     \\
-ResNet18 (2 filters)            & 80.066\% &  968 & -     \\
-ResNet18 (1 filter)                & 75.083\% &  338 & -     \\
-
-\bottomrule
-\end{tabular}}
-\label{tbl:resnet18-sixteen}
-\end{table}
-
-The problem here is that I went several ways... sometimes by reduced filter size then I increased batch size and input size.... I guess I will do many subchapters for this or split the evaluation into 2 parts... evaluation regarding transfer learning and evaluation regarding my own architectures.
-
-
-
+Run VGG13 with "G" or "D" filter scheme and 16 units in the fully connected layer and with 2 data set variations
 
 
 
@@ -411,19 +465,6 @@ The problem here is that I went several ways... sometimes by reduced filter size
 
 \section{Evaluation of Different Image Size Inputs to the network}
 
-\begin{table}[h] \centering
-\ra{1.3}
-\caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
-\resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
-\midrule
-FINAL (regular 224)                & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -     \\
-FINAL (input 448)            & 76.74\% &  -   & -     \\
-\bottomrule
-\end{tabular}}
-\label{tbl:resnet18-448}
-\end{table}
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -438,22 +479,7 @@ FINAL (input 896)            & 78.74\% &  -   & -     \\
 FINAL (input 1024)            & 80.40\% &  -   & -     \\
 \bottomrule
 \end{tabular}}
-\label{tbl:resnet18-896}
+\label{tbl:resnet18-different-input}
 \end{table}
 
 
-\begin{table}[h] \centering
-\ra{1.3}
-\caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
-\resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
-\midrule
-FINAL (regular 224)                & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -     \\
-FINAL (input 1024)            & 80.40\% &  -   & -     \\
-\bottomrule
-\end{tabular}}
-\label{tbl:resnet18-1024}
-\end{table}
-
-\section{Evaluation of Smaller and more Restrictive Training Data}
