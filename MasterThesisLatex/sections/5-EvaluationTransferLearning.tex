@@ -184,7 +184,7 @@ AlexNet was optimized with grid search and additionally with SigOpt. With grid s
 
 \subsection{Transfer learning on AlexNet}
 
-When using weights from pre-training on ImageNet, the overall accuracy does get slightly better, although the increase of 0.6645\% could be due to chance. In order to show if pre-training really helps with AlexNet, each model has been run 5 times and the results are averaged as seen in Table \ref. A t-test has been run to show it's significance [NEEDS TO BE DONE]
+When using weights from pre-training on ImageNet, the overall accuracy does get slightly better, although the increase of 0.6645\% is very slim and could be due to chance. In order to assert that pre-training really helps with AlexNet, each model has been run 5 times with the found hyper parameters and the results are averaged as seen in Table \ref{fig:AlexNetMultiRun}. The delta of both models increased to roughly 1\%.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -215,7 +215,7 @@ AlexNet from scratch (Adam Optimizer) & 0.038498 & Adam & Adam & 20 & 59.80$\pm$
 \label{tbl:AlexNetMultiRun}
 \end{table}
 
-In Figure \ref{fig:alexnet-graph} we see the training and validations accuracies plotted over epochs. It can be observed that convergence is not faster with pre-training than without pre-training. Both final accuracies are almost identical. The gray vertical lines separate the graph into segments with different learning rates. So the learning rate decay happens a first time at epoch 20 and a second time at epoch 40. Convergence can be easily observed when the validation accuracy does not change anymore. Another important thing to notice is that validation and training accuracies are quite near to each other. This means that during training no severe overfitting occurred and that the validation set and train set are indeed very representative of each other. Since the final accuracy is also very near to these values it is save to say that validation and test sets are good representations of the test set and that generalizability has low variance [IF GENERALIZABILITY CAN HAVE A VARIANCE AT ALL... TODO: READ IT UP].
+In Figure \ref{fig:alexnet-graph} we see the training and validations accuracies plotted over epochs. It can be observed that convergence is not faster with pre-training than without pre-training. Both final accuracies are almost identical. The gray vertical lines separate the graph into segments with different learning rates. So the learning rate decay happens a first time at epoch 20 and a second time at epoch 40. Convergence can be easily observed when the validation accuracy does not change anymore. Another important thing to notice is that validation and training accuracies are quite near to each other. This means that during training no severe overfitting occurred and that the validation set and train set are indeed very representative of each other. Since the final accuracy is also very near to these values it is save to say that validation and train sets are good representations of the test set.
 
 \begin{figure}[h]
 \centering
@@ -253,12 +253,6 @@ In Figure \ref{fig:alexnet-cm} the confusion matrix of the final test set is sho
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%    VGG    %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
 
 
 \section{VGG}
@@ -608,7 +602,7 @@ Densenet169 pre-trained    & 0.006347 & 0.447591 & 0.005180 & 20 & 89.3688\%  & 
 
 As already seen in the previous comparisons of VGG and ResNet architectues, the parameter size does not seem to play a role in this specific task. If the model is trained from scratch, densenet121 achieves slightly higher accuracies than densenet161. The opposite is true for the model trained with transfer learning where densenet169 performs slightly better. Since the difference is very small densenet121 is preferred for further investigation over the deeper densenet169 architecture.
 
-The graphs in Figure \ref{fig:densenet121-graph} show again a very similar and alread known behavior. Convergence happens much faster with the pre-trained model.
+The graphs in Figure \ref{fig:densenet121-graph} show again a very similar and already known behavior. Convergence happens much faster with the pre-trained model. Training overfits strongly to the training data. Validation accuracies are similar to the test accuracies. Since the confusion materices for the densenet121 architecture look almost identical as in vgg13 and resnet18 I decided to omit them for brevity.
 
 \begin{figure}[h]
 \centering
@@ -626,15 +620,13 @@ The graphs in Figure \ref{fig:densenet121-graph} show again a very similar and a
 
 
 
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%    INCEPTIONv3   %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
 
 
 
@@ -642,6 +634,8 @@ The graphs in Figure \ref{fig:densenet121-graph} show again a very similar and a
 
 
 Hyperparameter optimization for inception v3 was done with SigOpt and for both variants, training from scratch and training with pre-trained weights from ImageNet.
+
+Inception v3 was optimized with SigOpt only. For each hyper parameter 10 runs were conducted summing up to 30 runs. It was used for training the architecture from scratch and with pre-trained weights. Table \ref{tbl:Inceptionv3_overview} shows a summary of the optimization process with the best accuracies and the delta between the pre-trained model and the model trained from scratch.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -654,14 +648,28 @@ Inception v3 from scratch    & 0.070046 & 0.910505 & 0.006943 & 20 & 83.3887\%  
 Inception v3 pre-trained    & 0.029269 & 0.0 & 0.006320 & 20 & 88.7043\%  & +5.3156\\
 \bottomrule
 \end{tabular}}
-\label{tbl:Inceptionv3}
+\label{tbl:Inceptionv3_overview}
 \end{table}
+
+The same behaviour is seen again with inception v3 as with the previous architectures. Using pre-trained weights from ImageNet can help the model converge faster and find a better solution as seen in Figure \ref{fig:inception-graph}. The confusion matrices have been omitted since they look almost identical to the previous confusion matrices from VGG13 in Figure \ref{fig:vgg13_heatmap} and ResNet18 in Figure \ref{fig:resnet18-cm}
+
+\begin{figure}[h]
+\centering
+\caption{Training and validation graphs for Inception v3 once with pre-trained weights from ImageNet and once trained from scratch.}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/TL/inception/TA-inception.png}
+}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter5/TL/inception/VA-inception.png}
+}
+\label{fig:inception-graph}
+\end{figure}
 
 \section{Conclusion on Transfer Learning}
 
-Using pre-trained weights from ImagNet increased accuracy of every single run performed on the above mentioned architectures. Apparently the learned feature representations are general enough to be of high  value regardles of the target domain. These findings align perfectly well with other research done on cross-domain transfer learning. By average ALKJJDLFKJDFLKJLKDFJ
+Using pre-trained weights from ImageNet increased accuracy of every single run performed on the above mentioned architectures. Apparently, learning feature representations from a broad dataset like the ImageNet does indeed transfer very well to different target domains. These findings align perfectly well with other research done on cross-domain transfer learning. By average the models get a 5.18\% boost from pre-training on ImageNet with Alexnet having the smallest increase of only 0.66\% while VGG16 had the biggest increase of 8.97\%.
 
-Overfitting was often a problem and this should be addressed through cropping and randomization
+Overfitting was mainly a problem with the pre-trained model since it converged so much faster than the same model trained from scratch. Sometimes the model without pre-training was able to somehow catch up with the pre-trained counterpart on the training set, but never on the test set. Overfitting is nontheless a big problem from both variant and needs to be addressed by cropping and resizing differently and by introducing some randomness, which could be as simple as randomly flipping and rotating the images before feeding them to the model.
 
-At first it was very surprising that learning from scratch never caught up with the models using transfer learning from ImageNet. I was certain that given enough epochs and different runs the models from scratch should find at least equally suited feature mappings with random initialization of weights. But visualizing  some of the filters quickly made it clear that learning from scratch  with the provided dataset doesn't create elaborate feature mappings as seen from ImageNet. I argue that although the vast majority of feature mappings are absolutely useless for the asbestos classification, some feature mappings of e.g. grass or hair might be similar enough for the filter to activate maximally. Since the asbestos task is only a binary classification few of these filters are enogh to predict asbestos with a high accuracy. These elaborate feature mappings are not able to be created from scratch with a dataset of only a few hundred, partially wrongly labeled images, thus the model trained from scratch never reaches the accuracy of the pre-trained model.
+At first it was very surprising that learning from scratch never caught up with the models using transfer learning from ImageNet. I was certain that given enough epochs and different runs the models from scratch should find at least equally suited feature mappings with random initialization of weights. But visualizing  some of the filters quickly made it clear that learning from scratch  with the provided dataset doesn't create elaborate feature mappings as seen from ImageNet. I argue that although the vast majority of feature mappings are absolutely useless for the asbestos classification, some feature mappings of e.g. grass or hair might be similar enough for the filter to activate maximally. Since the asbestos task is only a binary classification few of these filters are enough to predict asbestos with a high accuracy. These elaborate feature mappings are not able to be created from scratch with a dataset of only a few hundred, partially wrongly labeled images, thus the model trained from scratch never reaches the accuracy of the pre-trained model. Therefore I conclude for this chapter that transfer learning is invaluable for this task even though the source domain and target domain are very far apart.
 

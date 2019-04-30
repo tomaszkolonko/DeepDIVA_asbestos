@@ -1,12 +1,10 @@
 \chapter{Evaluation on other Techniques}
 
-This chapter will go through some other techniques that could prove to be valuable for the asbestos dataset like the training size of the dataset, different cropping methods, different image augmentations and architectures that have been altered to better meet the underlying tasks' demands.
-
-Data augmentation should add regularization and lead to a model that is better generalizable to the test set. New architectures will then be created to fit better the problem at hand. \\
+Transfer learning is only one way to improve performance with only a small amount of data. In this chapter other techniques are explored that could prove valuable for the asbestos dataset like altering the size of the training data. Less but better quality images could lead to better performance, but also increasing the training data by adding the images from the validation set to the training set could provide a boost in performance. Cropping and resizing images can increase the dataset many fold. And last but not least, alterations to the networks will be done, in order to make the network smaller and thus more efficient or make the network able to cope with bigger input images.
 
 \section{Evaluation Of Overall Number Of Parameters in VGG13}
 
-Here I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and is probably too big for a task like the asbestos detection. In a first step, I will try to reduce the fully connected layers since they contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table \ref{tbl:vgg13_fc} shows the results. The last fully connected layer can safely be reduced from initially having 4096 units per layer to 16 units without harming the performance, or even increase it slightly while reducing the overall parameters by 92.39\%. It can be observed that applying transfer learning on a slightly altered architecture quickly diminishes it's advantages as expected. This can be explained because the architecture was relying on a specific configuration. Changing filters or fully connected layers might lead to having to retrain the whole architecture although the drop in performance is surprising for the changes only affect the last fully connected layer of the network. \\
+In this section I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and is probably too big for a task like the asbestos detection. In a first step, I will try to reduce the fully connected layers since they contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table \ref{tbl:vgg13_fc} shows the results. The last fully connected layer can safely be reduced from initially having 4096 units per layer to 16 units without harming the performance, or even increase it slightly while reducing the overall parameters by 92.39\%. It can be observed that applying transfer learning on a slightly altered architecture quickly diminishes it's advantages as expected. This can be explained because the architecture was relying on a specific configuration. Changing filters or fully connected layers might lead to having to retrain the whole architecture although the drop in performance is surprising since the changes only affect the last fully connected layers of the network and leave all previous filters intact.
 
 
 \begin{table}[h] \centering
@@ -32,7 +30,7 @@ VGG13\_2    & 59.8007\% $\pm$ 0.0 & 74.3079 $\pm$ 10.2805 & 9'461'070 & 7.36\% \
 \label{tbl:vgg13_fc}
 \end{table}
 
-As a next step, the fully connected layer is held fixed at the original size of 4096 and the filters of all previous layers are reduced gradually. First, they are all halved until the first layer reaches 16 filters instead of the original 64. Then the layers deeper within the network are halved until all layers have 16 filters. After that configuration is reached all filters all reduced gradually until only 2 filters per layer remain. Table \ref{tbl:vgg_filter_scheme} shows a summary of the filter reduction scheme. The last filter scheme "I" is to see if there is any benefit in increasing filters starting from 2 to the last layer. This imitates the original distribution of the filters but reducing the overall parameters drastically. \\
+As a next step, the fully connected layer is held fixed at the original size of 4096 and the filters of all previous layers are reduced gradually. First, they are all halved until the first layer reaches 16 filters instead of the original 64. Then the layers deeper within the network are halved until all layers have 16 filters. After that configuration is reached all filters all reduced gradually until only 2 filters per layer remain. Table \ref{tbl:vgg_filter_scheme} shows a summary of the filter reduction scheme. The last filter scheme "I" is to see if there is any benefit in increasing filters starting from 2 to the last layer. This imitates the original ratio of the filters but reducing the overall parameters drastically. \\
 
 
 \begin{table}[H] \centering
@@ -60,7 +58,6 @@ J                & [2, 2, M, 4, 4, M, 8, 8, M, 16, 16, M, 32, 32, M]  \\
 
 The goal is to understand how the filters can be reduced and if a pattern can be observed. The results are summarized in Table \ref{tbl:vgg13_fc}. I can be shown that reducing the filters from the original schema to the scheme "A" does no harm the accuracy but reduces the trainable parameters by roughly 50\%. The standard deviation of 0.2721 gives a rather robust result and is lower than the standard deviation of 0.5425 obtained with the original scheme. Surprising is the result obtained with scheme "G" which uses only 4 filters per each layer reducing the overall parameters by 86.35\%. Although it's worse compared to the original scheme, it suffered only 1.7\% which could be attributed to chance. \\
 
-
 \begin{table}[h] \centering
 \ra{1.3}
 \caption{Variations in number of Filters throughout the VGG13 architecture as explained in table \ref{tbl:vgg_filter_scheme}.}
@@ -84,7 +81,7 @@ VGG13\_i    & 79.1805\% $\pm$ 2.2093 & 79.7342 $\pm$ 1.1824 & 23'234'952 & 18.02
 \label{tbl:vgg13_fc}
 \end{table}
 
-Combining both modifications leads to yet another surprise as seen in Table \ref{tbl:vgg13_f_fc}. The modification with only 16 units per fully-connected layer and scheme "D" results in 80.73\% accuracy while reducing the overall complexity of the model by 99.946\%! The time needed to train the model drops from initially 1 hour and 13 minutes to only 25 minutes. But more importantly is that the size of the model is much more deployable for production, e.g. IOT devices. \\
+Combining both modifications leads to yet another surprise as seen in Table \ref{tbl:vgg13_f_fc}. The modification with only 16 units per fully-connected layer and scheme "D" results in 80.73\% accuracy while reducing the overall complexity of the model by 99.946\%! The time needed to train the model drops from initially 1 hour and 13 minutes to only 25 minutes. Due to the heavy parallelisation of the GPU's the drop in time taken to learn is not linear at all. But more importantly is that the size of the model is much more deployable for production, e.g. IOT devices. \\
 
 
 \begin{table}[h] \centering
@@ -126,24 +123,36 @@ VGG13\_16\_g             & 80.0664\% $\pm$ 0.4698& 0:25:08 & 4'982 & 0.0039\% \\
 
 \subsection{Visualization of VGG}
 
-First lets visualize the architecture with the best results obtained which is the pre-trained vgg13 model with batch normalization. The GradCam was taken on the last convolutional layer and can be seen in Figure \ref{fig:asbestos_gradcam}. On the 
+First, lets visualize the architecture with the best results obtained which is the pre-trained vgg13 model with batch normalization. The Grad-CAM was taken on the last convolutional layer and can be seen in Figure \ref{fig:asbestos_gradcam}. 
 
 \begin{figure}[H]
 \centering
-\caption{GradCam visualization applied on the left image once with looking for asbestos structures (right) and once looking for not-asbestos structures (middle).}
+\caption{Grad-CAM visualization applied on the left image once focusing on the areas that lead to the classification "non-asbestos" in the first row. And once focusing on the classification "asbestos" on the second row.}
 \subfigure{
 \includegraphics[width=.3\textwidth]{images/chapter6/vgg13/asbestos-original.png}
 }
 \subfigure{
-\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/asbestos-gradcam-0.png}
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/0-tl31-Cam-Heatmap.png}
 }
 \subfigure{
-\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/asbestos-gradcam-1.png}
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/0-tl31-Cam-On-Image.png}
+}
+
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/asbestos-original.png}
+}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/1-tl31-Cam-Heatmap.png}
+}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/1-tl31-Cam-On-Image.png}
 }
 \label{fig:asbestos_gradcam}
 \end{figure}
 
-Visualizing images that activate certain filters in the last layer maximally are seen in Figure \ref{fig:vgg13_filter_activation}. The images are very similar to the visualizations on ImageNet with structures that do not resemble asbestos at all. Nontheless they achieve the best performance so far. I argue that some filter from ImageNet do indeed capture another structure in real life that resembels that of asbestos fibers, and if these very few filters are activated strongly. The classification in the end is done on these very few filters and the rest (the majority) is ignored. That's why reducing the last fully-connected layer to 16 does not harm the performance at all.
+Although the asbestos is not clearly highlighted in the Grad-CAM visualization the two rows seen in Figure \ref{fig:asbestos_gradcam} show how the network looks for different patterns when classification for either category is done. As mentioned in the conclusion in chapter 5 the network probably uses feature maps that somehow resemble asbestos fibers and uses them to classify the images, thus leading to rather unclear feature maps. Also, it is possible that taking the last layer is detrimental for the asbestos task, since the asbestos structure is not something as abstract and complex as a dog's face, thus the asbesos task could rely more on the low-level features. 
+
+Visualizing images that activate certain filters in the last layer maximally are seen in Figure \ref{fig:vgg13_filter_activation}. The images are very similar to the visualizations on ImageNet with structures that do not resemble asbestos at all. Nontheless they achieve the best performance so far as explained in the previous chapter. I argue that some filter from ImageNet do indeed capture another structure in real life that resembels that of asbestos fibers, and if these very few filters are activated strongly. The classification is done on these very few filters and the rest (the big majority) is ignored. That's why reducing the last fully-connected layer to 16 units does not harm the performance at all.
 
 \begin{figure}[H]
 \centering
@@ -175,7 +184,7 @@ Visualizing images that activate certain filters in the last layer maximally are
 \label{fig:vgg13_filter_activation}
 \end{figure}
 
-As oposed to the VGG13 architecture modification with scheme "G" and only 16 units in the fully connected layers. Here all the four filters are shown from the last layer. They don't resemble neither the ImageNet filters, nor something that resembels asbestos.
+In order to contrast the original and pre-trained VGG13 with the modification performed on the VGG13 architecture with scheme "G" and only 16 units in the fully connected layers, I performed the same visualizations again. In Figure \ref{fig:asbestos_gradcam_g} Grad-CAM visualizations with heatmaps over the image are shown for the last convolution layer. As before the first row shows what areas responsible for the classification "non-asbestos", and the second row shows what areas are responsible for the classification "asbestos".
 
 \begin{figure}[H]
 \centering
@@ -184,36 +193,60 @@ As oposed to the VGG13 architecture modification with scheme "G" and only 16 uni
 \includegraphics[width=.3\textwidth]{images/chapter6/vgg13/asbestos-original.png}
 }
 \subfigure{
-\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/layers-g-16/gradcam0.png}
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/layers-g-16/0-tl31-Cam-Heatmap.png}
 }
 \subfigure{
-\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/layers-g-16/gradcam1.png}
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/layers-g-16/0-tl31-Cam-On-Image.png}
 }
-\label{fig:asbestos_gradcam}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/asbestos-original.png}
+}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/layers-g-16/1-tl31-Cam-Heatmap.png}
+}
+\subfigure{
+\includegraphics[width=.3\textwidth]{images/chapter6/vgg13/layers-g-16/1-tl31-Cam-On-Image.png}
+}
+\label{fig:asbestos_gradcam_g}
 \end{figure}
 
+The visualitzations from Figure \ref{fig:asbestos_gradcam} need to be taken very critically. I suspect that modifying the architecture to that extend might have had an unexpected impact on the visualization library. Some visualizations of lower convolution layers don't succeed at all and yield unusable results.
+
+As shown with the orignal model, Figure \ref{fig:vgg13_g_filter_activation} lists 4 layer visualizations performed from the last convolution layer from the modified VGG13 architecture. As already seen in chapter five, contrary to the pre-trained mode, no complex patterns can be found and that holds true for every filter throughout the model. In the appendix all 40 filters of the architecture are shown for comparison.
 
 \begin{figure}[H]
 \centering
 \caption{Last Layer visualizations (8 of 512) of the pre-trained VGG13 with batch normalization.}
 \subfigure{
-\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-g-16/l22-f0.jpg}
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-fs/l31-f0.jpg}
 }
 \subfigure{
-\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-g-16/l22-f1.jpg}
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-fs/l31-f1.jpg}
 }
 \subfigure{
-\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-g-16/l22-f2.jpg}
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-fs/l31-f2.jpg}
 }
 \subfigure{
-\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-g-16/l22-f3.jpg}
+\includegraphics[width=.23\textwidth]{images/chapter6/vgg13/layers-fs/l31-f3.jpg}
 }
-\label{fig:asbestos_gradcam}
+\label{fig:vgg13_g_filter_activation}
 \end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Evaluation Of Different Dataset Sizes And Variations}
 
-All the different dataset variations are compared against each other within the same architecture. Each result is obtained by running the model three times and averaging over all runs. Table \ref{tbl:resnet18_dataset} shows the results for ResNet18
+All the different dataset variations are compared against each other within the same architecture. Each result is obtained by running the model three times and averaging over all runs. DeepDIVA has a script that randomly distributes the images into one of the three sets. It is important to note, that once the sets have been created, the test set has never been altered. It stays the same for all dataset variations. Table \ref{tbl:resnet18_dataset} shows the results for ResNet18
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -233,7 +266,7 @@ FINAL\_EXTENDED        &     81.06\% $\pm$ 0.3839 &     84.5\% $\pm$ 0.8649 & - 
 \label{tbl:resnet18_dataset}
 \end{table}
 
-Changing the train set by reducing questionable and unclear images has lead to consistent improvements in the ResNet18 model trained from scratch but to consistently worse results when training from pre-trained weights. [QUESTION: maybe that shows that training from scratch needs better quality images while training from a checkpoint is less sensitive to wrong images but needs more images. I don't think that's true though....]. In Table \ref{fig:densenet121_dataset} the summary shows how DenseNet121 reacts with different datasets.
+Changing the train set by reducing questionable and unclear images has lead to consistent improvements in the ResNet18 model trained from scratch but to consistently worse results when training from pre-trained weights. A possible explanation could be that training from scratch needs a higher quality of the data sets meaning no wrongly labeled images and no images with obvious errors in them. That would not explain why the model with transfer learning performs consistently worse with different training and validation sets. In Table \ref{fig:densenet121_dataset} the summary shows how DenseNet121 reacts with different datasets.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -253,7 +286,7 @@ FINAL\_EXTENDED        &     83.06\% $\pm$ 1.0169 &     85.60\% $\pm$ 2.1218 & -
 \label{tbl:densenet121_dataset}
 \end{table}
 
-With Densenet121 there is no improvement to be seen by changing the dataset. If trained from scratch all variations lead to worse results. If trained with pre-trained weights, the FINAL\_CH dataset yields marginally better accuracy but that is most certainly due to chance. In Table \ref{fig:inceptionv3_dataset} the summary shows how Inception v3 behaves with different datasets.
+With Densenet121 there is no improvement to be seen by changing the dataset. If trained from scratch all variations lead to slightly worse results. If trained with pre-trained weights, the FINAL\_CH dataset yields marginally better accuracy but that is most likely due to chance. In Table \ref{fig:inceptionv3_dataset} the summary shows how Inception v3 behaves with different datasets.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -264,10 +297,10 @@ With Densenet121 there is no improvement to be seen by changing the dataset. If 
 \midrule
 FINAL                        & 82.83\%  $\pm$ 0.6157 &  85.93\% $\pm$ 0.3998   & -     \\
 FINAL\_C                    &     80.4\% $\pm$ 0.6926 & 85.82\% $\pm$  0.2942 & - \\
-FINAL\_C\_B                &     82.06\% $\pm$ 0.0\* & 83.83\% $\pm$  0.3989 & - \\
-FINAL\_CH                    &     ?\% $\pm$ ? &     ?\% $\pm$ ? & - \\
+FINAL\_C\_B                &     82.06\% $\pm$ 1.7749 & 83.05\% $\pm$  2.6700 & - \\
+FINAL\_CH                    &     80.04\% $\pm$ 0.4666 & 84.83\% $\pm$ 1.2492 & - \\
 FINAL\_CH\_B                &     81.06\% $\pm$ 0.3839 & 85.27\% $\pm$  1.2200 & - \\
-FINAL\_EXTENDED        &     81.72\% $\pm$ 0.3839 &     84.16\% $\pm$ 0.4433 & - \\
+FINAL\_EXTENDED        &     81.72\% $\pm$ 0.3839 & 84.16\% $\pm$ 0.4433 & - \\
 \bottomrule
 \end{tabular}}
 \label{tbl:inceptionv3_dataset}
@@ -275,7 +308,21 @@ FINAL\_EXTENDED        &     81.72\% $\pm$ 0.3839 &     84.16\% $\pm$ 0.4433 & -
 
 Inception v3 died several times during testing so the data points are not complete. But in general it shows the same behavior as with the other two architectures, there is no improvement by changing the dataset. Also surprising is the fact that FINAL\_EXTENDED yielded better results for ResNet18 trained from scratch only. All other runs resulted in a worse overall accuracy which is difficult to understand.
 
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Evaluation Of Different Cropping And Augmentation Methods}
+
+In order to mitigate the strong overfitting observed in the 
 
 \subsection{FiveCrop}
 
@@ -317,6 +364,13 @@ FINAL (randomNine)            & 83.39\% &  88.04\%   & -     \\
 \label{tbl:resnet18-randomnine}
 \end{table}
 
+
+
+
+
+
+
+
 \section{Reducing the Number of Filters}
 
 The current architectures used for this thesis are all huge with parameters ranging from XX million to XX million. They were originally built to classify a variety of different objects found in ImageNet. Not only object as cars and dogs needed to be distinguished but also different and sometimes similar breeds of dogs. Thus it makes sense to learn hundreds of new feature mappings for each layer of the network. With the asbestos task at hand, it might be different and a few filters per layer could possibly suffice. That is not to say, that the task is simple in its nature, but that asbestos has a common looking structure and the networks hard work is to find this structure in many different settings and under difficult conditions. Reducing the number of filters has another huge benefit of reducing the overall number of trainable parameters and thus speeding up the learning process, using less memory and being much easier to deploy on productive configurations.\\
@@ -345,6 +399,15 @@ ResNet18 (1 filter)                & 75.083\% &  338 & -     \\
 \end{table}
 
 The problem here is that I went several ways... sometimes by reduced filter size then I increased batch size and input size.... I guess I will do many subchapters for this or split the evaluation into 2 parts... evaluation regarding transfer learning and evaluation regarding my own architectures.
+
+
+
+
+
+
+
+
+
 
 \section{Evaluation of Different Image Size Inputs to the network}
 
