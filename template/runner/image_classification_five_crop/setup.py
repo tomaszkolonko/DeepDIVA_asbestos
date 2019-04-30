@@ -252,9 +252,15 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
             transforms.Lambda(lambda items: torch.stack([transforms.Normalize(mean=mean, std=std)(item) for item in items]))
         ])
 
+        transform_test = transforms.Compose([
+            transforms.Resize(model_expected_input_size),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=mean, std=std)
+        ])
+
         train_ds.transform = transform
-        val_ds.transform = transform
-        test_ds.transform = transform
+        val_ds.transform = transform_test
+        test_ds.transform = transform_test
 
         train_loader, val_loader, test_loader = _dataloaders_from_datasets(batch_size, train_ds, val_ds, test_ds,
                                                                            workers)

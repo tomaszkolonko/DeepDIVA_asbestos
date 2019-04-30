@@ -85,4 +85,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     list_of_all_file_names = get_all_file_names(dataset_folder=args.dataset_folder)
-do_augmentation(list_of_all_file_names)
+    do_augmentation(list_of_all_file_names)

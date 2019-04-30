@@ -248,30 +248,24 @@ def set_up_dataloaders(model_expected_input_size, dataset_folder, batch_size, wo
         # TODO: Cropping not resizing needed.
 
         transform = transforms.Compose([
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomVerticalFlip(),
-            transforms.RandomRotation(transforms.RandomRotation.get_params((0, 359))),
             transforms.RandomNineCrop(model_expected_input_size),
             transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
             transforms.Lambda(
                 lambda items: torch.stack([transforms.Normalize(mean=mean, std=std)(item) for item in items]))
         ])
 
-        """
-        transform = transforms.Compose([
+        transform_test = transforms.Compose([
             transforms.Resize(model_expected_input_size),
             transforms.ToTensor(),
             transforms.Normalize(mean=mean, std=std)
         ])
-        """
 
-
-        transform_test = transforms.Compose([
-            transforms.RandomNineCrop(model_expected_input_size),
-            transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
-            transforms.Lambda(
-                lambda items: torch.stack([transforms.Normalize(mean=mean, std=std)(item) for item in items]))
-        ])
+        # transform_test = transforms.Compose([
+        #     transforms.RandomNineCrop(model_expected_input_size),
+        #     transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
+        #     transforms.Lambda(
+        #         lambda items: torch.stack([transforms.Normalize(mean=mean, std=std)(item) for item in items]))
+        # ])
 
         train_ds.transform = transform
         val_ds.transform = transform
