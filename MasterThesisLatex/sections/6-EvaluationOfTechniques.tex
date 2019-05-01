@@ -1,10 +1,10 @@
 \chapter{Evaluation on other Techniques}
 
-Transfer learning is only one way to improve performance with only a small amount of data. In this chapter other techniques are explored that could prove valuable for the asbestos dataset like altering the size of the training data. Less but better quality images could lead to better performance, but also increasing the training data by adding the images from the validation set to the training set could provide a boost in performance. Cropping and resizing images can increase the dataset many fold. And last but not least, alterations to the networks will be done, in order to make the network smaller and thus more efficient or make the network able to cope with bigger input images.
+Transfer learning is only one way to improve performance with only a small amount of data. In this chapter, other techniques are explored that could prove valuable for the asbestos dataset like altering the size of the training data. Less but better quality images could lead to better performance, but also increasing the training data by adding the images from the validation set to the training set could provide a boost in performance. Cropping and resizing images can increase the dataset many fold. And last but not least, alterations to the networks will be done, in order to make the network smaller and thus more efficient or make the network able to cope with bigger input images.
 
 \section{Evaluation Of Overall Number Of Parameters in VGG13}
 
-In this section I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and is probably too big for a task like the asbestos detection. In a first step, I will try to reduce the fully connected layers since they contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table \ref{tbl:vgg13_fc} shows the results. The last fully connected layer can safely be reduced from initially having 4096 units per layer to 16 units without harming the performance, or even increase it slightly while reducing the overall parameters by 92.39\%. It can be observed that applying transfer learning on a slightly altered architecture quickly diminishes it's advantages as expected. This can be explained because the architecture was relying on a specific configuration. Changing filters or fully connected layers might lead to having to retrain the whole architecture although the drop in performance is surprising since the changes only affect the last fully connected layers of the network and leave all previous filters intact.
+In this section, I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and is probably too big for a task like the asbestos detection. In a first step, I will try to reduce the fully connected layers since they contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table \ref{tbl:vgg13_fc} shows the results. The last fully connected layer can safely be reduced from initially having 4096 units per layer to 16 units without harming the performance, or even increase it slightly while reducing the overall parameters by 92.39\%. It can be observed that applying transfer learning on a slightly altered architecture quickly diminishes it's advantages as expected. This can be explained because the architecture was relying on a specific configuration. Changing filters or fully connected layers might lead to having to retrain the whole architecture although the drop in performance is surprising since the changes only affect the last fully connected layers of the network and leave all previous filters intact.
 
 
 \begin{table}[h] \centering
@@ -30,7 +30,7 @@ VGG13\_2    & 59.8007\% $\pm$ 0.0 & 74.3079 $\pm$ 10.2805 & 9'461'070 & 7.36\% \
 \label{tbl:vgg13_fc}
 \end{table}
 
-As a next step, the fully connected layer is held fixed at the original size of 4096 and the filters of all previous layers are reduced gradually. First, they are all halved until the first layer reaches 16 filters instead of the original 64. Then the layers deeper within the network are halved until all layers have 16 filters. After that configuration is reached all filters all reduced gradually until only 2 filters per layer remain. Table \ref{tbl:vgg_filter_scheme} shows a summary of the filter reduction scheme. The last filter scheme "I" is to see if there is any benefit in increasing filters starting from 2 to the last layer. This imitates the original ratio of the filters but reducing the overall parameters drastically. \\
+As a next step, the fully connected layer is held fixed at the original size of 4096 and the filters of all previous layers are reduced gradually. First, they are all halved until the first layer reaches 16 filters instead of the original 64. Then the layers deeper within the network are halved until all layers have 16 filters. After that configuration is reached, all filters all reduced gradually until only 2 filters per layer remain. Table \ref{tbl:vgg_filter_scheme} shows a summary of the filter reduction scheme. The last filter scheme "I" is to see if there is any benefit in increasing filters starting from 2 to the last layer. This imitates the original ratio of the filters but reducing the overall parameters drastically. \\
 
 
 \begin{table}[H] \centering
@@ -81,7 +81,7 @@ VGG13\_i    & 79.1805\% $\pm$ 2.2093 & 79.7342 $\pm$ 1.1824 & 23'234'952 & 18.02
 \label{tbl:vgg13_fc}
 \end{table}
 
-Combining both modifications leads to yet another surprise as seen in Table \ref{tbl:vgg13_f_fc}. The modification with only 16 units per fully-connected layer and scheme "D" results in 80.73\% accuracy while reducing the overall complexity of the model by 99.946\%! The time needed to train the model drops from initially 1 hour and 13 minutes to only 25 minutes. Due to the heavy parallelisation of the GPU's the drop in time taken to learn is not linear at all. But more importantly is that the size of the model is much more deployable for production, e.g. IOT devices. \\
+Combining both modifications leads to yet another surprise as seen in Table \ref{tbl:vgg13_f_fc}. The modification with only 16 units per fully-connected layer and scheme "D" results in 80.73\% accuracy while reducing the overall complexity of the model by 99.946\%! The time needed to train the model drops from initially 1 hour and 13 minutes to only 25 minutes. Due to the heavy parallelization of the GPU's the drop in the time taken to learn is not linear at all. But more importantly is that the size of the model is much more deployable for production, e.g. IOT devices. \\
 
 
 \begin{table}[h] \centering
@@ -123,7 +123,7 @@ VGG13\_16\_g             & 80.0664\% $\pm$ 0.4698& 0:25:08 & 4'982 & 0.0039\% \\
 
 \subsection{Visualization of VGG}
 
-First, lets visualize the architecture with the best results obtained which is the pre-trained vgg13 model with batch normalization. The Grad-CAM was taken on the last convolutional layer and can be seen in Figure \ref{fig:asbestos_gradcam}. 
+First, let's visualize the architecture with the best results obtained which is the pre-trained vgg13 model with batch normalization. The Grad-CAM was taken on the last convolutional layer and can be seen in Figure \ref{fig:asbestos_gradcam}. 
 
 \begin{figure}[H]
 \centering
@@ -150,9 +150,9 @@ First, lets visualize the architecture with the best results obtained which is t
 \label{fig:asbestos_gradcam}
 \end{figure}
 
-Although the asbestos is not clearly highlighted in the Grad-CAM visualization the two rows seen in Figure \ref{fig:asbestos_gradcam} show how the network looks for different patterns when classification for either category is done. As mentioned in the conclusion in chapter 5 the network probably uses feature maps that somehow resemble asbestos fibers and uses them to classify the images, thus leading to rather unclear feature maps. Also, it is possible that taking the last layer is detrimental for the asbestos task, since the asbestos structure is not something as abstract and complex as a dog's face, thus the asbesos task could rely more on the low-level features. 
+Although the asbestos is not clearly highlighted in the Grad-CAM visualization the two rows seen in Figure \ref{fig:asbestos_gradcam} show how the network looks for different patterns when classification for either category is done. As mentioned in the conclusion in chapter 5 the network probably uses feature maps that somehow resemble asbestos fibers and uses them to classify the images, thus leading to rather unclear feature maps. Also, it is possible that taking the last layer is detrimental for the asbestos task since the asbestos structure is not something as abstract and complex as a dog's face, thus the asbestos task could rely more on the low-level features. 
 
-Visualizing images that activate certain filters in the last layer maximally are seen in Figure \ref{fig:vgg13_filter_activation}. The images are very similar to the visualizations on ImageNet with structures that do not resemble asbestos at all. Nontheless they achieve the best performance so far as explained in the previous chapter. I argue that some filter from ImageNet do indeed capture another structure in real life that resembels that of asbestos fibers, and if these very few filters are activated strongly. The classification is done on these very few filters and the rest (the big majority) is ignored. That's why reducing the last fully-connected layer to 16 units does not harm the performance at all.
+Visualizing images that activate certain filters in the last layer maximally are seen in Figure \ref{fig:vgg13_filter_activation}. The images are very similar to the visualizations on ImageNet with structures that do not resemble asbestos at all. Nonetheless, they achieve the best performance so far as explained in the previous chapter. I argue that some filter from ImageNet do indeed capture another structure in real life that resembles that of asbestos fibers, and if these very few filters are activated strongly. The classification is done on these very few filters and the rest (the big majority) is ignored. That's why reducing the last fully-connected layer to 16 units does not harm the performance at all.
 
 \begin{figure}[H]
 \centering
@@ -210,9 +210,9 @@ In order to contrast the original and pre-trained VGG13 with the modification pe
 \label{fig:asbestos_gradcam_g}
 \end{figure}
 
-The visualitzations from Figure \ref{fig:asbestos_gradcam} need to be taken very critically. I suspect that modifying the architecture to that extend might have had an unexpected impact on the visualization library. Some visualizations of lower convolution layers don't succeed at all and yield unusable results.
+The visualizations from Figure \ref{fig:asbestos_gradcam} need to be taken very critically. I suspect that modifying the architecture to that extent might have had an unexpected impact on the visualization library. Some visualizations of lower convolution layers don't succeed at all and yield unusable results.
 
-As shown with the orignal model, Figure \ref{fig:vgg13_g_filter_activation} lists 4 layer visualizations performed from the last convolution layer from the modified VGG13 architecture. As already seen in chapter five, contrary to the pre-trained mode, no complex patterns can be found and that holds true for every filter throughout the model. In the appendix all 40 filters of the architecture are shown for comparison.
+As shown with the original model, Figure \ref{fig:vgg13_g_filter_activation} lists 4 layer visualizations performed from the last convolution layer from the modified VGG13 architecture. As already seen in chapter five, contrary to the pre-trained mode, no complex patterns can be found and that holds true for every filter throughout the model. In the appendix, all 40 filters of the architecture are shown for comparison.
 
 \begin{figure}[H]
 \centering
@@ -234,13 +234,21 @@ As shown with the orignal model, Figure \ref{fig:vgg13_g_filter_activation} list
 
 
 
+
+
+
+
+
+
+
+
 \section{Evaluation Of Overall Number Of Parameters in ResNet18}
 
-Although VGG13 is the biggest network regarding number of learnable parameters (over 128 million), ResNet18 in its original form also has quite many parameter (over 11 million). It has also been built to recognize 1'000 classes from ImageNet, which even distinguishes different breeds of dogs, and therefore is probably too big and too comples for the asbestos task. That is not to say, that the task is simple in its nature, but that asbestos has a common looking structure and the networks hard work is to find this structure in many different settings and under difficult conditions. Reducing the number of filters has another huge benefit of reducing the overall number of trainable parameters and thus speeding up the learning process, using less memory and being much easier to deploy on productive configurations.\\
+Although VGG13 is the biggest network regarding the number of learnable parameters (over 128 million), ResNet18 in its original form also has quite many parameters (over 11 million). It has also been built to recognize 1'000 classes from ImageNet, which even distinguishes different breeds of dogs, and therefore is probably too big and too complex for the asbestos task. That is not to say, that the task is simple in its nature, but that asbestos has a common looking structure and the networks hard work is to find this structure in many different settings and under difficult conditions. Reducing the number of filters has another huge benefit of reducing the overall number of trainable parameters and thus speeding up the learning process, using less memory and being much easier to deploy on productive configurations.\\
 
-For the above-mentioned reason, the ResNet18 implementation has been altered to contain only a certain amount of filters in each single layer. The amount has been set to different values ranging from 1 to 32 filters. With 32 filters of size 3x3 only 320 parameters are used per layer. In ResNet18, for example, there are 4 blocks of 2 layers of 320 parameters making in total 2560 parameters. That does not yet count in the first 7x7 convolution and the fully-connected layer with its softmax function but the number of parameters is reduced dramatically as shown in Table \ref{tbl:resnet18-different-filters}. The original version increases it's layers from the initial 3 channels of an image to 64, 128, 256 and 512 filters up to the fully connected layer. The fully connected layer thus again, makes a big bulk of all trainable parameters. Keeping the filters constant does reduce the amount of trainable parameters within the network and automatically also reduces the parameters in the last fully connected layer.
+For the above-mentioned reason, the ResNet18 implementation has been altered to contain only a certain amount of filters in every single layer. The amount has been set to different values ranging from 1 to 32 filters. With 32 filters of size 3x3, only 320 parameters are used per layer. In ResNet18, for example, there are 4 blocks of 2 layers of 320 parameters making in total 2560 parameters. That does not yet count in the first 7x7 convolution and the fully-connected layer with its softmax function but the number of parameters is reduced dramatically as shown in Table \ref{tbl:resnet18-different-filters}. The original version increases its layers from the initial 3 channels of an image to 64, 128, 256 and 512 filters up to the fully connected layer. The fully connected layer thus again makes a big bulk of all trainable parameters. Keeping the filters constant does reduce the number of trainable parameters within the network and automatically also reduces the parameters in the last fully connected layer.
 
-Since observerations on VGG13 have shown that pre-training is not helpful in this scenario, it has been omitted with ResNet18.
+Since observations on VGG13 have shown that pre-training is not helpful in this scenario, it has been omitted with ResNet18.
 
 
 \begin{table}[h] \centering
@@ -262,7 +270,7 @@ ResNet18 (1 filter)                & 75.083\% &  338 & 0.0030\%     \\
 \label{tbl:resnet18-different-filters}
 \end{table}
 
-It is very surprising that reducing the learnable parameters by 99.64\% for the ResNet18 modification with 16 filters yields better results for the asbestos task trained from scratch. It does indeed confirm the hypothesis that for a binary classification of a mineral the current models are way too big and wasteful. Also the ResNet18 modification with only 2 filters per layer (reduction of parameters by 99.99\%) outperforms the original ResNet18 architecture.
+It is very surprising that reducing the learnable parameters by 99.64\% for the ResNet18 modification with 16 filters yields better results for the asbestos task trained from scratch. It does indeed confirm the hypothesis that for binary classification of a mineral the current models are way too big and wasteful. Also, the ResNet18 modification with only 2 filters per layer (reduction of parameters by 99.99\%) outperforms the original ResNet18 architecture.
 
 Visualization possible?
 
@@ -333,7 +341,7 @@ FINAL\_EXTENDED        & 81.72\% $\pm$ 0.3839 & 84.16\% $\pm$ 0.4433 & +2.44\% \
 \label{tbl:inceptionv3_dataset}
 \end{table}
 
-For the inception v3 architecture trained from scratch and trained with pre-trained weights there is a very slight but constant disadvantage to use different datasets which I cannot make sense of. Removing images  with errors or  adding the validation images to the training set should increase overall accuracy, but this increase is never significantly  observed.
+For the inception v3 architecture trained from scratch and trained with pre-trained weights, there is a very slight but constant disadvantage to using different datasets which I cannot make sense of. Removing images with errors or adding the validation images to the training set should increase overall accuracy, but this increase is never significantly observed.
 
 
 
@@ -348,11 +356,11 @@ For the inception v3 architecture trained from scratch and trained with pre-trai
 
 \section{Evaluation Of Different Cropping And Augmentation Methods}
 
-In chapter 5, strong overfitting was observed in the training set. ResNet18 with transfer learning for example converged in only about 5 epochs to nearly 100\% accuracy on the training set and stayed there as seen in Figure \ref{fig:resnet18-graph}. The accuracy from the test set, showed that this accuracy was due to overfitting. In order to mitigate this problem, several cropping and resizing methods will be used on ResNet18 with the goal of reducing overfitting on training  and increasing  generalization and thus achieving better results  on the test set. Also, some randomness through random flipping and mirroring is introduced. As for the dataset, only the FINAL variation is used for this part.
+In chapter 5, strong overfitting was observed in the training set. ResNet18 with transfer learning, for example, converged in only about 5 epochs to nearly 100\% accuracy on the training set and stayed there as seen in Figure \ref{fig:resnet18-graph}. The accuracy from the test set showed that this accuracy was due to overfitting. In order to mitigate this problem, several cropping and resizing methods will be used on ResNet18 with the goal of reducing overfitting on training and increasing generalization and thus achieving better results on the test set. Also, some randomness through random flipping and mirroring is introduced. As for the dataset, only the FINAL variation is used for this part.
 
 \subsection{Randomness}
 
-Here, random cropping is performed first in order to crop the image to the smallest image height in the dataset which is 768 pixels this already allows vertical and horizontal randomness leading to every epoch training on different augmented images. Then the image is resized to the expected input size of the network being 224x224 pixels for ResNet18. With resizing a  smaller image then the orginal image, less information is lost due to the resizing process, which is a good  thing. In the end two transformations happen with a probability of 0.5: flipping horizontally and flipping vertically. All transformations are performed on the training set only. One run was  performed as usual with 50 epochs  and a  learning rate decay every 20 epochs. Since data augmentation yields new images to  train from every epoch, there is  much more variation and less  overfitting. Therefore another 3 runs have been performed with 100 epochs and a learning rate decay every  30 epochs. The summary of these is shown in Table \ref{tbl:ResNet18_cropping}: \\
+Here, random cropping is performed first in order to crop the image to the smallest image height in the dataset which is 768 pixels this already allows vertical and horizontal randomness leading to every epoch training on different augmented images. Then the image is resized to the expected input size of the network being 224x224 pixels for ResNet18. With resizing a  smaller image then the original image, less information is lost due to the resizing process, which is a good thing. In the end, two transformations happen with a probability of 0.5: flipping horizontally and flipping vertically. All transformations are performed on the training set only. One run was performed as usual with 50 epochs and a  learning rate decay every 20 epochs. Since data augmentation yields new images to train from every epoch, there is much more variation and less overfitting. Therefore another 3 runs have been performed with 100 epochs and a learning rate decay every  30 epochs. The summary of these is shown in Table \ref{tbl:ResNet18_cropping}: \\
 
 
 \begin{table}[h] \centering
@@ -371,7 +379,7 @@ ResNet18 (100 epochs) &  81.17\% $\pm$ 0.8708 & 85.93\% $\pm$ 0.3158 & +4.76\% \
 \label{tbl:ResNet18_cropping}
 \end{table}
 
-Unfortunately, the improvement in accuracy of only 2.11\% for the ResNet18 trained from scratch with simple data augmentation is not as high as expected. From the model with the pre-trained weights it even gets worse with a decrase of exactly 1\%. But as seen in Graph \ref{fig:resnet18-da-graph} no overfitting takes place for the model trained from scratch and less overfitting is found in the pre-trained model. This is in strong contrast to Figure \ref{fig:resnet18-graph} from Chapter 5.
+Unfortunately, the improvement in accuracy of only 2.11\% for the ResNet18 trained from scratch with simple data augmentation is not as high as expected. From the model with the pre-trained weights, it even gets worse with a decrease of exactly 1\%. But as seen in Graph \ref{fig:resnet18-da-graph} no overfitting takes place for the model trained from scratch and less overfitting is found in the pre-trained model. This is in strong contrast to Figure \ref{fig:resnet18-graph} from Chapter 5.
 
 \begin{figure}[h]
 \centering
@@ -428,11 +436,11 @@ Increased accuracy		& +2.66\%		& +1.00\% & - \\
 \label{tbl:resnet18-fivecrop}
 \end{table}
 
-With FiveCrop slightly better results are achieved than without data augmentation. The increase for the model trained from scratch is 2.66\% whereas the increase for the pre-trained model is 1\%. No overfitting is taking place. The training, validation and test accuracies are all around 83\% for the model trained from scratch. For the pre-trained model the training accuracy is around 91\% which is sligthly overfitting. Validation and test accuracies are both around 88\%.
+With FiveCrop slightly better results are achieved than without data augmentation. The increase for the model trained from scratch is 2.66\% whereas the increase for the pre-trained model is 1\%. No overfitting is taking place. The training, validation and test accuracies are all around 83\% for the model trained from scratch. For the pre-trained model, the training accuracy is around 91\% which is slightly overfitting. Validation and test accuracies are both around 88\%.
 
 \subsection{NineCrop}
 
-The NineCrop is an own implementation that puts more weight on the center of the image. The nine crops taken form the image are all symmetrically positioned around the center with only minimal or none overlap. Taking nine crops instead of five is not without disadvantages. If many crops end up having no asbestos in them it will rather harm than improve the learning process. Table \ref{tbl:resnet18-randomnine} summarizes the results.
+The NineCrop is an own implementation that puts more weight on the center of the image. The nine crops taken from the image are all symmetrically positioned around the center with only minimal or none overlap. Taking nine crops instead of five is not without disadvantages. If many crops end up having no asbestos in them it will rather harm than improve the learning process. Table \ref{tbl:resnet18-randomnine} summarizes the results.
 
 \begin{table}[h] \centering
 \ra{1.3}
@@ -442,7 +450,9 @@ The NineCrop is an own implementation that puts more weight on the center of the
 \toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
 \midrule
 FINAL (regular)                & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & +7.31\%    \\
-FINAL (randomNine)            & 83.39\% $\pm$ 0.9526 &  88.04\%   & -     \\
+FINAL (randomNine)            & 83.39\% $\pm$ 0.9526 &  87.92\% $\pm$ 1.1293 & +4.53\%    \\
+\midrule
+increased accuracy			& +3.77\%			& +1.00\% & - \\
 \bottomrule
 \end{tabular}}
 \label{tbl:resnet18-randomnine}
@@ -450,36 +460,152 @@ FINAL (randomNine)            & 83.39\% $\pm$ 0.9526 &  88.04\%   & -     \\
 
 
 
-
-\section{Combinations of less filters, reduced dataset and data augmentation}
-
-Run ResNet18 with 16 filters and 2 filters and with FiveCrop and NineCrop and with 2 data set variations
-
-Run VGG13 with "G" or "D" filter scheme and 16 units in the fully connected layer and with 2 data set variations
-
-
-
-
-
-
-
 \section{Evaluation of Different Image Size Inputs to the network}
 
+The input size of the network ranges relative to the architectures from 224x224 pixels for ResNet to 299x299 pixels for inception v3. Resizing the image inevitably leads to a loss of information. Therefore one path of investigation was to check if it is possible to change the architecture in a certain way, that allows for bigger images to be fed into the network. Images are highly compressed in jpg or png format but when they are loaded into tensors or arrays they increase their size drastically which leads to the problem of not having enough memory. Therefore, the ResNet18 architecture with 16 filters throughout the network has been used, to allow for bigger images. No transfer learning could be applied for that reason. In order to accommodate bigger input images into the network, convolutional layers have been added on top of the network that halves the input volume and prepares the image for the previous first layer of 224x224 pixels. For the ResNet18\_448 modification the added code is shown in the following listing:
+
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[language=Python, caption=Python example, basicstyle=\tiny]
+        self.expected_input_size = (448, 448)
+
+        # ************************************************************************************************
+        self.conv00 = nn.Conv2d(3, constant_number_of_filters, kernel_size=7, stride=2, padding=3,
+                                bias=False)
+        self.bn00 = nn.BatchNorm2d(constant_number_of_filters)
+        # ************************************************************************************************
+\end{lstlisting}
+\end{minipage}
+
+The forward pass consists of doing first the new convolution with batch normalization, then passing the output through a ReLU and then feeding it to the previously first convolution layer that expects the original size. Table \ref{resnet18-different-input} summarizes the results.
 
 \begin{table}[h] \centering
 \ra{1.3}
-\caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
+\caption{Different image input sizes are fed into ResNet18 architectuers with only 16 filters per layer. The first layers of the network have been adapted to allow bigger input images}
 \resizebox{0.79\textwidth}{!}{%
 \begin{tabular}{@{}rrrr@{}}
 \toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
 \midrule
 FINAL (regular 224)                & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -     \\
-FINAL (input 448)            & 76.74\% &  -   & -     \\
-FINAL (input 896)            & 78.74\% &  -   & -     \\
-FINAL (input 1024)            & 80.40\% &  -   & -     \\
+FINAL (input 448)            & 77.41\% $\pm$ 1.6940   & -     \\
+FINAL (input 896)            & 79.62\% $\pm$ 0.6827   & -     \\
+FINAL (input 1024)            & 80.62\% $\pm$ 0.8287   & -     \\
 \bottomrule
 \end{tabular}}
 \label{tbl:resnet18-different-input}
 \end{table}
 
+Increasing the input size from 224x224 pixels to 448x448 pixels decreased the overall accuracy by roughly 2\%. Increasing it to 896x896 achieved the exact same accuracy with a lower standard deviation and increasing it to the full size of the image increased the accuracy by almost 1\%. Overall I expected better results but all the networks have been carefully crafted by their creators and simply adding convolutions on top of it does alter the network in quite unpredictable ways. For the ResNet18\_1024 modification I had to add 8 convolution layers and 8 batch normalization in order to get the input volume down to 224x224x16 (with 16 filters) which looks like this:
+
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[language=Python, caption=Python example, basicstyle=\tiny]
+self.expected_input_size = (1024, 1024)
+
+        # ************************************************************************************************
+        self.conv01 = nn.Conv2d(3, constant_number_of_filters, kernel_size=7, stride=2,
+                                padding=3, bias=False)
+        self.bn01 = nn.BatchNorm2d(constant_number_of_filters)
+
+        self.conv02 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=2,
+                                padding=3, bias=False)
+        self.bn02 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 256
+        self.conv03 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=1,
+                                padding=0, bias=False)
+        self.bn03 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 250
+
+        self.conv04 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=1,
+                                padding=0, bias=False)
+        self.bn04 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 244
+
+        self.conv05 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=1,
+                                padding=0, bias=False)
+        self.bn05 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 238
+
+        self.conv06 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=1,
+                                padding=0, bias=False)
+        self.bn06 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 232
+
+        self.conv07 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=7, stride=1,
+                                padding=0, bias=False)
+        self.bn07 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 226
+
+        self.conv08 = nn.Conv2d(constant_number_of_filters, constant_number_of_filters, kernel_size=3, stride=1,
+                                padding=0, bias=False)
+        self.bn08 = nn.BatchNorm2d(constant_number_of_filters)
+
+        # 224
+
+        # ************************************************************************************************
+\end{lstlisting}
+\end{minipage}
+
+This makes it so much harder to train this network since there are 9 convolution layers before the actual ResNet18 architecture starts. There are no skip connections in the first 9 layers and therefore the vanishing/exploding gradient problem starts to play a role again.
+
+\section{Combinations of fewer filters, reduced dataset and data augmentation}
+
+At the end of this chapter, I would like to try out some of the combinations that seem promising or at least seem logical to persue. For example, having the ResNet18 architecture with only 16 or 2 filters per layer reduces the complexity of the network drastically. This could be combined with FiveCrop and NineCrop and used on a cleaned and balanced dataset. Table \ref{tbl:resnet18-combinations} shows a summary of these combinations.
+
+\begin{table}[h] \centering
+\ra{1.3}
+\caption{asdf}
+\resizebox{0.79\textwidth}{!}{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule & data augmentation & dataset & accuracy \\
+\midrule
+ResNet18_16 & fivecrop & FINAL_CH & 73.20\%  $\pm$ 0.9526 \\
+ResNet18_16 & fivecrop & FINAL_CH_B & 73.42\% $\pm$ 1.7788 \\
+ResNet18_16 & fivecrop & FINAL_EXTENDED	& 74.52\% $\pm$ 0.6265 \\
+\midrule
+ResNet18_16 & ninecrop & FINAL_CH & 75.74\% $\pm$ 0.7177 \\
+ResNet18_16 & ninecrop & FINAL_CH_B	 & 76.08\% $\pm$ 1.3563 \\
+ResNet18_16 & ninecrop & FINAL_EXTENDED & 72.53 \% $\pm$ 3.3917  \\
+\midrule
+ResNet18_2 & fivecrop & FINAL_CH & 73.20\%  $\pm$ 0.9526 \\
+ResNet18_2 & fivecrop & FINAL_CH_B & 73.42\% $\pm$ 1.7788 \\
+ResNet18_2 & fivecrop & FINAL_EXTENDED	& 74.52\% $\pm$ 0.6265 \\
+\midrule
+ResNet18_2 & ninecrop & FINAL_CH & 75.74\% $\pm$ 0.7177 \\
+ResNet18_2 & ninecrop & FINAL_CH_B	 & 76.08\% $\pm$ 1.3563 \\
+ResNet18_2 & ninecrop & FINAL_EXTENDED & 72.53 \% $\pm$ 3.3917  \\
+\bottomrule
+\end{tabular}}
+\label{tbl:resnet18-combinations}
+\end{table}
+
+Talk about the summary
+
+The same things could be checked for the VGG13 architecture. 
+
+--------\\
+
+Run ResNet18 with 16 filters and 2 filters and with FiveCrop and NineCrop and with 2 data set variations
+
+Run VGG13 with "G" or "D" filter scheme and 16 units in the fully connected layer and with 2 data set variations py
+
+This part is running now and will mostly finish by tomorrow\\
+
+--------
+
+\section{Conclusion}
+
+Several modifications have been performed on VGG13 and ResNet18 architectures in order to squeeze out more accuracy on the test set. VGG13's last layer got reduced to 16 units creating a much smaller architecture of only 7.61\% of its original size, increasing accuracy to 82.06\%. Then going through different filter schema it was observed, that further reduction of the parameters is still possible with only a minor decrease in accuracy. Overall it may be said that the original architectures were built for discriminating between 1'000 classes some of which were very similar to each other. For the asbestos recognition task that is clearly unnecessary.
+
+Reducing the overall number of parameters makes transfer learning not applicable anymore since most of the useful filters are lost due to the reduction. The same behavior was observed with ResNet18 where a reduction by 99.99\% of the learnable parameters still leads to the same accuracy. Further decrease leads to worse accuracies.
+
+Variations in the dataset didn't yield the expected boost in performance. It was hoped that removing clear errors from the dataset would make the training process easier but that was not the case. What surprised, even more, was that the extension of the data set by adding the validation images to the training images didn't improve the overall performance. This could be due to the images not being correctly classified and the data set quality that does not allow for better performance since the 90\% mark was never broken on a regular basis regardless of all the changes.
+
+Data augmentation was able to reduce overfitting in a regular 50 epoch run and lead to marginally better performance. Training, validation and test sets all reached roughly the same accuracy which was the goal of this task. The boost in performance through better generalization was not achieved as hoped for.
+
+Modifying the architecture in order to allow for bigger image input did lead to a marginal improvement only for the last modification where the full image was fed into the network. Unfortunately, the filters had to be reduced to only 16 for such big images to process making transfer learning unavailable.
 
