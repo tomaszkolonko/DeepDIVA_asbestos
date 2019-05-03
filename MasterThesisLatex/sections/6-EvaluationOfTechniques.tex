@@ -7,24 +7,24 @@ Transfer learning is only one way to improve performance with only a small amoun
 In this section, I want to understand how the overall number of parameters affects the performance of the network. VGG13 was built primarily for the ImageNet Challenge and is probably too big for a task like the asbestos detection. In a first step, I will try to reduce the fully connected layers since they contribute to the complexity of the model the most. I will gradually reduce the number of parameters in the last 3 layers and compare the performance by averaging over 3 runs. Table \ref{tbl:vgg13_fc} shows the results. The last fully connected layer can safely be reduced from initially having 4096 units per layer to 16 units without harming the performance, or even increase it slightly while reducing the overall parameters by 92.39\%. It can be observed that applying transfer learning on a slightly altered architecture quickly diminishes it's advantages as expected. This can be explained because the architecture was relying on a specific configuration. Changing filters or fully connected layers might lead to having to retrain the whole architecture although the drop in performance is surprising since the changes only affect the last fully connected layers of the network and leave all previous filters intact.
 
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Variations in the last 3 fully connected layers of the VGG13 architecture. They were all performed with Batch Normalization. The last columne shows how much parameters remain in the varied architecture relative to the original VGG13 implementation.}
 \resizebox{0.9\textwidth}{!}{%
-\begin{tabular}{@{}rrrrr@{}}
-\toprule & Accuracy (from scratch) & Accuracy (pre-trained) & Number of Parameters & \% of Original \\
+\begin{tabular}{@{}rcccc@{}}
+\toprule & Accuracy in \% (from scratch) & Accuracy in \% (pre-trained) & Number of Parameters & \% of Original \\
 \midrule
-VGG13\_4096    & 81.0631\% $\pm$ 0.5425 & 88.0398\% $\pm$ 0.7177 & 128'959'042 & 100\% \\
-VGG13\_1024    & 80.0664\% $\pm$ 0.7177 & 81.0631\% $\pm$ 0.7177 & 36'153'666 & 28.04\% \\
-VGG13\_512    & 80.8416\% $\pm$ 0.7831 & 80.0664\% $\pm$ 0.2713 & 22'520'130 & 17.46\% \\
-VGG13\_256    & 80.9524\% $\pm$ 0.8720 & 80.1772 $\pm$ 0.8720 & 15'899'970 & 12.33\% \\
-VGG13\_128    & 81.3954\% $\pm$ 0.9781 & 79.7342\% $\pm$ 1.4095 & 12'639'042 & 9.80\% \\
-VGG13\_64    & 81.6168\% $\pm$ 0.4144 &  81.1738 \% $\pm$ 0.4144 & 11'020'866 & 8.55\% \\
-VGG13\_32    & 80.0665\% $\pm$ 2.3648 & 81.5061 $\pm$ 0.5647 & 10'214'850 & 7.92\% \\
-\textbf{VGG13\_16}    & \textbf{82.0598\%} $\pm$ 1.6500 & 79.0697 $\pm$ 0.8138 & 9'812'610 & 7.61\% \\
-VGG13\_8    & 78.7375\% $\pm$ 1.5103 & 80.1772 $\pm$ 1.2819 & 9'611'682 & 7.45\% \\
-VGG13\_4    & 79.7342\% $\pm$ 0.9781 & 80.1772 $\pm$ 1.9245 & 9'511'266 & 7.38\% \\
-VGG13\_2    & 59.8007\% $\pm$ 0.0 & 74.3079 $\pm$ 10.2805 & 9'461'070 & 7.36\% \\
+VGG13\_4096    	& 81.06 $\pm$ 0.54 		& 88.04 $\pm$ 0.72 		& 128'959'042 	& 100\% \\
+VGG13\_1024    	& 80.07 $\pm$ 0.72 		& 81.06 $\pm$ 0.72 		& 36'153'666 	& 28.04\% \\
+VGG13\_512    		& 80.84 $\pm$ 0.78 		& 80.07 $\pm$ 0.27 		& 22'520'130 	& 17.46\% \\
+VGG13\_256    		& 80.95 $\pm$ 0.87 		& 80.18 $\pm$ 0.87 		& 15'899'970 	& 12.33\% \\
+VGG13\_128    		& 81.40 $\pm$ 0.98 		& 79.73 $\pm$ 1.41 		& 12'639'042 	& 9.80\% \\
+VGG13\_64    		& 81.62 $\pm$ 0.41 		&  81.17 $\pm$ 0.41 		& 11'020'866 	& 8.55\% \\
+VGG13\_32    		& 80.07 $\pm$ 2.36 		& 81.50 $\pm$ 0.56 		& 10'214'850 	& 7.92\% \\
+\textbf{VGG13\_16}    & \textbf{82.06 $\pm$ 1.65} & \textbf{79.07 $\pm$ 0.81} & \textbf{9'812'610} & \textbf{7.61\%}\\
+VGG13\_8    			& 78.74 $\pm$ 1.51 		& 80.18 $\pm$ 1.28 		& 9'611'682 		& 7.45\% \\
+VGG13\_4    			& 79.73 $\pm$ 0.98 		& 80.18 $\pm$ 1.92 		& 9'511'266 		& 7.38\% \\
+VGG13\_2    			& 59.80 $\pm$ 0.00 	& 74.31 $\pm$ 10.28 	& 9'461'070 		& 7.36\% \\
 \bottomrule
 \end{tabular}}
 \label{tbl:vgg13_fc}
@@ -33,7 +33,7 @@ VGG13\_2    & 59.8007\% $\pm$ 0.0 & 74.3079 $\pm$ 10.2805 & 9'461'070 & 7.36\% \
 As a next step, the fully connected layer is held fixed at the original size of 4096 and the filters of all previous layers are reduced gradually. First, they are all halved until the first layer reaches 16 filters instead of the original 64. Then the layers deeper within the network are halved until all layers have 16 filters. After that configuration is reached, all filters all reduced gradually until only 2 filters per layer remain. Table \ref{tbl:vgg_filter_scheme} shows a summary of the filter reduction scheme. The last filter scheme "I" is to see if there is any benefit in increasing filters starting from 2 to the last layer. This imitates the original ratio of the filters but reducing the overall parameters drastically. \\
 
 
-\begin{table}[H] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Filter reduction scheme used on the original VGG13 architecture. The fully connected layer at the end is hold fixed and only the intermediate layers are reduced in filter size. The M stands for a max pooling layer.}
 \resizebox{0.73\textwidth}{!}{%
@@ -58,24 +58,24 @@ J                & [2, 2, M, 4, 4, M, 8, 8, M, 16, 16, M, 32, 32, M]  \\
 
 The goal is to understand how the filters can be reduced and if a pattern can be observed. The results are summarized in Table \ref{tbl:vgg13_fc}. I can be shown that reducing the filters from the original schema to the scheme "A" does no harm the accuracy but reduces the trainable parameters by roughly 50\%. The standard deviation of 0.2721 gives a rather robust result and is lower than the standard deviation of 0.5425 obtained with the original scheme. Surprising is the result obtained with scheme "G" which uses only 4 filters per each layer reducing the overall parameters by 86.35\%. Although it's worse compared to the original scheme, it suffered only 1.7\% which could be attributed to chance. \\
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Variations in number of Filters throughout the VGG13 architecture as explained in table \ref{tbl:vgg_filter_scheme}.}
 \resizebox{0.9\textwidth}{!}{%
 \begin{tabular}{@{}rrrrr@{}}
-\toprule & Accuracy (from scratch) & Accuracy (pre-trained) & Number of Parameters & \% of Original \\
+\toprule & Accuracy in \% (from scratch) & Accuracy in \% (pre-trained) & Number of Parameters & \% of Original \\
 \midrule
-VGG13\_original    & 81.0631\% $\pm$ 0.5425 & 88.0398\% $\pm$ 0.7177 & 128'959'042 & 100\% \\
-VGG13\_a    & 81.0631\% $\pm$ 0.2712 & 74.6401\% $\pm$ 4.4600 & 70'529'186 & 54.69\% \\
-VGG13\_b    & 80.3986\% $\pm$ 0.2713 & 80.1771\% $\pm$ 1.8464 & 43'073'874 & 33.40\% \\
-VGG13\_c    & 78.7375\% $\pm$ 0.9780 & 80.0664 $\pm$ 0.9780 & 29'790'002 & 23.10\% \\
-VGG13\_d    & 79.4020\% $\pm$ 0.8137 & 80.3986\% $\pm$ 0.4698 & 23'261'010 & 18.04\% \\
-VGG13\_e    & 78.9590\% $\pm$ 1.0270 &  79.7342 \% $\pm$ 1.8988 & 20'026'514 & 15.53\% \\
-VGG13\_f    & 78.7375\% $\pm$ 0.8138 & 79.9557 $\pm$ 0.6826 & 18'404'874 & 14.27\% \\
-VGG13\_g    & 79.2913\% $\pm$ 0.6826 & 79.2913 $\pm$ 1.2231 & 17'597'942 & 13.65\% \\
-VGG13\_h    & 78.1838\% $\pm$ 0.4143 & 78.6268 $\pm$ 0.5647 & 17'195'448 & 13.33\% \\
+VGG13\_original 	& 81.06 $\pm$ 0.54 	& 88.04 $\pm$ 0.72 	& 128'959'042 	& 100\% \\
+VGG13\_a    			& 81.06 $\pm$ 0.27	& 74.64 $\pm$ 4.46 & 70'529'186 	& 54.69\% \\
+VGG13\_b    			& 80.40 $\pm$ 0.27 	& 80.18 $\pm$ 1.85 	& 43'073'874 	& 33.40\% \\
+VGG13\_c    			& 78.74 $\pm$ 0.98	& 80.07 $\pm$ 0.98 & 29'790'002 	& 23.10\% \\
+\textbf{VGG13\_d}    			& \textbf{79.40 $\pm$ 0.81} 	& \textbf{80.40 $\pm$ 0.47} & \textbf{23'261'010} 	& \textbf{18.04\%} \\
+VGG13\_e    			& 78.96 $\pm$ 1.02 	& 79.73 $\pm$ 1.90	& 20'026'514 	& 15.53\% \\
+VGG13\_f    			& 78.74 $\pm$ 0.81 	& 79.96 $\pm$ 0.68 	& 18'404'874 	& 14.27\% \\
+\textbf{VGG13\_g}    			& \textbf{79.29 $\pm$ 0.68} 	& \textbf{79.29 $\pm$ 1.22} 	& \textbf{17'597'942} 	& \textbf{13.65\%} \\
+VGG13\_h    			& 78.18 $\pm$ 0.41	& 78.63 $\pm$ 0.56 	& 17'195'448 	& 13.33\% \\
 \midrule
-VGG13\_i    & 79.1805\% $\pm$ 2.2093 & 79.7342 $\pm$ 1.1824 & 23'234'952 & 18.02\% \\
+VGG13\_i    			& 79.18 $\pm$ 2.21 	& 79.73 $\pm$ 1.18 	& 23'234'952 	& 18.02\% \\
 \bottomrule
 \end{tabular}}
 \label{tbl:vgg13_fc}
@@ -84,18 +84,18 @@ VGG13\_i    & 79.1805\% $\pm$ 2.2093 & 79.7342 $\pm$ 1.1824 & 23'234'952 & 18.02
 Combining both modifications leads to yet another surprise as seen in Table \ref{tbl:vgg13_f_fc}. The modification with only 16 units per fully-connected layer and scheme "D" results in 80.73\% accuracy while reducing the overall complexity of the model by 99.946\%! The time needed to train the model drops from initially 1 hour and 13 minutes to only 25 minutes. Due to the heavy parallelization of the GPU's the drop in the time taken to learn is not linear at all. But more importantly is that the size of the model is much more deployable for production, e.g. IOT devices. \\
 
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Variations in number of Filters throughout the VGG13 architecture as explained in table \ref{tbl:vgg_filter_scheme}.}
 \resizebox{0.9\textwidth}{!}{%
-\begin{tabular}{@{}rrrrr@{}}
-\toprule & Accuracy (from scratch) & run time (hh:mm:ss) & Number of Parameters & \% of Original \\
+\begin{tabular}{@{}rcccc@{}}
+\toprule & Accuracy in \% (from scratch) & Run time (hh:mm:ss) & Number of Parameters & \% of Original \\
 \midrule
-VGG13\_original    & 81.0631\% $\pm$ 0.5425 & 1:13:04 & 128'959'042 & 100\% \\
-VGG13\_16\_a            & 80.6201\% $\pm$ 1.2529 & 0:27:01 & 2'556'386 & 1.9823\% \\
-VGG13\_16\_b            & 80.6201\% $\pm$ 0.6264 & 0:25:37 & 690'834 & 0.5357\% \\
-VGG13\_16\_d            & 80.7309\% $\pm$ 1.4354 & 0:25:35 & 70'290 & 0.0545\% \\
-VGG13\_16\_g             & 79.2912\% $\pm$ 1.8061 & 0:25:34 & 4'982 & 0.0039\% \\
+VGG13\_original    				& 81.06 $\pm$ 0.54 & 1:13:04 		& 128'959'042 	& 100\% \\
+VGG13\_16\_a            			& 80.62 $\pm$ 1.25 & 0:27:01 		& 2'556'386 		& 1.9823\% \\
+VGG13\_16\_b            			& 80.62 $\pm$ 0.63 & 0:25:37 		& 690'834 		& 0.5357\% \\
+\textbf{VGG13\_16\_d}       	& \textbf{80.73 $\pm$ 1.44} & \textbf{0:25:35} & \textbf{70'290} & \textbf{0.0545\%} \\
+\textbf{VGG13\_16\_g}       	& \textbf{79.29 $\pm$ 1.81} & \textbf{0:25:34} & \textbf{4'982} & \textbf{0.0039\%} \\
 \midrule
 \bottomrule
 \end{tabular}}
@@ -105,7 +105,7 @@ VGG13\_16\_g             & 79.2912\% $\pm$ 1.8061 & 0:25:34 & 4'982 & 0.0039\% \
 Re-optimizing the hyperparameters with SigOpt yielded small improvements as seen in Table \ref{tbl:vgg13_f_fc_optimized}. \\
 
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{SigOpt opimization VGG13 architecture as explained in table \ref{tbl:vgg_filter_scheme}.}
 \resizebox{0.9\textwidth}{!}{%
@@ -125,7 +125,7 @@ VGG13\_16\_g             & 80.0664\% $\pm$ 0.4698& 0:25:08 & 4'982 & 0.0039\% \\
 
 First, let's visualize the architecture with the best results obtained which is the pre-trained vgg13 model with batch normalization. The Grad-CAM was taken on the last convolutional layer and can be seen in Figure \ref{fig:asbestos_gradcam}. 
 
-\begin{figure}[H]
+\begin{figure}[!h]
 \centering
 \caption{Grad-CAM visualization applied on the left image once focusing on the areas that lead to the classification "non-asbestos" in the first row. And once focusing on the classification "asbestos" on the second row.}
 \subfigure{
@@ -154,7 +154,7 @@ Although the asbestos is not clearly highlighted in the Grad-CAM visualization t
 
 Visualizing images that activate certain filters in the last layer maximally are seen in Figure \ref{fig:vgg13_filter_activation}. The images are very similar to the visualizations on ImageNet with structures that do not resemble asbestos at all. Nonetheless, they achieve the best performance so far as explained in the previous chapter. I argue that some filter from ImageNet do indeed capture another structure in real life that resembles that of asbestos fibers, and if these very few filters are activated strongly. The classification is done on these very few filters and the rest (the big majority) is ignored. That's why reducing the last fully-connected layer to 16 units does not harm the performance at all.
 
-\begin{figure}[H]
+\begin{figure}[!h]
 \centering
 \caption{Last Layer visualizations (8 of 512) of the pre-trained VGG13 with batch normalization.}
 \subfigure{
@@ -186,7 +186,7 @@ Visualizing images that activate certain filters in the last layer maximally are
 
 In order to contrast the original and pre-trained VGG13 with the modification performed on the VGG13 architecture with scheme "G" and only 16 units in the fully connected layers, I performed the same visualizations again. In Figure \ref{fig:asbestos_gradcam_g} Grad-CAM visualizations with heatmaps over the image are shown for the last convolution layer. As before the first row shows what areas responsible for the classification "non-asbestos", and the second row shows what areas are responsible for the classification "asbestos".
 
-\begin{figure}[H]
+\begin{figure}[!h]
 \centering
 \caption{GradCam visualization applied on the left image once with looking for asbestos structures (right) and once looking for not-asbestos structures (middle).}
 \subfigure{
@@ -214,7 +214,7 @@ The visualizations from Figure \ref{fig:asbestos_gradcam} need to be taken very 
 
 As shown with the original model, Figure \ref{fig:vgg13_g_filter_activation} lists 4 layer visualizations performed from the last convolution layer from the modified VGG13 architecture. As already seen in chapter five, contrary to the pre-trained mode, no complex patterns can be found and that holds true for every filter throughout the model. In the appendix, all 40 filters of the architecture are shown for comparison.
 
-\begin{figure}[H]
+\begin{figure}[!h]
 \centering
 \caption{Last Layer visualizations (4 of 4) of the VGG13\_16\_g architecture trained from scratch and with batch normalization.}
 \subfigure{
@@ -251,7 +251,7 @@ For the above-mentioned reason, the ResNet18 implementation has been altered to 
 Since observations on VGG13 have shown that pre-training is not helpful in this scenario, it has been omitted with ResNet18.
 
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Resnet18 with different number of filters on the FINAL dataset. The number of filters present in paranthesis is the number of filters used per layer.}
 \resizebox{0.79\textwidth}{!}{%
@@ -272,8 +272,6 @@ ResNet18 (1 filter)                & 75.083\% &  338 & 0.0030\%     \\
 
 It is very surprising that reducing the learnable parameters by 99.64\% for the ResNet18 modification with 16 filters yields better results for the asbestos task trained from scratch. It does indeed confirm the hypothesis that for binary classification of a mineral the current models are way too big and wasteful. Also, the ResNet18 modification with only 2 filters per layer (reduction of parameters by 99.99\%) outperforms the original ResNet18 architecture.
 
-Visualization possible?
-
 
 
 
@@ -281,41 +279,44 @@ Visualization possible?
 
 \section{Evaluation Of Different Dataset Sizes And Variations}
 
-All the different dataset variations are compared against each other within the same architecture. Each result is obtained by running the model three times and averaging over all runs. DeepDIVA has a script that randomly distributes the images into one of the three sets. It is important to note, that once the sets have been created, the test set has never been altered. It stays the same for all dataset variations. Table \ref{tbl:resnet18_dataset} shows the results for ResNet18
+All the different dataset variations are compared against each other within the same architecture. Each result is obtained by running the model three times and averaging over all runs. DeepDIVA has a script that randomly distributes the images into one of the three sets. It is important to note, that once the sets have been created, the test set has never been altered. It stays the same for all dataset variations. Table \ref{tbl:resnet18_dataset} shows the results for ResNet18. \\
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Dataset variations with ResNet18. The first column shows how the datasets performed when trained from scratch whereas the second column shows how the datasets performed with pre-training.}
 \resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\begin{tabular}{@{}rccc@{}}
+\toprule & accuracy in \% (from scratch) & accuracy in \% (pre-trained) &   $\Delta$ \\
 \midrule
-FINAL                        & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & +7.31\%     \\
-FINAL\_C                    &     80.73\% $\pm$ 0.3839 &     84.05\% $\pm$  0.9584 & +3.32\% \\
-FINAL\_C\_B                &     81.39\% $\pm$ 1.3827 &     85.27\% $\pm$  0.7988 & +3.88\% \\
-FINAL\_CH                    &     81.62\% $\pm$ 0.2942 &     84.94\% $\pm$  0.3966 & +3.32 \\
-FINAL\_CH\_B                &     80.73\% $\pm$ 0.8371 &     85.05\% $\pm$  0.3300 & +4.32 \\
-FINAL\_EXTENDED        &     81.06\% $\pm$ 0.3839 &     84.50\% $\pm$ 0.8649 & +3.44 \\
+FINAL                        	& 79.62  $\pm$ 0.95 	& 86.93 $\pm$ 0.78 		& +7.31  \\
+FINAL\_C                   	& 80.73 $\pm$ 0.38 		& 84.05 $\pm$ 0.96 	& +3.32 \\
+FINAL\_C\_B            	& 81.39 $\pm$ 1.38 		& 85.27 $\pm$ 0.80 		& +3.88 \\
+FINAL\_CH                	& 81.62 $\pm$ 0.29 		& 84.94 $\pm$ 0.40 	& +3.32 \\
+FINAL\_CH\_B           	& 80.73 $\pm$ 0.84 		& 85.05 $\pm$ 0.33 		& +4.32 \\
+FINAL\_EXTENDED   	& 81.06 $\pm$ 0.38 		& 84.50 $\pm$ 0.86 	& +3.44 \\
 \bottomrule
 \end{tabular}}
 \label{tbl:resnet18_dataset}
 \end{table}
 
-Changing the train set by reducing questionable and unclear images has lead to consistent improvements in the ResNet18 model trained from scratch but to consistently worse results when training from pre-trained weights. A possible explanation could be that training from scratch needs a higher quality of the data sets meaning no wrongly labeled images and no images with obvious errors in them. That would not explain why the model with transfer learning performs consistently worse with different training and validation sets. In Table \ref{fig:densenet121_dataset} the summary shows how DenseNet121 reacts with different datasets.
+\quad
 
-\begin{table}[h] \centering
+Changing the train set by reducing questionable and unclear images has lead to consistent improvements in the ResNet18 model trained from scratch but to consistently worse results when training from pre-trained weights. A possible explanation could be that training from scratch needs a higher quality of the data sets meaning no wrongly labeled images and no images with obvious errors in them. That would not explain why the model with transfer learning performs consistently worse with different training and validation sets. In Table \ref{tbl:densenet121_dataset} the summary shows how DenseNet121 reacts with different datasets. \\
+
+
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Dataset variations with DenseNet121. The first column shows how the datasets performed when trained from scratch whereas the second column shows how the datasets performed with pre-training.}
 \resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\begin{tabular}{@{}rccc@{}}
+\toprule & accuracy in \% (from scratch) & accuracy in \% (pre-trained) &   $\Delta$ \\
 \midrule
-FINAL                        & 83.72\%  $\pm$ 1.1963 &   86.16\% $\pm$ 1.1704   & +2.44\%     \\
-FINAL\_C                    &     82.61\% $\pm$ 0.9678 & 83.94\% $\pm$  0.5852 & +1.33\% \\
-FINAL\_C\_B                &     80.39\% $\pm$ 0.3840 & 85.38\% $\pm$  0.1905 & +4.99\% \\
-FINAL\_CH                    &     79.61\% $\pm$ 2.2322 &  86.60\% $\pm$  0.3998 & +6.99\% \\
-FINAL\_CH\_B                &     83.17\% $\pm$ 0.1100 & 84.37\% $\pm$  0.8124 & +1.20\% \\
-FINAL\_EXTENDED        &     83.06\% $\pm$ 1.0169 &  85.60\% $\pm$ 2.1218 & 2.54\% \\
+FINAL                    		& 83.72 $\pm$ 1.20 		& 86.16 $\pm$ 1.17   	& +2.44     \\
+FINAL\_C             		& 82.61 $\pm$ 0.97 		& 83.94 $\pm$ 0.59 	& +1.33 \\
+FINAL\_C\_B        		& 80.39 $\pm$ 0.38 	& 85.38 $\pm$ 0.19 		& +4.99 \\
+FINAL\_CH				& 79.61 $\pm$ 2.23 		& 86.60 $\pm$ 0.40 	& +6.99 \\
+FINAL\_CH\_B          	& 83.17 $\pm$ 0.11		& 84.37 $\pm$ 0.81 		& +1.20 \\
+FINAL\_EXTENDED	& 83.06 $\pm$ 1.03 		& 85.60 $\pm$ 2.12 		& +2.54 \\
 \bottomrule
 \end{tabular}}
 \label{tbl:densenet121_dataset}
@@ -323,19 +324,19 @@ FINAL\_EXTENDED        &     83.06\% $\pm$ 1.0169 &  85.60\% $\pm$ 2.1218 & 2.54
 
 With Densenet121 there is no improvement to be seen by changing the dataset. If trained from scratch all variations lead to slightly worse results. If trained with pre-trained weights, the FINAL\_CH dataset yields marginally better accuracy but that is most likely due to chance. In Table \ref{fig:inceptionv3_dataset} the summary shows how Inception v3 behaves with different datasets.
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Dataset variations with Inception v3. The first group shows how the datasets performed when trained from scratch whereas the second group shows how the datasets performed with pre-training. FINAL\_C\_B died for the non-pre-trained twice. Only one datapoint used.}
 \resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\begin{tabular}{@{}rccc@{}}
+\toprule & accuracy in \% (from scratch) & accuracy in \% (pre-trained) &   $\Delta$ \\
 \midrule
-FINAL                        & 82.83\%  $\pm$ 0.6157 &  85.93\% $\pm$ 0.3998   & +3.1\%     \\
-FINAL\_C                    &  80.4\% $\pm$ 0.6926 & 85.82\% $\pm$  0.2942 & +5.42\% \\
-FINAL\_C\_B                & 82.06\% $\pm$ 1.7749 & 85.27\% $\pm$  1.5651 & +3.21\% \\
-FINAL\_CH                    & 81.06\% $\pm$ 0.5430 & 85.71\% $\pm$ 0.2735 & +4.65\% \\
-FINAL\_CH\_B                & 81.06\% $\pm$ 0.3839 & 85.27\% $\pm$  1.2200 & +4.21\% \\
-FINAL\_EXTENDED        & 81.72\% $\pm$ 0.3839 & 84.16\% $\pm$ 0.4433 & +2.44\% \\
+FINAL                        & 82.83  $\pm$ 0.62 		& 85.93 $\pm$ 0.40  	& +3.10  \\
+FINAL\_C                   & 80.4 $\pm$ 0.69 		& 85.82 $\pm$  0.29 	& +5.42 \\
+FINAL\_C\_B              & 82.06 $\pm$ 1.77 		& 85.27 $\pm$  1.57 		& +3.21 \\
+FINAL\_CH                 & 81.06 $\pm$ 0.54 		& 85.71 $\pm$ 0.27 		& +4.65 \\
+FINAL\_CH\_B            & 81.06 $\pm$ 0.38 		& 85.27 $\pm$  1.22 		& +4.21 \\
+FINAL\_EXTENDED   & 81.72 $\pm$ 0.38 		& 84.16 $\pm$ 0.44 		& +2.44 \\
 \bottomrule
 \end{tabular}}
 \label{tbl:inceptionv3_dataset}
@@ -363,17 +364,17 @@ In chapter 5, strong overfitting was observed in the training set. ResNet18 with
 Here, random cropping is performed first in order to crop the image to the smallest image height in the dataset which is 768 pixels this already allows vertical and horizontal randomness leading to every epoch training on different augmented images. Then the image is resized to the expected input size of the network being 224x224 pixels for ResNet18. With resizing a  smaller image then the original image, less information is lost due to the resizing process, which is a good thing. In the end, two transformations happen with a probability of 0.5: flipping horizontally and flipping vertically. All transformations are performed on the training set only. One run was performed as usual with 50 epochs and a  learning rate decay every 20 epochs. Since data augmentation yields new images to train from every epoch, there is much more variation and less overfitting. Therefore another 3 runs have been performed with 100 epochs and a learning rate decay every  30 epochs. The summary of these is shown in Table \ref{tbl:ResNet18_cropping}: \\
 
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Cropping, resizing and  random flipping performed on the ResNet18 architecture with and without transfer learning. The first row is a run with the original configuration without any randomness or cropping and serves as comparison.}
 \resizebox{0.79\textwidth}{!}{%
 \begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\toprule & Accuracy in \% (from scratch) & Accuracy in \% (pre-trained) &   $\Delta$ in \% \\
 \midrule
-ResNet18 original & 79.62\%  $\pm$ 0.9465 &  85.83\% $\pm$ 0.4144 & +6.21\%     \\
+ResNet18 original & 79.62  $\pm$ 0.95 &  85.83 $\pm$ 0.41 & +6.21     \\
 \midrule
-ResNet18 (50 epochs) & 81.73\%  $\pm$ 1.0859 &  84.83\% $\pm$ 0.7825 & +3.1\%     \\
-ResNet18 (100 epochs) &  81.17\% $\pm$ 0.8708 & 85.93\% $\pm$ 0.3158 & +4.76\% \\
+ResNet18 (50 epochs) & 81.73  $\pm$ 1.09 &  84.83 $\pm$ 0.78 & +3.10     \\
+ResNet18 (100 epochs) &  81.17 $\pm$ 0.87 & 85.93 $\pm$ 0.32 & +4.76 \\
 \bottomrule
 \end{tabular}}
 \label{tbl:ResNet18_cropping}
@@ -381,7 +382,7 @@ ResNet18 (100 epochs) &  81.17\% $\pm$ 0.8708 & 85.93\% $\pm$ 0.3158 & +4.76\% \
 
 Unfortunately, the improvement in accuracy of only 2.11\% for the ResNet18 trained from scratch with simple data augmentation is not as high as expected. From the model with the pre-trained weights, it even gets worse with a decrease of exactly 1\%. But as seen in Graph \ref{fig:resnet18-da-graph} no overfitting takes place for the model trained from scratch and less overfitting is found in the pre-trained model. This is in strong contrast to Figure \ref{fig:resnet18-graph} from Chapter 5.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \caption{Training and validation graphs for ResNet18 with simple data augmentation. Once with pre-trained weights from ImageNet and once trained from scratch.}
 \subfigure{
@@ -395,21 +396,21 @@ Unfortunately, the improvement in accuracy of only 2.11\% for the ResNet18 train
 
 Convergence happens at roughly the same amount of epochs. The model trained from scratch does never catch up with the pre-trained model which has already been attributed to the more complex feature mappings of the pre-trained model. A very interesting point can be seen in Table \ref{tbl:ResNet18_cropping_different_acc} where on the first two rows the ResNet runs are shown as performed in Chapter 5. Severe overfitting happens for the pre-trained model after only a few epochs and after the model trained from scratch towards the end. But both are near 100\% accuracy for the training. The validation accuracy is much more realistic since it does only test the network on this data. Validation and test set accuracies should be near each other. For the ResNet18 architecture with cropping and 50 epochs no overfitting can be observed. The training accuracy remains around 82\% for training, validation and test sets. This simple data augmentation is enough to create new images for roughly 50 epochs, but not for 100 epochs. Although there is some randomness introduced, it is not sophisticated enough.
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Different set accuracies. If the training accuracy is much higher than the validation or test accuracy, then there is a problem with overfitting to the training data.}
-\resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy train set  & accuracy validation set &  accuracy test set \\
+\resizebox{0.85\textwidth}{!}{%
+\begin{tabular}{@{}rccc@{}}
+\toprule & Accuracy train set in \% & Accuracy validation set in \% &  Accuracy test set in \% \\
 \midrule
-ResNet18 original (from scratch)		& 99.28\%   &  77.83\%  & 79.62\%     \\
-ResNet18 original (pre-trained)			& 100\%   &  88.61\%  & 85.83\%     \\
+ResNet18 original (from scratch)			& 99.28   		&  77.83 	& 79.62     \\
+ResNet18 original (pre-trained)				& 100.00   	&  88.61 	& 85.83     \\
 \midrule
-ResNet18 (50 epochs / from scratch)	& 83.33\%   &  82.25\% & 81.73\%   \\
-ResNet18 (50 epochs / pre-trained)		& 95.85\%   &  88.57\% & 84.83\%     \\
+ResNet18 (50 epochs / from scratch)	& 83.33   		&  82.25 	& 81.73   \\
+ResNet18 (50 epochs / pre-trained)		& 95.85   		&  88.57 	& 84.83     \\
 \midrule
-ResNet18 (100 epochs / from scratch)	& 84.70\%   &  83.22\% & 81.17\%     \\
-ResNet18 (100 epochs / pre-trained)	 	&  98.07\% & 87.57\% & 85.93\% \\
+ResNet18 (100 epochs / from scratch)	& 84.70   		&  83.22 	& 81.17     \\
+ResNet18 (100 epochs / pre-trained)	 	&  98.07 		& 87.57 	& 85.93 \\
 \bottomrule
 \end{tabular}}
 \label{tbl:ResNet18_cropping_different_acc}
@@ -420,17 +421,17 @@ ResNet18 (100 epochs / pre-trained)	 	&  98.07\% & 87.57\% & 85.93\% \\
 The torch library comes with a FiveCrop implementation which could be used with minor changes in the code. The FiveCrop implementation crops 5 images of a given size from the whole image. All corners and the center are cropped. In training and evaluation, these crops are stacked on top of each other and fed to the network. The output is averaged across all crops before the weights get updated. Table \ref{resnet18-fivecrop} summarizes the results.\\
 
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
 \resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\begin{tabular}{@{}rccc@{}}
+\toprule & Accuracy in \% (from scratch) & Accuracy in \% (pre-trained) &   $\Delta$ in \%  \\
 \midrule
-FINAL (regular)                & 79.62\%  $\pm$ 0.9465 & 86.93\% $\pm$ 0.7757   & +7.31\%     \\
-FINAL (fiveCrop)            & 82.28\% $\pm$ 1.8061 &  87.9291\% $\pm$ 1.4940 & +5.65\%   \\
+FINAL (regular)          	& 79.62  $\pm$ 0.95 	& 86.93 $\pm$ 0.78   	& +7.31     \\
+FINAL (fiveCrop)          	& 82.28 $\pm$ 1.81 		& 87.93 $\pm$ 1.49 		& +5.65   \\
 \midrule
-Increased accuracy		& +2.66\%		& +1.00\% & - \\
+Accuracy gain				& +2.66						& +1.00 						& - \\
 \bottomrule
 \end{tabular}}
 \label{tbl:resnet18-fivecrop}
@@ -442,17 +443,17 @@ With FiveCrop slightly better results are achieved than without data augmentatio
 
 The NineCrop is an own implementation that puts more weight on the center of the image. The nine crops taken from the image are all symmetrically positioned around the center with only minimal or none overlap. Taking nine crops instead of five is not without disadvantages. If many crops end up having no asbestos in them it will rather harm than improve the learning process. Table \ref{tbl:resnet18-randomnine} summarizes the results.
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Resnet18 FiveCrop Implementation with and without pre-training. FINAL (regular) means ResNet18 with the resizing of the image instead of cropping and averaging}
 \resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\begin{tabular}{@{}rccc@{}}
+\toprule & Accuracy in \% (from scratch) & Accuracy in \% (pre-trained) &   $\Delta$ in \% \\
 \midrule
-FINAL (regular)                & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & +7.31\%    \\
-FINAL (randomNine)            & 83.39\% $\pm$ 0.9526 &  87.92\% $\pm$ 1.1293 & +4.53\%    \\
+FINAL (regular)              		& 79.62  $\pm$ 0.95 	& 86.93 $\pm$ 0.78		& +7.31    \\
+FINAL (randomNine)          & 83.39 $\pm$ 0.95 		& 87.92 $\pm$ 1.13 		& +4.53    \\
 \midrule
-increased accuracy			& +3.77\%			& +1.00\% & - \\
+Accuracy gain					& +3.77							& +1.00 						& - \\
 \bottomrule
 \end{tabular}}
 \label{tbl:resnet18-randomnine}
@@ -476,16 +477,16 @@ The input size of the network ranges relative to the architectures from 224x224 
 \end{lstlisting}
 \end{minipage}
 
-The forward pass consists of doing first the new convolution with batch normalization, then passing the output through a ReLU and then feeding it to the previously first convolution layer that expects the original size. Table \ref{resnet18-different-input} summarizes the results.
+The forward pass consists of doing first the new convolution with batch normalization, then passing the output through a ReLU and then feeding it to the previously first convolution layer that expects the original size. Table \ref{tbl:resnet18-different-input} summarizes the results.
 
-\begin{table}[h] \centering
+\begin{table}[!h] \centering
 \ra{1.3}
 \caption{Different image input sizes are fed into ResNet18 architectuers with only 16 filters per layer. The first layers of the network have been adapted to allow bigger input images}
 \resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & accuracy (from scratch) & accuracy (pre-trained) &   $\Delta$ \\
+\begin{tabular}{@{}rrr@{}}
+\toprule & accuracy (from scratch) & accuracy (pre-trained) \\
 \midrule
-FINAL (regular 224)                & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757   & -     \\
+FINAL (regular 224)                & 79.62\%  $\pm$ 0.9465 &   86.93\% $\pm$ 0.7757     \\
 FINAL (input 448)            & 77.41\% $\pm$ 1.6940   & -     \\
 FINAL (input 896)            & 79.62\% $\pm$ 0.6827   & -     \\
 FINAL (input 1024)            & 80.62\% $\pm$ 0.8287   & -     \\
@@ -552,50 +553,6 @@ self.expected_input_size = (1024, 1024)
 
 This makes it so much harder to train this network since there are 9 convolution layers before the actual ResNet18 architecture starts. There are no skip connections in the first 9 layers and therefore the vanishing/exploding gradient problem starts to play a role again.
 
-\section{Combinations of fewer filters, reduced dataset and data augmentation}
-
-At the end of this chapter, I would like to try out some of the combinations that seem promising or at least seem logical to persue. For example, having the ResNet18 architecture with only 16 or 2 filters per layer reduces the complexity of the network drastically. This could be combined with FiveCrop and NineCrop and used on a cleaned and balanced dataset. Table \ref{tbl:resnet18-combinations} shows a summary of these combinations.
-
-\begin{table}[h] \centering
-\ra{1.3}
-\caption{asdf}
-\resizebox{0.79\textwidth}{!}{%
-\begin{tabular}{@{}rrrr@{}}
-\toprule & data augmentation & dataset & accuracy \\
-\midrule
-ResNet18_16 & fivecrop & FINAL_CH & 73.20\%  $\pm$ 0.9526 \\
-ResNet18_16 & fivecrop & FINAL_CH_B & 73.42\% $\pm$ 1.7788 \\
-ResNet18_16 & fivecrop & FINAL_EXTENDED	& 74.52\% $\pm$ 0.6265 \\
-\midrule
-ResNet18_16 & ninecrop & FINAL_CH & 75.74\% $\pm$ 0.7177 \\
-ResNet18_16 & ninecrop & FINAL_CH_B	 & 76.08\% $\pm$ 1.3563 \\
-ResNet18_16 & ninecrop & FINAL_EXTENDED & 72.53 \% $\pm$ 3.3917  \\
-\midrule
-ResNet18_2 & fivecrop & FINAL_CH & 73.20\%  $\pm$ 0.9526 \\
-ResNet18_2 & fivecrop & FINAL_CH_B & 73.42\% $\pm$ 1.7788 \\
-ResNet18_2 & fivecrop & FINAL_EXTENDED	& 74.52\% $\pm$ 0.6265 \\
-\midrule
-ResNet18_2 & ninecrop & FINAL_CH & 75.74\% $\pm$ 0.7177 \\
-ResNet18_2 & ninecrop & FINAL_CH_B	 & 76.08\% $\pm$ 1.3563 \\
-ResNet18_2 & ninecrop & FINAL_EXTENDED & 72.53 \% $\pm$ 3.3917  \\
-\bottomrule
-\end{tabular}}
-\label{tbl:resnet18-combinations}
-\end{table}
-
-Talk about the summary
-
-The same things could be checked for the VGG13 architecture. 
-
---------\\
-
-Run ResNet18 with 16 filters and 2 filters and with FiveCrop and NineCrop and with 2 data set variations
-
-Run VGG13 with "G" or "D" filter scheme and 16 units in the fully connected layer and with 2 data set variations py
-
-This part is running now and will mostly finish by tomorrow\\
-
---------
 
 \section{Conclusion}
 
