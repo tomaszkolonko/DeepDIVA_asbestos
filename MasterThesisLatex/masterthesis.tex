@@ -127,7 +127,7 @@ In this thesis, several state-of-the-art architectures are explained and compare
 
 \vspace{5mm} %5mm vertical space
 
-++  here you have to put also the final results you achieved. The abstract is like a summary of the work: problems + how you tackle it + the final results. So you can add a paragraph with the main results...
+I succeeded to show that transfer learning on ImageNet does indeed benefit the asbestos detection task on microscopic images for all used architectures. I show through visualizations that this is mostly due to the mid- and high-level feature mappings transferred from ImageNet. The networks trained from scratch fail to create these more complex feature mappings altogether. The increase from pre-trained weights is overall roughly 7\% in accuracy gain. Data augmentation and cropping methods help to reduce the problem of overfitting and slightly increase the accuracy by 2-3\%. Dataset alterations fail to consistently increase accuracy, so does altering the architecture to allow bigger images as input volumens, thus reducing the problem of lost information through the resizing process. I was able to reduce the overall complexity of the networks by over 99.9\% without harming performance or even increase it in some cases. This is important because it leads to simpler models, witch faster training and better deployability.
 
 
 \pagenumbering{roman}
