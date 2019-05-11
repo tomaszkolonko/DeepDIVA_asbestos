@@ -102,12 +102,69 @@
 \fi
 
 
-\author{Thomas Kolonko\thanks{\email{thomas.kolonko@students.unibe.ch}, HumanTech group, University of Fribourg}}
-\title{Asbestos Detection in Microscopic Imaging}
-\date{April 15, 2019} % Note: if this is left out, today's date will be used.
+\newcommand{\thesistitle}{Evaluation of Deep Learning Methods on SEM Images of Asbestos}
+\newcommand{\thesisauthor}{Thomas Kolonko\footnote{thomas.kolonko@students.unibe.ch, HumanTech group, University of Fribourg}}
+\newcommand{\thesisleiter}{Professor Elena Mugellini, HumanTech Institute, University of Applied Sciences of Western Switzerland, Supervisor}
+\newcommand{\thesisexpert}{Professor Denis Lalanne, Human-IST Institute, University Fribourg, Supervisor}
+\newcommand{\thesisasst}{Jacky Casas, HumanTech Institute, University of Applied Sciences of Western Switzerland, Supervisor}
+\newcommand{\thesisdate}{April, 2019}
 
 \begin{document}
-\maketitle
+
+
+% T I T L E
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\begin{titlepage}  
+  \begin{center}  
+  
+  \begin{figure}[t]  
+  \vspace*{-2cm}        % to move header logo at the top 
+  \center{\includegraphics[scale=0.2]{logos/MSc_quer.png}}
+  \vspace{0.4in}     
+  \end{figure}
+
+    \thispagestyle{empty}
+    
+    {\bfseries\Huge \thesistitle \par}
+
+    \vspace{0.3in} 
+    \LARGE{\textbf{Master Thesis} \\}
+    \vspace{0.4in}
+
+    {\Large \thesisauthor}
+    
+    \vspace{0.3in}
+    {\Large Faculty of Science - University of Bern \par}
+%    {\Large Philosophisch-naturwissenschaftlichen Fakult\"{a}t \\
+%            der Universit\"{a}t Bern \par}
+    \vfill
+    {\Large \thesisdate \par}
+    \vspace{0.3in}
+    {\normalsize \thesisleiter \par}
+	\vspace{0.15in}    
+    {\normalsize \thesisexpert \par}
+    \vspace{0.15in}    
+    {\normalsize \thesisasst \par}
+  
+
+  \vspace{0.9in}
+ 
+  % === Logos ==============================================     
+  \begin{figure}[htp]
+    \centering
+    \includegraphics[scale=0.26]{logos/UNI_Bern.png}\hfill
+    \includegraphics[scale=0.28]{logos/UNI_Neuenburg.png}\hfill
+    \includegraphics[scale=0.80]{logos/UNI_Fribourg.png}\hfill
+    \includegraphics[scale=0.90]{logos/HumanTech.png}
+  \end{figure}
+  % === // Logos ===========================================    
+
+
+  \end{center}
+
+\end{titlepage}
+
+
 \thispagestyle{empty}
 \mbox{}
 
@@ -115,19 +172,24 @@
 
 \chapter*{Abstract}
 
-Asbestos is a highly toxic silicate mineral that has been used widely in many products for its insulating, non-flammable and heat resistant properties. It may lead to chronic inflammation of the lungs and cancer when exposed to high concentrations. After the toxicity has become known, much effort was undertaken - and is up to this day - in removing asbestos from buildings, roofs and other materials used in industry and in the public. Asbestos detection is a manual, complex and time-intensive process, that requires a lot of experience from an expert in order to have consistent and correct results. In order to reduce manual labor and increase consistency in detection, machine learning models have been recently adopted to automate the detection process.
+Asbestos is a highly toxic silicate mineral that has been used widely in many products for its insulating, non-flammable and heat resistant properties. It may lead to chronic inflammation of the lungs and cancer when exposed to high concentrations. After the toxicity has become known, much effort was undertaken - and is up to this day - in removing asbestos from buildings, roofs and other materials used in industry and in the public. Asbestos detection is a manual, complex and time-intensive process, that requires a lot of experience from an expert in order to have consistent and correct results. In an attempt to reduce manual labor and increase consistency in detection, machine learning models have been recently adopted to automate the detection process.
 
-\vspace{5mm} %5mm vertical space
+\vspace{3mm} %5mm vertical space
 
-Convolutional Neural Networks have the property of automatically extracting feature mappings from the provided dataset and applying these feature mappings on the images in a spatial relevant manner. These feature mappings are adjusted with each iteration in order to represent the training data and thus minimizing the loss function. These properties make Convolutional Neural Networks a very good fit for the task of detecting asbestos fibers. Especially by reducing the needed knowledge about asbestos and experience acquired through years of working with asbestos which is one of the main prerequisites of a laboratory to be successful in the detection of asbestos fibers.
+Convolutional neural networks are a subset of deep learning algorithms that have been shown to be very effective for computer vision tasks, outperforming humans in many areas. They have the property of automatically extracting feature mappings from the provided dataset, which encode relevant spatial information and patterns. These properties make convolutional neural networks a very good fit for the task of detecting asbestos fibers. Especially by reducing the needed knowledge about asbestos and experience acquired through years of working with asbestos which is one of the main prerequisites of a laboratory to be successful in the detection of asbestos fibers.
 
-\vspace{5mm} %5mm vertical space
+\vspace{3mm} %5mm vertical space
 
-In this thesis, several state-of-the-art architectures are explained and compared against each other in regard of performance accuracy, size, and complexity. I will evaluate if transfer learning from the ImageNet dataset can be applied in this specific cross-domain task of asbestos fiber detection. in microscopic images. Data augmentation with different cropping methods will be implemented and compared with the goal of increasing the overall accuracy of the model. Since the dataset is quite small, with only about 2'000 images, several train and valuation datasets and their distribution are evaluated. The test set is fixed in the beginning and never altered. Another branch of investigation will be alterations to the current architectures like reducing the filters and fully connected layers in order to decrease complexity and increase interpretability through visualization. Also, adding new layers in order to allow the input image to be bigger, thus reducing problems that arise with cropping and re-sizing the original image are investigated.
+In this thesis, several state-of-the-art architectures are explained and compared against each other in regard of performance, size, and complexity. Since the provided dataset with its 2'000 images is rather small, techniques like transfer learning, data augmentation and dataset alterations are applied and evaluated extensively. Another branch of investigation contains different modifications to the current architectures in order to achieve better performance while decreasing overall complexity. Visualization techniques should allow a better understanding in what the models learn, increase user's trust and support the reasoning of the findings.
 
-\vspace{5mm} %5mm vertical space
 
-I succeeded to show that transfer learning on ImageNet does indeed benefit the asbestos detection task on microscopic images for all used architectures. I show through visualizations that this is mostly due to the mid- and high-level feature mappings transferred from ImageNet. The networks trained from scratch fail to create these more complex feature mappings altogether. The increase from pre-trained weights is overall roughly 7\% in accuracy gain. Data augmentation and cropping methods help to reduce the problem of overfitting and slightly increase the accuracy by 2-3\%. Dataset alterations fail to consistently increase accuracy, so does altering the architecture to allow bigger images as input volumens, thus reducing the problem of lost information through the resizing process. I was able to reduce the overall complexity of the networks by over 99.9\% without harming performance or even increase it in some cases. This is important because it leads to simpler models, witch faster training and better deployability.
+%I will evaluate if transfer learning from the ImageNet dataset can be applied in this specific cross-domain task of asbestos fiber detection. in microscopic images. Data augmentation with different cropping methods will be implemented and compared with the goal of increasing the overall accuracy of the model. Since the dataset is quite small, with only about 2'000 images, several train and valuation datasets and their distribution are evaluated. The test set is fixed in the beginning and never altered. Another branch of investigation will be alterations to the current architectures like reducing the filters and fully connected layers in order to decrease complexity and increase interpretability through visualization. Also, adding new layers in order to allow the input image to be bigger, thus reducing problems that arise with cropping and re-sizing the original image are investigated.
+
+\vspace{3mm} %5mm vertical space
+
+There is no clear preference for any of the investigated architectures. They all performed in a similar range with Densenet121 achieving best results with an accuracy of 86\% when trained from scratch. Transfer learning from ImageNet was beneficial in every single case leading to an improvement of roughly 7\%. Visualizations show that this is due to mid- and high-level feature mappings transferred from ImageNet. The models trained from scratch fail to create more complex mid- and high-level filters from that few images. Data augmentation and cropping methods help to reduce the problem of overfitting and slightly increase the accuracy by 2-3\%. Dataset alterations failed to consistently increase performance. So did the architecture modifications, that allowed bigger image sizes to be fed to the network. Reducing the overall number of parameters by over 99\% did not harm the performance but reduced the complexity drastically making these models much faster, easier to interpret and more deployable.
+ 
+%I succeeded to show that transfer learning on ImageNet does indeed benefit the asbestos detection task on microscopic images for all used architectures. I show through visualizations that this is mostly due to the mid- and high-level feature mappings transferred from ImageNet. The networks trained from scratch fail to create these more complex feature mappings altogether. The increase from pre-trained weights is overall roughly 7\% in accuracy gain. Data augmentation and cropping methods help to reduce the problem of overfitting and slightly increase the accuracy by 2-3\%. Dataset alterations fail to consistently increase accuracy, so does altering the architecture to allow bigger images as input volumens, thus reducing the problem of lost information through the resizing process. I was able to reduce the overall complexity of the networks by over 99.9\% without harming performance or even increase it in some cases. This is important because it leads to simpler models, witch faster training and better deployability.
 
 
 \pagenumbering{roman}
@@ -142,7 +204,7 @@ I succeeded to show that transfer learning on ImageNet does indeed benefit the a
 % if you want to thank somebody for the support during your studies make it here
 \chapter*{Acknowledgments}
 
-I would first like to thank my thesis advisor and professor Elena Mugellini for the opportunity to write this master thesis in her research group. She was always very helpful in giving advice and guidance throughout the project. Her door was always open if I needed to discuss the progress of the thesis.\\
+I would first like to thank my thesis advisor and Professor Dr. Elena Mugellini for the opportunity to write this master thesis in her research group. She was always very helpful in giving advice and guidance throughout the project. Her door was always open if I needed to discuss the progress of the thesis.\\
 
 
 Then, I would like to thank my coach and thesis advisor Jacky Casas. He supported me through the whole process of writing this thesis, giving me invaluable inputs and steering me into the right direction when I got lost. He was always available and took his time to listen to my ideas and propose alternatives.\\
@@ -157,10 +219,9 @@ I would also like to thank the expert, Professor Dr. Denis Lalanne, for his time
 Many thanks to the Microscan Service SA company that provided their high-quality dataset for this master thesis.\\
 
 
-I am also very grateful for the resources that were generously provided by the research group of Prof. Elena Mugellini.
+I am also very grateful for the resources that were generously provided by the research group of Prof. Elena Mugellini.  \\
 
-
-Lastly I would like to thank Jacky Casas, Nathalie Vielle, Matthias Fuchs and Andreas Bugmann for their time and effort in acquiring the annotator inter-agreement rate for the asbestos classification task.
+Lastly I would like to thank Nathalie Vielle, Jacky Casas, Matthias Fuchs and Andreas Bugmann for their time and effort in acquiring the inter-rater-agreement rate for the asbestos classification task.
 
 \cleardoublepage
 \setcounter{page}{1}	% Reset page numbering to 1
