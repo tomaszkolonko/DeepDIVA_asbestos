@@ -457,7 +457,19 @@ Accuracy gain					& +3.77							& +1.00 						& - \\
 \label{tbl:resnet18-randomnine}
 \end{table}
 
+As seen in Figure \ref{fig:resnet18-ninecrop-graph} almost no overfitting takes place. The  training accuracy of the pre-trained model reaches values just sligthly above  90\%  but never wiggles around 100\% accuracy as in the models without data augentation. The model trained from scratch has no overfitting whatsoever.
 
+\begin{figure}[!h]
+\centering
+\caption{Training and validation graphs for ResNet18 with NineCrop implementation. Once with pre-trained weights from ImageNet and once trained from scratch.}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter6/ninecrop/TrainingAccuracyNineCrop.png}
+}
+\subfigure{
+\includegraphics[width=.46\textwidth]{images/chapter6/ninecrop/ValidationAccuracyNineCrop.png}
+}
+\label{fig:resnet18-ninecrop-graph}
+\end{figure}
 
 \section{Evaluation of different image size Inputs to the network}
 
