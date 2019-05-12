@@ -112,6 +112,11 @@ E.~P.~A. (EPA), ``Framework for investigating asbestos-contaminated superfund
 ``{ImageNet},'' \url{http://www.image-net.org/}, 2019, [Online; accessed
   20-March-2019].
 
+\bibitem{deepdiva}
+``{DeepDIVA - A Highly-Functional Python Framework for Reproducible
+  Experiments},'' \url{https://diva-dia.github.io/DeepDIVAweb/}, 2019, [Online;
+  accessed 11-March-2019].
+
 \bibitem{perry2004discussion}
 A.~Perry \emph{et~al.}, ``A discussion of asbestos detection techniques for air
   and soil,'' \emph{Washington, US EPA}, 2004.
@@ -148,75 +153,26 @@ K.~He, G.~Gkioxari, P.~Doll{\'a}r, and R.~Girshick, ``Mask r-cnn,'' in
   \emph{Proceedings of the IEEE international conference on computer vision},
   2017, pp. 2961--2969.
 
-\bibitem{tensorflow}
-``{Tensorflow - An end-to-end open source machine learning platform},''
-  \url{https://www.tensorflow.org/}, 2019, [Online; accessed 11-March-2019].
+\bibitem{menegola2017knowledge}
+A.~Menegola, M.~Fornaciali, R.~Pires, F.~V. Bittencourt, S.~Avila, and
+  E.~Valle, ``Knowledge transfer for melanoma screening with deep learning,''
+  in \emph{2017 IEEE 14th International Symposium on Biomedical Imaging (ISBI
+  2017)}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2017, pp. 297--300.
 
-\bibitem{pytorch}
-``{Pytorch - From research to production},'' \url{https://pytorch.org/}, 2019,
-  [Online; accessed 11-March-2019].
+\bibitem{diabeticRetinopathy}
+``{Diabetic Retinopathy Detection - Identify signs of diabetic rettinopathy in
+  eye images},'' \url{https://www.kaggle.com/c/diabetic-retinopathy-detection},
+  2019, [Online; accessed 06-May-2019].
 
-\bibitem{pytorchOnePointZero}
-``{Announcing PyTorch 1.0 for both research and production},''
-  \url{https://developers.facebook.com/blog/post/2018/05/02/announcing-pytorch-1.0-for-research-production/},
-  2019, [Online; accessed 11-March-2019].
+\bibitem{motlagh2018breast}
+N.~H. Motlagh, M.~Jannesary, H.~Aboulkheyr, P.~Khosravi, O.~Elemento,
+  M.~Totonchi, and I.~Hajirasouliha, ``Breast cancer histopathological image
+  classification: A deep learning approach,'' \emph{bioRxiv}, p. 242818, 2018.
 
-\bibitem{keras}
-``{Keras: The Python Deep Learning library},'' \url{https://keras.io/}, 2019,
-  [Online; accessed 11-March-2019].
-
-\bibitem{deepdiva}
-``{DeepDIVA - A Highly-Functional Python Framework for Reproducible
-  Experiments},'' \url{https://diva-dia.github.io/DeepDIVAweb/}, 2019, [Online;
-  accessed 11-March-2019].
-
-\bibitem{viztoolbox}
-``{Convolutional Neural Network Filter Visualization},''
-  \url{https://github.com/utkuozbulak/pytorch-cnn-visualizations#convolutional-neural-network-filter-visualization/},
-  2019, [Online; accessed 15-April-2019].
-
-\bibitem{sigopt}
-``{SigOpt - Automate Optimization to Accelerate and Amplify Model
-  Development},'' \url{https://sigopt.com/}, 2019, [Online; accessed
-  14-April-2019].
-
-\bibitem{sigoptObservationBudget}
-``{SigOpt - Set Observation Budget},''
-  \url{https://app.sigopt.com/docs/overview/observation_budget}, 2019, [Online;
-  accessed 14-April-2019].
-
-\bibitem{sigoptBayesian}
-``{SigOpt - Bayesian Optimization Primer},''
-  \url{https://app.sigopt.com/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf},
-  2019, [Online; accessed 14-April-2019].
-
-\bibitem{PyCharm}
-``{PyCharm - The Python IDE for professional developers},''
-  \url{https://www.jetbrains.com/pycharm/}, 2019, [Online; accessed
-  15-April-2019].
-
-\bibitem{git2019}
-``{git --fast-version-control},'' \url{https://git-scm.com/}, 2019, [Online;
-  accessed 26-April-2019].
-
-\bibitem{GitHub}
-``{GitHub},'' \url{https://github.com}, 2019, [Online; accessed 15-April-2019].
-
-\bibitem{SourceTree}
-``{Sourcetree - Simplicity and power in a beautiful Git GUI},''
-  \url{https://www.sourcetreeapp.com}, 2019, [Online; accessed 15-April-2019].
-
-\bibitem{statR}
-``{The R Project for Statisttical Computing},''
-  \url{https://www.r-project.org/}, 2019, [Online; accessed 18-April-2019].
-
-\bibitem{rstudio}
-``{RStudio - Open source and enterprise-ready professional software for R},''
-  \url{https://www.rstudio.com/}, 2019, [Online; accessed 18-April-2019].
-
-\bibitem{latexProject2019}
-``{The Latex Project},'' \url{https://www.latex-project.org/}, 2019, [Online;
-  accessed 26-April-2019].
+\bibitem{modarres2017neural}
+M.~H. Modarres, R.~Aversa, S.~Cozzini, R.~Ciancio, A.~Leto, and G.~P. Brandino,
+  ``Neural network for nanoscience scanning electron microscope image
+  recognition,'' \emph{Scientific reports}, vol.~7, no.~1, p. 13282, 2017.
 
 \bibitem{brunel2014single}
 N.~Brunel, V.~Hakim, and M.~J. Richardson, ``Single neuron dynamics and
@@ -239,6 +195,17 @@ I.~Caswell, C.~Shen, and L.~Wang, ``Loopy neural nets: Imitating feedback loops
 ``{The MNIST Database of handwritten digits},''
   \url{http://yann.lecun.com/exdb/mnist/}, 2019, [Online; accessed
   20-March-2019].
+
+\bibitem{typesOfANN}
+``{Types of artificial neural networks - Wikipedia},''
+  \url{https://en.wikipedia.org/wiki/Types_of_artificial_neural_networks},
+  2019, [Online; accessed 06-May-2019].
+
+\bibitem{deepLearningAdam}
+``{Deep Learning by Adam Gibson, Josh Patterson - Chapter 4. Major
+  Architectures of Deep Networks},''
+  \url{https://www.oreilly.com/library/view/deep-learning/9781491924570/ch04.html},
+  2019, [Online; accessed 06-May-2019].
 
 \bibitem{everingham2010pascal}
 M.~Everingham, L.~Van~Gool, C.~K. Williams, J.~Winn, and A.~Zisserman, ``The
@@ -326,6 +293,71 @@ K.~He and J.~Sun, ``Convolutional neural networks at constrained time cost,''
 R.~K. Srivastava, K.~Greff, and J.~Schmidhuber, ``Highway networks,''
   \emph{arXiv preprint arXiv:1505.00387}, 2015.
 
+\bibitem{tensorflow}
+``{Tensorflow - An end-to-end open source machine learning platform},''
+  \url{https://www.tensorflow.org/}, 2019, [Online; accessed 11-March-2019].
+
+\bibitem{pytorch}
+``{Pytorch - From research to production},'' \url{https://pytorch.org/}, 2019,
+  [Online; accessed 11-March-2019].
+
+\bibitem{pytorchOnePointZero}
+``{Announcing PyTorch 1.0 for both research and production},''
+  \url{https://developers.facebook.com/blog/post/2018/05/02/announcing-pytorch-1.0-for-research-production/},
+  2019, [Online; accessed 11-March-2019].
+
+\bibitem{keras}
+``{Keras: The Python Deep Learning library},'' \url{https://keras.io/}, 2019,
+  [Online; accessed 11-March-2019].
+
+\bibitem{viztoolbox}
+``{Convolutional Neural Network Filter Visualization},''
+  \url{https://github.com/utkuozbulak/pytorch-cnn-visualizations#convolutional-neural-network-filter-visualization/},
+  2019, [Online; accessed 15-April-2019].
+
+\bibitem{sigopt}
+``{SigOpt - Automate Optimization to Accelerate and Amplify Model
+  Development},'' \url{https://sigopt.com/}, 2019, [Online; accessed
+  14-April-2019].
+
+\bibitem{sigoptObservationBudget}
+``{SigOpt - Set Observation Budget},''
+  \url{https://app.sigopt.com/docs/overview/observation_budget}, 2019, [Online;
+  accessed 14-April-2019].
+
+\bibitem{sigoptBayesian}
+``{SigOpt - Bayesian Optimization Primer},''
+  \url{https://app.sigopt.com/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf},
+  2019, [Online; accessed 14-April-2019].
+
+\bibitem{PyCharm}
+``{PyCharm - The Python IDE for professional developers},''
+  \url{https://www.jetbrains.com/pycharm/}, 2019, [Online; accessed
+  15-April-2019].
+
+\bibitem{git2019}
+``{git --fast-version-control},'' \url{https://git-scm.com/}, 2019, [Online;
+  accessed 26-April-2019].
+
+\bibitem{GitHub}
+``{GitHub},'' \url{https://github.com}, 2019, [Online; accessed 15-April-2019].
+
+\bibitem{SourceTree}
+``{Sourcetree - Simplicity and power in a beautiful Git GUI},''
+  \url{https://www.sourcetreeapp.com}, 2019, [Online; accessed 15-April-2019].
+
+\bibitem{statR}
+``{The R Project for Statisttical Computing},''
+  \url{https://www.r-project.org/}, 2019, [Online; accessed 18-April-2019].
+
+\bibitem{rstudio}
+``{RStudio - Open source and enterprise-ready professional software for R},''
+  \url{https://www.rstudio.com/}, 2019, [Online; accessed 18-April-2019].
+
+\bibitem{latexProject2019}
+``{The Latex Project},'' \url{https://www.latex-project.org/}, 2019, [Online;
+  accessed 26-April-2019].
+
 \bibitem{randolph2005free}
 J.~J. Randolph, ``Free-marginal multirater kappa (multirater k [free]): An
   alternative to fleiss' fixed-marginal multirater kappa.'' \emph{Online
@@ -376,5 +408,9 @@ M.~Huh, P.~Agrawal, and A.~A. Efros, ``What makes imagenet good for transfer
 \bibitem{he2018rethinking}
 K.~He, R.~Girshick, and P.~Doll{\'a}r, ``Rethinking imagenet pre-training,''
   \emph{arXiv preprint arXiv:1811.08883}, 2018.
+
+\bibitem{kornblith2018better}
+S.~Kornblith, J.~Shlens, and Q.~V. Le, ``Do better imagenet models transfer
+  better?'' \emph{arXiv preprint arXiv:1805.08974}, 2018.
 
 \end{thebibliography}
