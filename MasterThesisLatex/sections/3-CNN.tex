@@ -7,7 +7,7 @@ Traditional Machine Learning approaches for image were based on very specific fe
 
 \begin{figure}[!h]
   \centering
-  \caption{Partial taxonomy of Artificial Inteligence~\cite{alom2018history}}
+  \caption{Partial taxonomy of Artificial Inteligence~\cite{alom2018history}.}
   \includegraphics[scale=0.4]{chapter3/MLOverview}
   \label{fig:MLOverview}
 \end{figure}
@@ -27,7 +27,7 @@ An Artificial Neural Network (ANN) tries to mimic the behavior of the human brai
 \quad
 
 This is indeed similar to how an artificial neuron processes its received information and how it passes the information forward to the next layers. An artificial neuron receives inputs (e.g. $x_0$) from other neurons in prior layers and applies a weight matrix (e.g. $w_0$) and a bias (e.g. $b$) on it. The weights and the bias can be compared to the strength of the synapses in the biological neuron and these can be changed through learning. Actually, that is what happens during backpropagation explained later on. The weights are adjusted in order to classify the input more accurately. In the cell body of the mathematical representation a dot product between the inputs and the weights is performed and a bias is added to it ($w_i x_i + b$). In the end a certain activation function is applied to it. This activation function needs to be non-linear because otherwise all the matrix computations of different neurons could be collapsed into one linear computation and no learning would take place. Instead, just a linear regression would be achieved.
-Traditionally a sigmoid function has been used for the activation function since it takes any real number as input and outputs numbers between 0 and 1. That is a very intuitive non-linearity function to work with but has some disadvantages when backpropagating the loss function and adjusting the parameters in the weight matrices.  During backpropagation, the loss is computed according to some loss function and then back propagated through all layers and units. During that process, the partial derivatives of the loss function are computed with respect to the input variables (e.g. $x_i^j$) of that specific unit. In the used notation the superscript denotes the layer whereas the subscript denotes the unit within that specific layer. These derivatives are then multiplied by a learning rate alpha and added to the current weights. This process of changing the weights towards an optimal loss is called learning and happens through many iterations (also called epochs). In Figure~\ref{fig:SigmoidTanh} two activation functions, the sigmoid and the tanh, are shown. Since the partial derivatives are crucial in learning - the steeper the derivation the bigger the change in weights - the disadvantages of both non-linearities are clearly visible towards the borders. If the function moves mostly horizontally, the first derivation will be near 0 thus learning happens very slow. The tanh has a steeper function around the center (leading to a bigger first derivative and thus faster learning) but still has the same problem towards the borders.\\
+Traditionally a sigmoid function has been used for the activation function since it takes any real number as input and outputs numbers between 0 and 1. That is a very intuitive non-linearity function to work with but has some disadvantages when backpropagating the loss function and adjusting the parameters in the weight matrices.  During backpropagation, the loss is computed according to some loss function and then back propagated through all layers and units. During that process, the partial derivatives of the loss function are computed with respect to the input variables (e.g. $x_i^j$) of that specific unit. In the used notation the superscript denotes the layer whereas the subscript denotes the unit within that specific layer. These derivatives are then multiplied by a learning rate alpha and added to the current weights. This process of changing the weights towards an optimal loss is called learning and happens through many iterations (also called epochs). In Figure~\ref{fig:SigmoidTanh}, two activation functions, the sigmoid and the tanh, are shown. Since the partial derivatives are crucial in learning - the steeper the derivation the bigger the change in weights - the disadvantages of both non-linearities are clearly visible towards the borders. If the function moves mostly horizontally, the first derivation will be near 0 thus learning happens very slow. The tanh has a steeper function around the center (leading to a bigger first derivative and thus faster learning) but still has the same problem towards the borders.\\
 
 
 \begin{figure}[!h]
@@ -51,7 +51,7 @@ For the above-mentioned reasons, the sigmoid non-linearity is not used anymore e
 
 \quad
 
-The components of an Artificial Neural Network (ANN) are the units (neurons) organized in an acyclic graph. All units that are reached from the input layer by the same amount of hops are organized into distinct layers denoted with a superscript index. These units are not connected to each other but to the next layer as shown in Figure~\ref{fig:MLP}. As the name suggests cycles are not allowed since the forward and backward pass would not be well defined anymore. Another big difference to the human brain where acyclic connections are possible and very common. Neuroscience even shows us that the human brain is fundamentally cyclic~\cite{goodale1992separate}. Very recent research tries to implement these feedback loops into neural nets~\cite{caswell2016loopy}, but that is beyond the scope of this thesis. Subsequent layers within the ANN are fully connected with each other, meaning every unit connects to every unit in the next layer. These networks are called Multi-Layer Perceptrons (MLP). One of the problems with MLP's is that the fully-connected nature of this architecture increases the number of parameters exponentially. To illustrate this problem an RGB image of 256 by 256 pixels can be considered. It has an input size of 196'608 (256x256x3) pixel values. If this is multiplied with the next layer having only 1000 hidden units the result is already 196'608'000 distinct pixel values meaning there are roughly 197 million parameters to be held in memory and updated with every iteration just for the first layer. One pixel value is in the range of 0 to 255 which means 8 bits or 1 byte. Current image compression formats like png or jpeg are able to compress this information, but witout compression as full blown array values, that would mean 197 MB of memory only for a small image in memory. Every unit in this layer would have 196'608 weights which is absolutely wasteful since so many parameters with rather simple images lead to severe overfitting. Another big disadvantage of this kind of fully connected image recognition is the fact that there is no spatial encoding in the network. It is very nicely observed with the MNIST dataset where images (28x28 pixels) of handwritten digits are provided~\cite{MNISTdatabase}. The MLP learns that the image contains a certain number only by learning which pixels need to be black in order to match the previously seen labels. That leads to a near-perfect recognition of the centered digit 2 but if the digit is moved to the border (different distribution of black pixels) the MLP is not able to recognize the digit anymore.\\
+The components of an Artificial Neural Network (ANN) are the units (neurons) organized in an acyclic graph. All units that are reached from the input layer by the same amount of hops are organized into distinct layers denoted with a superscript index. These units are not connected to each other but to the next layer as shown in Figure~\ref{fig:MLP}. As the name suggests cycles are not allowed since the forward and backward pass would not be well defined anymore. Another big difference to the human brain where acyclic connections are possible and very common. Neuroscience even shows us that the human brain is fundamentally cyclic~\cite{goodale1992separate}. Very recent research tries to implement these feedback loops into neural nets~\cite{caswell2016loopy}, but that is beyond the scope of this thesis. Subsequent layers within the ANN are fully connected with each other, meaning every unit connects to every unit in the next layer. These networks are called Multi-Layer Perceptrons (MLP). One of the problems with MLP's is that the fully-connected nature of this architecture increases the number of parameters exponentially. To illustrate this problem an RGB image of 256x256 pixels can be considered. It has an input size of 196'608 (256x256x3) pixel values. If this is multiplied with the next layer having only 1000 hidden units the result is already 196'608'000 distinct pixel values meaning there are roughly 197 million parameters to be held in memory and updated with every iteration just for the first layer. One pixel value is in the range of 0 to 255 which means 8 bits or 1 byte. Current image compression formats like png or jpeg are able to compress this information, but without compression as full blown array values, that would mean 197 MB of memory only for a small image in memory. Every unit in this layer would have 196'608 weights which is absolutely wasteful since so many parameters with rather simple images lead to severe overfitting. Another big disadvantage of this kind of fully connected image recognition is the fact that there is no spatial encoding in the network. It is very nicely observed with the MNIST dataset where images (28x28 pixels) of handwritten digits are provided~\cite{MNISTdatabase}. The MLP learns that the image contains a certain number only by learning which pixels need to be black in order to match the previously seen labels. That leads to a near-perfect recognition of the centered digit 2 but if the digit is moved to the border (different distribution of black pixels) the MLP is not able to recognize the digit anymore.\\
 
 
 \begin{figure}[!h]
@@ -68,7 +68,7 @@ There are several deep learning networks like Unsupervised Pretrained Networks (
 
 \section{ImageNet Large Scale Visual Recognition Challenge (ILSVRC)}
 
-The ImageNet Large Scale Visual Recognition Challenge (ILSVRC) has become the standard benchmark for object recognition and is held annually since 2010~\cite{imagenet}. It has borrowed many concepts from the PASCAL VOC 2010 dataset but increased the amount of data drastically, from 19'737 images in PASCAL VOC 2010 with 20 object classes to 1'461'406 images and 1000 object classes in ILSVRC 2010~\cite{everingham2010pascal, russakovsky2015imagenet}. ILSVRC consists of two components: the dataset that is publicly available and consists of over 1.2 million annotated, high-resolution images (train set), and the annual competition with its workshops. The test set, ranging from 100'000 to 150'000 images, is also released but without the labels. Participants are able to train their models on the datasets and annotate the images in the test set. The annotated test set is then sent to the evaluation server where the overall score is computed~\cite{russakovsky2015imagenet}. With the ImageNet Challenge, there are two main competitions namely object detection for 200 fully labeled categories and object localization for 1000 categories (binary label for presence or absence of an object). For the object localization, there are two main metrics, the top-1 error rate and the top-5 error rate. The top-1 error rate shows the percentage for which the correct class was not correctly predicted (only the first top label is observed). The top-5 error rate shows the percentage of test examples for which the correct label was not in the top 5 predicted classes. Since ILSVRC 2015 new competition tasks are added like object detection from video or scene classification, but they are less relevant for this thesis~\cite{imagenet2015}. Before ILSVRC many datasets were available for training models like Caltech 101~\cite{fei2007learning} with 101 object classes and Caltech 256~\cite{griffin2007caltech} with 256 object classes. Both were tiny at best when compared to the ImageNet dataset. TinyImages~\cite{torralba200880} is a huge dataset with 80 million images but the images are only 32 by 32 pixels which makes them low-resolution. Also, the images are not manually verified thus leading to many incorrect labels.
+The ImageNet Large Scale Visual Recognition Challenge (ILSVRC) has become the standard benchmark for object recognition and is held annually since 2010~\cite{imagenet}. It has borrowed many concepts from the PASCAL VOC 2010 dataset but increased the amount of data drastically, from 19'737 images in PASCAL VOC 2010 with 20 object classes to 1'461'406 images and 1000 object classes in ILSVRC 2010~\cite{everingham2010pascal, russakovsky2015imagenet}. ILSVRC consists of two components: the dataset that is publicly available and consists of over 1.2 million annotated, high-resolution images (train set), and the annual competition with its workshops. The test set, ranging from 100'000 to 150'000 images, is also released but without the labels. Participants are able to train their models on the datasets and annotate the images in the test set. The annotated test set is then sent to the evaluation server where the overall score is computed~\cite{russakovsky2015imagenet}. With the ImageNet Challenge, there are two main competitions namely object detection for 200 fully labeled categories and object localization for 1000 categories (binary label for presence or absence of an object). For the object localization, there are two main metrics, the top-1 error rate and the top-5 error rate. The top-1 error rate shows the percentage for which the correct class was not correctly predicted (only the first top label is observed). The top-5 error rate shows the percentage of test examples for which the correct label was not in the top 5 predicted classes. Since ILSVRC 2015 new competition tasks are added like object detection from video or scene classification, but they are less relevant for this thesis~\cite{imagenet2015}. Before ILSVRC many datasets were available for training models like Caltech 101~\cite{fei2007learning} with 101 object classes and Caltech 256~\cite{griffin2007caltech} with 256 object classes. Both were tiny compared to the ImageNet dataset. TinyImages~\cite{torralba200880} is a huge dataset with 80 million images but the images are only 32x32 pixels which makes them low-resolution. Also, the images are not manually verified thus leading to many incorrect labels.
 
 In 2010 and 2011 the winners used traditional machine learning approaches like HOG, LBP and FV for dense grid descriptors and SVM for feature application with other more specialized methods. In 2012, AlexNet (a 5-layer CNN) beat all competitors by a large margin. It was the beginning of a new chapter in machine learning, namely the chapter of Convolutional Neural Networks and Deep Learning in the field of computer vision. Since then, only CNNs are winning the ILSVRC with ResNet surpassing human level accuracy in 2015~\cite{he2016deep}. Human level accuracy was obtained when Andrej Karpathy took it on and labeled 1'500 test images after having trained on 500 validation images. It took him a few days and he reached an astonishing 5.1\% top-5 error rate while other scientists giving it a try reached around 12\% error rate~\cite{humanlevel2014}.
 
@@ -89,11 +89,9 @@ Convolutional Neural Networks (CNNs) are a subset of Neural Networks so they sti
 
 \quad
 
-Instead of connecting all the neurons of one layer to all the neurons of the subsequent layer leading to an exponential growth of parameters, now each neuron is only connected to a local region of the input. The 5x5x3 filter shown in Figure~\ref{fig:Convolution} has a receptive filed of 5x5. The depth of the filter must always be equal to the depth of the input volume (input image in the first layer), and the number of filters used in a specific layer represents the new depth of the output volume.
+Instead of connecting all the neurons of one layer to all the neurons of the subsequent layer leading to an exponential growth of parameters, now each neuron is only connected to a local region of the input. The 5x5x3 filter shown in Figure~\ref{fig:Convolution} has a receptive field of 5x5. The depth of the filter must always be equal to the depth of the input volume (input image in the first layer), and the number of filters used in a specific layer represents the new depth of the output volume.
 
-In order to build a CNN three main components are used. The convolution layer which is described above often followed by a pooling layer that reduces the width and height, while keeping the depth constant. In the end, the third component is a fully-connected layer. Often the fully-connected layer is combined with a softmax function at the very end, that gives the probability of the image being one of each class. Between the convolution layer and the pooling layer, the activation function (e.g. ReLU) is applied elementwise. The activation function does not change the dimensions of its input but simply squashes the values into the range of [0,x] in case of a ReLU or into the range of [-1, 1] for tanh. A typical convolutional network would have the following architecture [INPUT - x * (CONV - RELU - POOL) - FC]. The higher the variable x the deeper the CNN.
-
-The pooling layer's goal is to reduce the width and height of the input volume without reducing its depth. This leads to fewer parameters in the network and less likely overfitting. The architecture needs to focus on the relevant parts of the image instead of trying to optimize too many parameters which leads to overfitting towards already seen images. Pooling layers mostly apply the MAX function and are of size 2x2. The MAX function is computationally very cheap and the size of 2x2 lets the volume half in width and height. The highest value in the 2x2 mask is kept, while the other three values are discarded. Figure~\ref{fig:MaxPooling} shows the MAX-pooling process.\\
+In order to build a CNN three main components are used. The convolution layer which is described above often followed by a pooling layer that reduces the width and height, while keeping the depth constant. In the end, the third component is a fully-connected layer. Often the fully-connected layer is combined with a softmax function at the very end, that gives the probability of the image being one of each class. Between the convolution layer and the pooling layer, the activation function (e.g. ReLU) is applied elementwise. The activation function does not change the dimensions of its input but simply squashes the values into the range of [0,x] in case of a ReLU or into the range of [-1, 1] for tanh. A typical convolutional network would have the following architecture [INPUT - x * (CONV - RELU - POOL) - FC]. The higher the variable x the deeper the CNN. The pooling layer's goal is to reduce the width and height of the input volume without reducing its depth. This leads to fewer parameters in the network and less likely overfitting. The architecture needs to focus on the relevant parts of the image instead of trying to optimize too many parameters which leads to overfitting towards already seen images. Pooling layers mostly apply the MAX function and are of size 2x2. The MAX function is computationally very cheap and the size of 2x2 lets the volume half in width and height. The highest value in the 2x2 mask is kept, while the other three values are discarded. Figure~\ref{fig:MaxPooling} shows the MAX-pooling process.\\
 
 
 \begin{figure}[!h]
@@ -159,11 +157,11 @@ One of the bigger issues with the VGG architectures is their huge size in parame
 A slight positive correlation can be seen between the size of the network and its performance. VGG architectures are an exception. Although they performed really well in their time, they underperform when the network size is taken into consideration. All in all it cannot be said that more parameters  lead to better architectures. The following architectures (Inception, ResNet and Densenet) show how less parameters but better architectures can surpass human level performance.\\
 
 
-\subsection{Inception}
+\subsection{GoogLeNet and Inception}
 
-The winner of the ILSVRC 2014 image classification was Szegedy et al. with their GoogleLeNet architecture~\cite{szegedy2015going}. Their network is quite different from the previous networks winning the ILSVRC competitions and applied 1 by 1 convolutions and global average pooling, both methods inspired from the "Network in Network" paper in 2013~\cite{lin2013network}. Another technique added to the architecture is the Inception module, which has convolutions of different sizes for the same input volume and stacking the results all on top of each other and into the output volume. \\
+The winner of the ILSVRC 2014 image classification was Szegedy et al. with their GoogLeNet architecture~\cite{szegedy2015going}. Their network is quite different from the previous networks winning the ILSVRC competitions and applied 1x1 convolutions and global average pooling, both methods inspired from the "Network in Network" paper in 2013~\cite{lin2013network}. Another technique added to the architecture is the Inception module, which has convolutions of different sizes for the same input volume and stacking the results all on top of each other and into the output volume. \\
 
-The 1x1 convolution is used to reduce the dimension along the length axis. E.g. in VGG with every max pooling layer the spatial dimensions got reduced by half but the depth of the volume got deeper with every additional max pooling layer, adding more filters to the computation. With a 1 by 1 convolution, the spatial dimensions are untouched but the length will be recast into the length of number of filters. Also, the computational effort gets reduced drastically with this method. In Figure~\ref{fig:InceptionRegularConv} a regular 5x5 convolution is performed on the input volume of 14x14x480 with 48 filter leading to an output volume of 14x14x48. Computationally that is very expensive with roughly 113 million single operations ( (14x14x48) x (5x5x480) = 9'408 x 12'000 = 112'896'000 ).\\
+The 1x1 convolution is used to reduce the dimension along the length axis. E.g. in VGG with every max pooling layer the spatial dimensions got reduced by half but the depth of the volume got deeper with every additional max pooling layer, adding more filters to the computation. With a 1x1 convolution, the spatial dimensions are untouched but the length will be recast into the length of number of filters. Also, the computational effort gets reduced drastically with this method. In Figure~\ref{fig:InceptionRegularConv}, a regular 5x5 convolution is performed on the input volume of 14x14x480 with 48 filter leading to an output volume of 14x14x48. Computationally that is very expensive with roughly 113 million single operations ( (14x14x48) x (5x5x480) = 9'408 x 12'000 = 112'896'000 ).\\
 
 
 \begin{figure}[!h]
@@ -175,14 +173,14 @@ The 1x1 convolution is used to reduce the dimension along the length axis. E.g. 
 
 \quad
 
-Adding a 1x1 convolution adds an additional step to the whole transformation but both steps are computationally very efficient. The first step is to convolve the input volume with 1x1 filters. In our example with 16 filters leading to the following computations: (14x14x16) x (1x1x480) = 3'136 x 480 = 1'505'280. Adding the second 5x5 convolution to it leads to (14x14x48) x (5x5x16) = 9'408 x 400 = 3'763'200. Adding the total computations of both convolutions together we get approximately 5.3 million operations compared to 112.9 million computations when not using dimensionality reduction. This is a huge gain in computational efficiency.\\
+Adding a 1x1 convolution adds an additional step to the whole transformation but both steps are computationally very efficient. The first step is to convolve the input volume with 1x1 filters. In our example with 16 filters leading to the following computations: (14x14x16) x (1x1x480) = 3'136 x 480 = 1'505'280. Adding the second 5x5 convolution to it leads to (14x14x48) x (5x5x16) = 9'408 x 400 = 3'763'200. Adding the total computations of both convolutions together we get approximately 5.3 million operations compared to 112.9 million computations when not using dimensionality reduction. This is a huge gain in computational efficiency and can be seen in Figure \ref{fig:inceptionOneByOne}.\\
 
 
 \begin{figure}[!h]
   \centering
   \caption{First a 1x1 convolution is performed in order to reduce the length of the volume leaving the spatial dimensions as is. In the next step, a 5x5 convolution, is performed with 48 filters~\cite{ReviewGoogleLeNetv1}.}
   \includegraphics[scale=0.4]{chapter3/InceptionOneByOne}
-  \label{fig:parameters}
+  \label{fig:inceptionOneByOne}
 \end{figure}
 
 \quad
@@ -201,7 +199,7 @@ An Inception module combines different convolutions together and stacks their ou
 
 \quad
 
-In Table~\ref{fig:InceptionModule} the Inception module is shown as it is used in the Inception network presented in~\cite{szegedy2015going} leading to a much more efficient implementation. Prior to the different convolutions, a 1x1 filter is applied to the input volume to reduce the size before the heavy lifting is done. With max-pooling it is the other way around. Max pooling reduces the size without any computational overhead and is therefore performed before the 1 by 1 convolution which still requires some amount of computation.\\
+In Table~\ref{fig:InceptionModule}, the Inception module is shown as it is used in the Inception network presented in~\cite{szegedy2015going} leading to a much more efficient implementation. Prior to the different convolutions, a 1x1 filter is applied to the input volume to reduce the size before the heavy lifting is done. With max-pooling it is the other way around. Max pooling reduces the size without any computational overhead and is therefore performed before the 1 by 1 convolution which still requires some amount of computation.\\
 
 
 \begin{figure}[!h]
@@ -240,7 +238,7 @@ Inception v3 was the first runner up for image classification in ILSVRC 2015 and
 \label{fig:factorization}
 \end{figure}
 
-\quad
+\newpage
 
 There are additional asymmetric convolutions where a 3x3 filter can be realized with two filters of the following sizes: 1x3 and 3x1. This also reduces the overall parameters used. Another minor modifications are done to the auxiliary classifier and grid size reduction~\cite{szegedy2016rethinking}.\\
 
@@ -267,12 +265,10 @@ As seen in Figure~\ref{fig:ResNet} an activation layer is skipped over and the o
 
 \begin{figure}[!h]
   \centering
-  \caption{Comparison of the VGG-19 architecture with a 34-layer plain model and its residual counterpart. Notice that only the VGG architecture has 3 fully-connected layers. By omitting these 3 fully-connected layers in the ResNet architecture the overall complexity is drastically reduced~\cite{he2016deep}.}
-  \includegraphics[scale=0.35]{chapter3/ResNet}
+  \caption{Comparison of the VGG19 architecture with a 34-layer plain model and its residual counterpart. Notice that only the VGG architecture has 3 fully-connected layers. By omitting these 3 fully-connected layers in the ResNet architecture the overall complexity is drastically reduced~\cite{he2016deep}.}
+  \includegraphics[scale=0.5]{chapter3/ResNet}
   \label{fig:ResNet}
 \end{figure}
-
-\quad
 
 \subsection{Densenet}
 
@@ -287,7 +283,6 @@ consists of several layers made up of batch normalization, activation function (
   \label{fig:DenseBlock}
 \end{figure}
 
-\quad
 
 After each dense block, a 1x1 convolution is used to reduce the number of filters. After this so-called bottleneck layer, a 2x2 average pooling layer, is applied to reduce the spatial dimensions of the input volume as shown in Figure~\ref{fig:DenseNet}.\\
 
@@ -299,10 +294,8 @@ After each dense block, a 1x1 convolution is used to reduce the number of filter
   \label{fig:DenseNet}
 \end{figure}
 
-\quad
 
 DenseNet introduces several new parameters like the growth rate k which limits the growth of the network and thus limiting the width of the network. A growth rate of 12 means that each layer may only add another 12 filters to the existing filters prior to this layer. Another interesting parameter is the compression which improves the compactness of the model by defining how much of the feature-maps get transitioned to the next dense block. The compression value is between 0 and 1 without including the value 0.\\
-
 
 \section{Deep learning frameworks}
 
@@ -310,7 +303,7 @@ There are two main deep learning frameworks that can readily be used. Tensorflow
 
 \begin{table}[t] \centering
 \ra{1.3}
-\caption{Different qualities of the deep learning frameworks: PyTorch and TensorFlow}
+\caption{Different qualities of the deep learning frameworks: PyTorch and TensorFlow.}
 \begin{tabular}{@{}rrr@{}}
 \toprule & PyTorch & TensorFlow \\
 \midrule
@@ -326,13 +319,11 @@ Debugging										& + & -  \\
 Data-Parallelisme								& + & -  \\
 Framework-Feeling							& + & -  \\
 Library-Aggregation							& - & +  \\
-
 \bottomrule
 \end{tabular}
 \label{tbl:DeepLearningFrameworks}
 \end{table}
 
-\quad
 
 There are some higher level frameworks like Keras~\cite{keras} and DeepDIVA~\cite{deepdiva} that enable many more features and faster development. Keras is built on top of TensorFlow and has many models pre-implemented. It enables the developer to very quickly start modeling a problem or apply already present architectures to new data. It does not allow the same flexibility as TensorFlow but if a new architecture needs to be designed from scratch it is done in TensorFlow than made available on Keras as to use on different datasets or different tasks. A possible counterpart for Keras is DeepDIVA that was developed at the University of Fribourg by the DIVA group. It has been built to be used on top of PyTorch and also provides pre-implemented architectures or allows to include them in a straight-forward manner. It tackles some of the disadvantages of PyTorch versus Tensorflow like including TensorBoard Visualization to PyTorch. Development in DeepDIVA is also very pythonic and does not actually change at all since it is very tightly integrated into the PyTorch framework. Creating new architectures or altering existing ones is straight forward.\\
 

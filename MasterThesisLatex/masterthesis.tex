@@ -53,6 +53,11 @@
 
 \usepackage{listings}
 
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
+\usepackage{breakurl}
+\usepackage[breaklinks]{hyperref}
+
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 
 % Commands for package caption
@@ -91,23 +96,16 @@
 %to make table of contents and index appear in bookmarks
 \usepackage{tocbibind}
 %refs also as links
-\usepackage[pdftex,plainpages=false]{hyperref}
-%plainpages=false: enable links although page numbering is reset after title
-%backref, pagebackref]{hyperref}
-%\usepackage[pdftex]{color}
-%\usepackage[pdftex]{thumbpdf}
-\else
-%url must be escaped. (this works fine in dvi)
-\usepackage{url}
-\fi
+
 
 
 \newcommand{\thesistitle}{Evaluation of Deep Learning Methods on SEM Images of Asbestos}
-\newcommand{\thesisauthor}{Thomas Kolonko\footnote{thomas.kolonko@students.unibe.ch, HumanTech group, University of Fribourg}}
-\newcommand{\thesisleiter}{Professor Elena Mugellini, HumanTech Institute, University of Applied Sciences of Western Switzerland, Supervisor}
-\newcommand{\thesisexpert}{Professor Denis Lalanne, Human-IST Institute, University Fribourg, Supervisor}
-\newcommand{\thesisasst}{Jacky Casas, HumanTech Institute, University of Applied Sciences of Western Switzerland, Supervisor}
-\newcommand{\thesisdate}{April, 2019}
+\newcommand{\thesisauthor}{Thomas Kolonko\footnote{thomas.kolonko@students.unibe.ch, HumanTech Institute, University of Fribourg}}
+\newcommand{\thesisleiter}{Supervisor\linebreak \textbf{Professor Elena Mugellini}\linebreak
+HumanTech Institute, University of Applied Sciences of Western Switzerland}
+\newcommand{\thesisexpert}{Supervisor\linebreak \textbf{Professor Denis Lalanne}\linebreak Human-IST Institute, University Fribourg}
+\newcommand{\thesisasst}{Supervisor \linebreak \textbf{Jacky Casas} \linebreak HumanTech Institute, University of Applied Sciences of Western Switzerland}
+\newcommand{\thesisdate}{May, 2019}
 
 \begin{document}
 
@@ -172,15 +170,15 @@
 
 \chapter*{Abstract}
 
-Asbestos is a highly toxic silicate mineral that has been used widely in many products for its insulating, non-flammable and heat resistant properties. It may lead to chronic inflammation of the lungs and cancer when exposed to high concentrations. After the toxicity has become known, much effort was undertaken - and is up to this day - in removing asbestos from buildings, roofs and other materials used in industry and in the public. Asbestos detection is a manual, complex and time-intensive process, that requires a lot of experience from an expert in order to have consistent and correct results. In an attempt to reduce manual labor and increase consistency in detection, machine learning models have been recently adopted to automate the detection process.
+Asbestos is a highly toxic silicate mineral that has been used widely in many products for its insulating, non-flammable and heat resistant properties. Exposition to high concentrations of asbestos may lead to chronic inflammation of the lungs and cancer. After the toxicity has become known, much effort was undertaken - and is up to this day - in removing asbestos from buildings, roofs and other materials used in industry and in the public. Asbestos detection is a manual, complex and time-intensive process, that requires an experienced expert in order to have consistent and correct results. In an attempt to reduce manual labor and increase consistency in detection, machine learning models have been recently adopted to automate the detection process.
 
 \vspace{3mm} %5mm vertical space
 
-Convolutional neural networks are a subset of deep learning algorithms that have been shown to be very effective for computer vision tasks, outperforming humans in many areas. They have the property of automatically extracting feature mappings from the provided dataset, which encode relevant spatial information and patterns. These properties make convolutional neural networks a very good fit for the task of detecting asbestos fibers. Especially by reducing the needed knowledge about asbestos and experience acquired through years of working with asbestos which is one of the main prerequisites of a laboratory to be successful in the detection of asbestos fibers.
+Convolutional neural networks are a subset of deep learning algorithms that have been shown to be very effective for computer vision tasks, outperforming humans in many areas. They have the property of automatically extracting feature mappings from the provided dataset, which encode relevant spatial information and patterns. These properties make convolutional neural networks a very good fit for the task of detecting asbestos fibers. Especially by reducing the needed knowledge and experience acquired through years of working with asbestos which is one of the main prerequisites of a laboratory to be successful in the detection of asbestos fibers.
 
 \vspace{3mm} %5mm vertical space
 
-In this thesis, several state-of-the-art architectures are explained and compared against each other in regard of performance, size, and complexity. Since the provided dataset with its 2'000 images is rather small, techniques like transfer learning, data augmentation and dataset alterations are applied and evaluated extensively. Another branch of investigation contains different modifications to the current architectures in order to achieve better performance while decreasing overall complexity. Visualization techniques should allow a better understanding in what the models learn, increase user's trust and support the reasoning of the findings.
+In this thesis, several state-of-the-art architectures are explained and compared against each other in regard to performance, size, and complexity. Since the provided dataset with its 2'000 images is rather small, techniques like transfer learning, data augmentation and dataset alterations are applied and evaluated extensively. Another branch of investigation contains different modifications to the current architectures in order to achieve better performance while decreasing overall complexity. Visualization techniques should allow a better understanding in what the models learn, increase user's trust and support the reasoning of the findings.
 
 
 %I will evaluate if transfer learning from the ImageNet dataset can be applied in this specific cross-domain task of asbestos fiber detection. in microscopic images. Data augmentation with different cropping methods will be implemented and compared with the goal of increasing the overall accuracy of the model. Since the dataset is quite small, with only about 2'000 images, several train and valuation datasets and their distribution are evaluated. The test set is fixed in the beginning and never altered. Another branch of investigation will be alterations to the current architectures like reducing the filters and fully connected layers in order to decrease complexity and increase interpretability through visualization. Also, adding new layers in order to allow the input image to be bigger, thus reducing problems that arise with cropping and re-sizing the original image are investigated.
@@ -221,7 +219,7 @@ Many thanks to the Microscan Service SA company that provided their high-quality
 
 I am also very grateful for the resources that were generously provided by the research group of Prof. Elena Mugellini.  \\
 
-Lastly I would like to thank Nathalie Vielle, Jacky Casas, Matthias Fuchs and Andreas Bugmann for their time and effort in acquiring the inter-rater-agreement rate for the asbestos classification task.
+Lastly I would like to thank Nathalie Vielle, Jacky Casas, Matthias Fuchs and Andreas Bugmann for their time and effort in acquiring the inter-rater agreement rate for the asbestos classification task.
 
 \cleardoublepage
 \setcounter{page}{1}	% Reset page numbering to 1

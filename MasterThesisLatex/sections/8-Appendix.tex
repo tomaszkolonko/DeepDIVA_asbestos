@@ -2,16 +2,17 @@
 
 \section{Implemenation on GitHub}
 
-All implementation is made publicly available for reference and further research. It can be found under the following GitHub link: https://github.com/tomaszkolonko/DeepDIVA\_asbestos.
+All implementation is made publicly available for reference and further research. It can be found under the following GitHub link:
+https://github.com/tomaszkolonko/DeepDIVA\_asbestos.
 
 %%% CNN layer vis from pre-trained model
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{CNN-layer visualizations}
 
-\begin{figure}[H]
+\begin{figure}[!h]
 \centering
-\caption{Each line represents one convolution layer in the VGG13\_bn architecture in ascending order from a \textbf{pre-trained model}. This figure shows the \textbf{first 3 convolution layer visualizations}, from which 4 interesting images were selected.}
+\caption{Each line represents one convolution layer in the VGG13\_bn architecture in ascending order from a \textbf{pre-trained model}. This figure shows the \textbf{first 2 convolution layer visualizations}, from which 4 interesting images were selected.}
 
 \subfigure{
 \includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l0-f0.jpg}
@@ -39,6 +40,15 @@ All implementation is made publicly available for reference and further research
 \includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l3-f3.jpg}
 }
 
+\label{fig:vgg13_app_pretrained_filters_a}
+\end{figure}
+
+\newpage
+
+
+\begin{figure}[!h]
+\centering
+\caption{Each line represents one convolution layer in the VGG13\_bn architecture is ascending order from a \textbf{pre-trained model}. This Figure shows \textbf{the next 4 convolution layer visualizations}, from which 4 interesting images were selected.}
 \subfigure{
 \includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l7-f0.jpg}
 }
@@ -51,18 +61,6 @@ All implementation is made publicly available for reference and further research
 \subfigure{
 \includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l7-f3.jpg}
 }
-
-\label{fig:vgg13_app_pretrained_filters_a}
-\end{figure}
-
-
-
-\begin{figure}[H]
-\centering
-\caption{Each line represents one convolution layer in the VGG13\_bn architecture is ascending order from a \textbf{pre-trained model}. This Figure shows \textbf{the next 4 convolution layer visualizations}, from which 4 interesting images were selected.}
-
-
-
 \subfigure{
 \includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l10-f0.jpg}
 }
@@ -103,6 +101,14 @@ All implementation is made publicly available for reference and further research
 \includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l17-f3.jpg}
 }
 
+
+\label{fig:vgg13_app_pretrained_filters_b}
+\end{figure}
+
+
+\begin{figure}[!h]
+\centering
+\caption{Each line represents one convolution layer in the VGG13\_bn architecture is ascending order from a \textbf{pre-trained model}. This Figure shows \textbf{the last 4 convolution layer visualizations}, from which 4 interesting images were selected.}
 \subfigure{
 \includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l21-f0.jpg}
 }
@@ -115,15 +121,6 @@ All implementation is made publicly available for reference and further research
 \subfigure{
 \includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l21-f3.jpg}
 }
-
-\label{fig:vgg13_app_pretrained_filters_b}
-\end{figure}
-
-
-\begin{figure}[H]
-\centering
-\caption{Each line represents one convolution layer in the VGG13\_bn architecture is ascending order from a \textbf{pre-trained model}. This Figure shows \textbf{the last 3 convolution layer visualizations}, from which 4 interesting images were selected.}
-
 \subfigure{
 \includegraphics[width=.23\textwidth]{images/chapter5/vgg13-bn-pre/l24-f0.jpg}
 }
@@ -182,7 +179,7 @@ All implementation is made publicly available for reference and further research
 
 
 
-\begin{figure}[H]
+\begin{figure}[!h]
 \centering
 \caption{Each line represents one convolution layer in the VGG13\_bn architecture is ascending order of a model \textbf{trained from scratch}. This Figure shows \textbf{the first 5 convolution layer visualizations}, from which 4 interesting images were selected.}
 \subfigure{
@@ -254,7 +251,7 @@ All implementation is made publicly available for reference and further research
 \end{figure}
 
 
-\begin{figure}[H]
+\begin{figure}[!h]
 \centering
 \caption{Each line represents one convolution layer in the VGG13\_bn architecture is ascending order of a model \textbf{trained from scratch}. This Figure shows \textbf{the last 5 convolution layer visualizations}, from which 4 interesting images were selected.}
 
@@ -329,7 +326,7 @@ All implementation is made publicly available for reference and further research
 
 
 
-\begin{figure}[H]
+\begin{figure}[!h]
 \centering
 \caption{Layer visualization of all the possible filters in \textbf{the first 5 layers} in the modified VGG13 architecture. This architecture uses \textbf{filter sheme "G" with only 16 units} in the last fully connected layers, reducing the parameter amount to 0.0039\%}
 \subfigure{
@@ -402,7 +399,7 @@ All implementation is made publicly available for reference and further research
 
 
 
-\begin{figure}[H]
+\begin{figure}[!h]
 \centering
 \caption{Layer visualization of all the possible filters in \textbf{the last 5 layers} in the modified VGG13 architecture. This architecture uses \textbf{filter sheme "G" with only 16 units} in the last fully connected layers, reducing the parameter amount to 0.0039\%}
 \subfigure{

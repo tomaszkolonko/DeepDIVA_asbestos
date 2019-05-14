@@ -1,4 +1,4 @@
-\chapter{Evaluation Of Transfer Learning}
+\chapter{Evaluation of Transfer Learning}
 
 As mentioned in Chapter 4 there is no reliable baseline and one needs to be established first with some basic CNN architectures. Additionally, an inter-rater agreement rate is computed to have a good guess what is realistically possible and how difficult the test set is. Then different architectures will be compared against each other with and without pre-training in order to find out if transfer learning is a valid option for this problem task. \\
 
@@ -6,7 +6,7 @@ The learning rate decay is defined as reducing the learning rate by a factor of 
 
 \[ lr = lr * (0.1^{\frac{epoch}{decay}}) \] \\
 
-For the baseline, the grid search approach was used in optimizing the learning rate and the learning rate decay. For all later architectures, SigOpt was used which utilizes bayesian optimization. With SigOpt, the official guideline was followed to run the model 10 times for every hyper parameter which needs to be optimized. For Alexnet and all state-of-the-art architectures the following three hyper parameters were optimized: \\
+For the baseline, the grid search approach was used in optimizing the learning rate and the learning rate decay. For all later architectures, SigOpt was used which utilizes bayesian optimization. With SigOpt, the official guideline was followed to run the model 10 times for every hyper parameter which needs to be optimized. For AlexNet and all state-of-the-art architectures the following three hyper parameters were optimized: \\
 
 \begin{itemize}
   \item learning rate [0.0001 - 0.1]
@@ -62,7 +62,7 @@ Although the overall agreement percentage is at 78.27\% the Randolph's kappa is 
 
 \section{CNN\_Basic - Baseline}
 
-For the baseline, a simple 3-layered CNN was chosen with three convolutions and no maxpooling. For the activation function, a leaky ReLU is applied after each convolution. A simple grid search is applied to the model as seen in Table \ref{tbl:cnn-basic-baseline}. The best result is achieved with a rather small learning rate of 0.0005 and an lr-decay of 20.\\
+For the baseline, a simple 3-layered CNN was chosen with three convolutions and no maxpooling. For the activation function, a leaky ReLU is applied after each convolution. A simple grid search is applied to the model as seen in Table~\ref{tbl:cnn-basic-baseline}. The best result is achieved with a rather small learning rate of 0.0005 and an lr-decay of 20.\\
 
 \begin{table*}[!h]
     \ra{1.3}
@@ -96,7 +96,7 @@ For the baseline, a simple 3-layered CNN was chosen with three convolutions and 
     \label{tbl:cnn-basic-baseline}
 \end{table*}
 
-These results are much better than expected and should not be that high since the image size is resized to 32x32 pixels. As seen in Figure \ref{fig:cnn-basic} the training accuracy achieves 94.54\% while the validation accuracy achieves 71.42\%. Such a big difference between training accuracy and the final test accuracy of 76.74\% means that the model overfitted strongly to the training data, learning it too well and thus decreasing generalization. The validation and test accuracies are near to each other which is good since it means, that the validation set is a good representation of the test set.\\
+These results are much better than expected and should not be that high since the image size is resized to 32x32 pixels. As seen in Figure~\ref{fig:cnn-basic}, the training accuracy achieves 94.54\% while the validation accuracy achieves 71.42\%. Such a big difference between training accuracy and the final test accuracy of 76.74\% means that the model overfitted strongly to the training data, learning it too well and thus decreasing generalization. The validation and test accuracies are near to each other which is good since it means, that the validation set is a good representation of the test set.\\
 
 
 \begin{figure}[h]
@@ -113,7 +113,7 @@ These results are much better than expected and should not be that high since th
 
 \quad
 
-Of course, interpreting this model is very difficult due to it's resizing of the image so early. It could be possible that the model simply learns to label all the images as non-asbestos since the dataset is strongly unbalanced but looking at the confusion matrix in Figure \ref{fig:cnn-basic-cm} shows that the model does not cheat in this way and produces sound looking results. \\
+Of course, interpreting this model is very difficult due to it's resizing of the image so early. It could be possible that the model simply learns to label all the images as non-asbestos since the dataset is strongly unbalanced but looking at the confusion matrix in Figure~\ref{fig:cnn-basic-cm} shows that the model does not cheat in this way and produces sound looking results. \\
 
 
 \begin{figure}[!h]
@@ -141,12 +141,12 @@ From the confusion matrix, type I and type II errors can be deduced. Type I erro
 
 
 
-
+\newpage
 
 
 \subsection{AlexNet}
 
-AlexNet was optimized with grid search and additionally with SigOpt. With grid search the best accuracy is 81.06\% as seen in table \ref{tbl:alexnet-baseline}. It was achieved with a learning rate of 0.0001 and a learning rate decay of 20. Interestingly the SigOpt also achieved the same accuracy with a learning rate of 0.038984, a momentum of 0.073145 and a weight decay of 0.004074 as seen in table \ref{tbl:alexnet-baseline}. \\
+AlexNet was optimized with grid search and additionally with SigOpt. With grid search the best accuracy is 81.06\% as seen in Table~\ref{tbl:alexnet-baseline}. It was achieved with a learning rate of 0.0001 and a learning rate decay of 20. Interestingly the SigOpt also achieved the same accuracy with a learning rate of 0.038984, a momentum of 0.073145 and a weight decay of 0.004074 as seen in Table~\ref{tbl:alexnet-baseline}. \\
 
 
 
@@ -185,18 +185,18 @@ AlexNet was optimized with grid search and additionally with SigOpt. With grid s
 
 \subsection{Transfer learning on AlexNet}
 
-When using weights from pre-training on ImageNet, the overall accuracy does get slightly better, although the increase of 0.6645\% is very slim and could be due to chance. In order to assert that pre-training really helps with AlexNet, each model has been run 5 times with the found hyper parameters and the results are averaged as seen in Table \ref{tbl:AlexNetMultiRun}. The delta of both models increased to roughly 1\%. \\
+When using weights from pre-training on ImageNet, the overall accuracy does get slightly better, although the increase of 0.6645\% is very slim and could be due to chance. In order to assert that pre-training really helps with AlexNet, each model has been run 5 times with the found hyper parameters and the results are averaged as seen in Table~\ref{tbl:AlexNetMultiRun}. The delta of both models increased to roughly 1\%. \\
 
 
 \begin{table}[!h] \centering
 \ra{1.3}
-\caption{Hyper parameters for Alexnet optimized with SigOpt. First line shows the model trained from scratch and the second line shows the pre-trained model.}
+\caption{Hyper parameters for AlexNet optimized with SigOpt. First line shows the model trained from scratch and the second line shows the pre-trained model.}
 \resizebox{0.99\textwidth}{!}{%
 \begin{tabular}{@{}rrrrrrr@{}}
 \toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
 \midrule
-AlexNet from scratch    & 0.038498 & 0.073146 &  0.004074 & 20 & 81.0631\%  &         \\
-\textbf{AlexNet pre-trained}    & \textbf{0.034288} & \textbf{0.409378} &  \textbf{0.005959} & \textbf{20} & \textbf{81.7276\%}  & \textbf{+0.6645}\\
+AlexNet from scratch    & 0.038498 & 0.073146 &  0.004074 & 20 & 81.06\%  &         \\
+\textbf{AlexNet pre-trained}    & \textbf{0.034288} & \textbf{0.409378} &  \textbf{0.005959} & \textbf{20} & \textbf{81.73\%}  & \textbf{+0.67}\\
 \bottomrule
 \end{tabular}}
 \label{tbl:AlexNetBaseline}
@@ -205,21 +205,21 @@ AlexNet from scratch    & 0.038498 & 0.073146 &  0.004074 & 20 & 81.0631\%  &   
 
 \begin{table}[!h] \centering
 \ra{1.3}
-\caption{The Alexnet architecture was run 5 times with the found hyperparameters and averaged across the runs. Aditionally the Adam optimizer is used instead of weight and lr-decay.}
+\caption{The AlexNet architecture was run 5 times with the found hyper parameters and averaged across the runs. Additionally the Adam optimizer is used instead of weight and lr-decay.}
 \resizebox{0.99\textwidth}{!}{%
-\begin{tabular}{@{}rrrrrrr@{}}
-\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy \\
 \midrule
-AlexNet     from scratch    & 0.038498 & 0.073146 &  0.004074 & 20 & 78.61$\pm$1.16  & -     \\
-AlexNet     pre-trained    & 0.034288 & 0.409378 &  0.005959 & 20 & 79.67$\pm$1.08  & - \\
-AlexNet from scratch (Adam Optimizer) & 0.038498 & Adam & Adam & 20 & 59.80$\pm$0.0 & \\
+AlexNet     from scratch    & 0.038498 & 0.073146 &  0.004074 & 20 & 78.61$\pm$1.16      \\
+AlexNet     pre-trained    & 0.034288 & 0.409378 &  0.005959 & 20 & 79.67$\pm$1.08  \\
+AlexNet from scratch (Adam Optimizer) & 0.038498 & Adam & Adam & 20 & 59.80$\pm$0.0 \\
 \bottomrule
 \end{tabular}}
 \label{tbl:AlexNetMultiRun}
 \end{table}
 
 
-In Figure \ref{fig:alexnet-graph} we see the training and validation accuracies plotted over epochs. It can be observed that convergence is not faster with pre-training than without pre-training. Both final accuracies are almost identical. The gray vertical lines separate the graph into segments with different learning rates. So the learning rate decay happens a first time at epoch 20 and a second time at epoch 40. Convergence can be easily observed when the validation accuracy does not change anymore. Another important thing to notice is that validation and training accuracies are quite near to each other. This means that during training no severe overfitting occurred and that the validation set and train set are indeed very representative of each other. Since the final accuracy is also very near to these values it is save to say that validation and train sets are good representations of the test set. \\
+Figure~\ref{fig:alexnet-graph} shows the training and validation accuracies plotted over epochs. It can be observed that convergence is not faster with pre-training than without pre-training. Both final accuracies are almost identical. The gray vertical lines separate the graph into segments with different learning rates. So the learning rate decay happens a first time at epoch 20 and a second time at epoch 40. Convergence can be easily observed when the validation accuracy does not change anymore. Another important thing to notice is that validation and training accuracies are quite near to each other. This means that during training no severe overfitting occurred and that the validation set and train set are indeed very representative of each other. Since the final accuracy is also very near to these values it is save to say that validation and train sets are good representations of the test set. \\
 
 
 \begin{figure}[!h]
@@ -234,7 +234,7 @@ In Figure \ref{fig:alexnet-graph} we see the training and validation accuracies 
 \label{fig:alexnet-graph}
 \end{figure}
 
-In Figure \ref{fig:alexnet-cm} the confusion matrix of the final test set is shown for both models (pre-trainend and non pre-trained). \\
+In Figure~\ref{fig:alexnet-cm}, the confusion matrix of the final test set is shown for both models (pre-trainend and non pre-trained). \\
 
 
 \begin{figure}[!h]
@@ -262,39 +262,41 @@ In Figure \ref{fig:alexnet-cm} the confusion matrix of the final test set is sho
 
 \section{VGG}
 
-For the following VGG architectures, the hyperparameter optimization was done with SigOpt. Every architecture was performed with and without batch normalization as well as with and without pre-training. Table \ref{tbl:VGG_overview} summarizes the results for the VGG architectures with the common depths of 11, 13 and 16. These are all the best achieved values in one run only. \\
+For the following VGG architectures, the hyperparameter optimization was done with SigOpt. Every architecture was performed with and without batch normalization as well as with and without pre-training. Table~\ref{tbl:VGG_overview} summarizes the results for the VGG architectures with the common depths of 11, 13 and 16. These are all the best achieved values in one run only. \\
 
 
 \begin{table}[!h] \centering
 \ra{1.3}
-\caption{Hyper parameters for VGG11, VGG13 and VGG16 with and without batch normalization (bn) optimized with SigOpt. First row of each grouping shows training the architecture from scratch. Second row of each grouping shows training with pre-trained weights from ImageNet}
+\caption{Hyper parameters for VGG11, VGG13 and VGG16 with and without batch normalization (bn) optimized with SigOpt. First row of each grouping shows training the architecture from scratch. Second row of each grouping shows training with pre-trained weights from ImageNet.}
 \resizebox{0.99\textwidth}{!}{%
 \begin{tabular}{@{}rrrrrrr@{}}
 \toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
 \midrule
-VGG11 from scratch		& 0.026981 & 0.743190 & 0.01 & 20 & 80.7309\%  &         \\
-VGG11 pre-trained		& 0.006787 & 0.696714 & 0.01 & 20 & 88.0399\%  & +7.309 \\
+VGG11 from scratch		& 0.026981 & 0.743190 & 0.01 & 20 & 80.73\%  &         \\
+VGG11 pre-trained		& 0.006787 & 0.696714 & 0.01 & 20 & 88.04\%  & +7.31 \\
 \midrule
-VGG11\_bn  from scratch	&     0.059343 & 0.120718 &  0.009362 & 20 & 81.0631\%  &         \\
-\textbf{VGG11\_bn pre-trained}	& \textbf{0.022571} & \textbf{0.383537} &  \textbf{0.001733} & \textbf{20} &  \textbf{89.7010\%} & \textbf{+8.6379} \\
+VGG11\_bn  from scratch	&     0.059343 & 0.120718 &  0.009362 & 20 & 81.06\%  &         \\
+\textbf{VGG11\_bn pre-trained}	& \textbf{0.022571} & \textbf{0.383537} &  \textbf{0.001733} & \textbf{20} &  \textbf{89.70\%} & \textbf{+8.64} \\
 \midrule
-VGG13 from scratch		& 0.033844 & 0.257538 &  0.01 & 20 & 81.0631\%  &         \\
-VGG13 pre-trained    	& 0.020012 & 0.193932 & 0.01 & 20 & 88.7043\%  & +7.6412 \\
+VGG13 from scratch		& 0.033844 & 0.257538 &  0.01 & 20 & 81.06\%  &         \\
+VGG13 pre-trained    	& 0.020012 & 0.193932 & 0.01 & 20 & 88.70\%  & +7.64 \\
 \midrule
-VGG13\_bn from scratch    			& 0.054173 & 0.643504 &  0.003223 & 20 & 81.7276\%  &         \\
-\textbf{VGG13\_bn  pre-trained}    &  \textbf{0.093533} & \textbf{0.041074} &  \textbf{0.009734} & \textbf{20} & \textbf{90.3655\%}  & \textbf{+8.6379} \\
+VGG13\_bn from scratch    			& 0.054173 & 0.643504 &  0.003223 & 20 & 81.72\%  &         \\
+\textbf{VGG13\_bn  pre-trained}    &  \textbf{0.093533} & \textbf{0.041074} &  \textbf{0.009734} & \textbf{20} & \textbf{90.37\%}  & \textbf{+8.65} \\
 \midrule
-VGG16 from scratch   	& 0.019590 & 0.383297 &  0.00001 & 20 & 81.7276\%  &         \\
-\textbf{VGG16 pre-trained}    	& \textbf{0.009735} & \textbf{0.529937} & \textbf{0.01} & \textbf{20} & \textbf{90.6977\%}  & \textbf{+8.9701} \\
+VGG16 from scratch   	& 0.019590 & 0.383297 &  0.00001 & 20 & 81.73\%  &         \\
+\textbf{VGG16 pre-trained}    	& \textbf{0.009735} & \textbf{0.529937} & \textbf{0.01} & \textbf{20} & \textbf{90.70\%}  & \textbf{+8.97} \\
 \midrule
-VGG16\_bn from scratch	&     0.031702 & 0.370868 &  0.006288 & 20 & 83.0565\%  &         \\
-VGG16\_bn pre-trained		&     0.083995 & 0.242109 &  0.002634 & 20 & 89.0366\%  & +5.9801 \\
+VGG16\_bn from scratch	&     0.031702 & 0.370868 &  0.006288 & 20 & 83.06\%  &         \\
+VGG16\_bn pre-trained		&     0.083995 & 0.242109 &  0.002634 & 20 & 89.04\%  & +5.98 \\
 \bottomrule
 \end{tabular}}
 \label{tbl:VGG_overview}
 \end{table}
 
-It can be seen that transfer learning helps in every single case and yields better performance by roughly additional 8\%. Also VGG performs generally better with batch normalization with one exception for VGG16 with pre-trained weights. This architecture outperformed its batch norm counterpart by 1.66\% which could be purely by chance. VGG13 with batch normalization seems to perform very well, although by a very small margin, since it is also less complex than VGG16, it will be used for further investigation. First, it is run three times with the found hyper parameters and then averaged as seen in Table \ref{tbl:VGG_averaged}. Since the values mentioned in Table \ref{tbl:VGG_overview} are the best values from 30 runs, it does not surprise that they are higher than the averaged values from Table \ref{tbl:VGG_averaged}. \\
+\quad
+
+It can be seen that transfer learning helps in every single case and yields better performance by roughly additional 8\%. Also VGG performs generally better with batch normalization with one exception for VGG16 with pre-trained weights. This architecture outperformed its batch norm counterpart by 1.66\% which could be purely by chance. VGG13 with batch normalization seems to perform very well, although by a very small margin, since it is also less complex than VGG16, it will be used for further investigation. First, it is run three times with the found hyper parameters and then averaged as seen in Table~\ref{tbl:VGG_averaged}. Since the values mentioned in Table~\ref{tbl:VGG_overview} are the best values from 30 runs, it does not surprise that they are higher than the averaged values from Table~\ref{tbl:VGG_averaged}. \\
 
 
 \begin{table}[!h] \centering
@@ -304,14 +306,14 @@ It can be seen that transfer learning helps in every single case and yields bett
 \begin{tabular}{@{}rrrrrrr@{}}
 \toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
 \midrule
-VGG13\_bn from scratch	& 0.054173 	& 0.643504 	& 0.003223 	& 20 	& 81.0631\% $\pm$ 0.5425 &         \\
-VGG13\_bn pre-trained		& 0.093533 	& 0.041074 	& 0.009734 	& 20 	& 88.0399\% $\pm$ 0.7176 & +6.9768\\
+VGG13\_bn from scratch	& 0.054173 	& 0.643504 	& 0.003223 	& 20 	& 81.06\% $\pm$ 0.54 &         \\
+VGG13\_bn pre-trained		& 0.093533 	& 0.041074 	& 0.009734 	& 20 	& 88.04\% $\pm$ 0.72 & +6.98\\
 \bottomrule
 \end{tabular}}
 \label{tbl:VGG_averaged}
 \end{table}
 
-Looking at the training and validation graphs in Figure \ref{fig:vgg13-graph} a very similar behavior can be observed as in the previous graphs of the AlexNet architectures. Training accuracy is overfitting with the pre-trained model very quickly, convergence happens within the first 20 epochs, while training from scratch needs roughly 30 epochs to converge and never catches up with the pre-trained model. For the validation graph, convergence happens for both models shortly after 20 epochs and the validation accuracy is better with pre-trained weights (87.98\%) than from scratch (79.79\%). Both values are very near the actual values obtained in the test set which again confirms the hypothesis that the validation set does represent the test set very well. \\
+Looking at the training and validation graphs in Figure~\ref{fig:vgg13-graph}, a very similar behavior can be observed as in the previous graphs of the AlexNet architectures. Training accuracy is overfitting with the pre-trained model very quickly, convergence happens within the first 20 epochs, while training from scratch needs roughly 30 epochs to converge and never catches up with the pre-trained model. For the validation graph, convergence happens for both models shortly after 20 epochs and the validation accuracy is better with pre-trained weights (87.98\%) than from scratch (79.79\%). Both values are very near the actual values obtained in the test set which again confirms the hypothesis that the validation set does represent the test set very well. \\
 
 
 \begin{figure}[!h]
@@ -326,11 +328,11 @@ Looking at the training and validation graphs in Figure \ref{fig:vgg13-graph} a 
 \label{fig:vgg13-graph}
 \end{figure}
 
-\quad
+\newpage
 
-\subsection{VGG visualization}
+\subsubsection{VGG visualization}
 
-In order to shed some light into what is going on, visualizing the CNN layers can show what kind of input images activate a specific filter and thus lead to a certain classification. Several hundred visualizations were checked at different layers for VGG13\_bn with and without transfer learning. In Figure \ref{fig:vgg13_pretrained_filters}, 16 interesting layer activations from the pre-trained model are shown. Filters that resembled rocks, background or fiber-like structures were selected from 4 different layers. \\
+In order to shed some light into what is going on, visualizing the CNN layers can show what kind of input images activate a specific filter and thus lead to a certain classification. Several hundred visualizations were checked at different layers for VGG13\_bn with and without transfer learning. In Figure~\ref{fig:vgg13_pretrained_filters}, 16 interesting layer activations from the pre-trained model are shown. Filters that resembled rocks, background or fiber-like structures were selected from 4 different layers. \\
 
 
 \begin{figure}[!h]
@@ -390,9 +392,9 @@ In order to shed some light into what is going on, visualizing the CNN layers ca
 \label{fig:vgg13_pretrained_filters}
 \end{figure}
 
-\quad
+\newpage
 
-It can be very well observed that with increasing depth of the network more complex patterns are learned. In Figure \ref{fig:vgg13_app_pretrained_filters_a}, Figure \ref{fig:vgg13_app_pretrained_filters_b} and Figure \ref{fig:vgg13_app_pretrained_filters_c} in the Appendix, four images are shown for every layer in the architecture. The first layer learns only to spot plain colors, but already the second layer starts to look for vertical and horizontal rock-like patterns, as seen in Figure \ref{fig:vgg13_fromscratch_filters}. Some of the filters don't resemble anything from the training set but still have a high degree of pattern. These patterns were transferred over from ImageNet and adapted through 50 epochs of learning. Figure \ref{fig:vgg13_fromscratch_filters} shows four layers of the pre-trained VGG13 architectue. \\
+It can be very well observed that with increasing depth of the network more complex patterns are learned. In Figure~\ref{fig:vgg13_app_pretrained_filters_a}, Figure~\ref{fig:vgg13_app_pretrained_filters_b} and Figure~\ref{fig:vgg13_app_pretrained_filters_c} in the Appendix, four images are shown for every layer in the architecture. The first layer learns only to spot plain colors, but already the second layer starts to look for vertical and horizontal rock-like patterns, as seen in Figure~\ref{fig:vgg13_fromscratch_filters}. Some of the filters don't resemble anything from the training set but still have a high degree of pattern. These patterns were transferred over from ImageNet and adapted through 50 epochs of learning. Figure~\ref{fig:vgg13_fromscratch_filters} shows four layers of the pre-trained VGG13 architectue. \\
 
 
 \begin{figure}[!h]
@@ -452,16 +454,16 @@ It can be very well observed that with increasing depth of the network more comp
 \label{fig:vgg13_fromscratch_filters}
 \end{figure}
 
-\quad
-
 It is very interesting to observe that no complex patterns can be found in these layer activations. Instead, there is a lot of noise in the images. Although rock like structures could be interpreted into these visualizations, fiber like structures are missing completely.
 
-Applying Grad-CAM and heatmap visualizations can show important regions of the image that correspond to a certain classification. These areas are colored in deep red to orange, whereas areas that did not contribute are colored in blue to violet. Figure \ref{fig:vgg13_pre_heatmap} shows two Grad-CAM visualizations from different layers. In the first row the second convolution layer is shown with the network recognizing rather fine-grained regions detected by the low-level feature maps. The second row shows the last convolution layer where high-level feature maps are captured. \\
+\newpage
+
+Applying Grad-CAM and heatmap visualizations can show important regions of the image that correspond to a certain classification. These areas are colored in deep red to orange, whereas areas that did not contribute are colored in blue to violet. Figure~\ref{fig:vgg13_pre_heatmap} shows two Grad-CAM visualizations from different layers. In the first row the second convolution layer is shown with the network recognizing rather fine-grained regions detected by the low-level feature maps. The second row shows the last convolution layer where high-level feature maps are captured. \\
 
 
 \begin{figure}[!h]
 \centering
-\caption{Grad-Cam and heatmap visualizations are shown for the pre-trained architectures for layers 3 and 31}
+\caption{Grad-Cam and heatmap visualizations are shown for the pre-trained architectures for layers 3 and 31.}
 \subfigure{
 \includegraphics[width=.25\textwidth]{images/chapter5/vgg13-bn-pre/7-Cam-Grayscale.png}
 }
@@ -484,9 +486,7 @@ Applying Grad-CAM and heatmap visualizations can show important regions of the i
 \label{fig:vgg13_pre_heatmap}
 \end{figure}
 
-\quad
-
-In Figure \ref{fig:vgg13_heatmap}, the same Grad-CAM visualizations are shown at the same layers for the model trained from scratch. It can be easily seen that although the low-level features are still similar the last convolution layer yields completely different results. \\
+In Figure~\ref{fig:vgg13_heatmap}, the same Grad-CAM visualizations are shown at the same layers for the model trained from scratch. It can be easily seen that although the low-level features are still similar the last convolution layer yields completely different results. \\
 
 
 \begin{figure}[!h]
@@ -534,21 +534,21 @@ In Figure \ref{fig:vgg13_heatmap}, the same Grad-CAM visualizations are shown at
 
 \section{ResNet}
 
-ResNet18 and ResNet34 were both optimized with SigOpt only. For each hyper parameter 10 runs were conducted summing up to 30 runs. It was used for training the architecture from scratch and with pre-trained weights. Table \ref{tbl:ResNet18_overview} shows a summary of the optimization process with the best accuracies and the delta between the pre-trained model and the model trained from scratch. \\
+ResNet18 and ResNet34 were both optimized with SigOpt only. For each hyper parameter 10 runs were conducted summing up to 30 runs. It was used for training the architecture from scratch and with pre-trained weights. Table~\ref{tbl:ResNet18_overview} shows a summary of the optimization process with the best accuracies and the delta between the pre-trained model and the model trained from scratch. \\
 
 
 \begin{table}[!h] \centering
 \ra{1.3}
-\caption{Hyper parameters for ResNet18 and ResNet34 optimized with SigOpt. First row shows hyperparameters training the architecture from scratch. Second row used pre-trained weights from ImageNet}
+\caption{Hyper parameters for ResNet18 and ResNet34 optimized with SigOpt. First row shows hyperparameters training the architecture from scratch. Second row used pre-trained weights from ImageNet.}
 \resizebox{0.99\textwidth}{!}{%
 \begin{tabular}{@{}rrrrrrr@{}}
 \toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
 \midrule
-ResNet18 from scratch    & 0.033678 & 0.952630 &  0.007518 & 20 & 83.0565\%  &         \\
-\textbf{ResNet18 pre-trained}    & \textbf{0.039918} & \textbf{0.170826} & \textbf{0.001980} & \textbf{20} & \textbf{88.0399\%}  & \textbf{+4.9834}\\
+ResNet18 from scratch    & 0.033678 & 0.952630 &  0.007518 & 20 & 83.06\%  &         \\
+\textbf{ResNet18 pre-trained}    & \textbf{0.039918} & \textbf{0.170826} & \textbf{0.001980} & \textbf{20} & \textbf{88.04\%}  & \textbf{+4.98}\\
 \midrule
-ResNet34 from scratch    & 0.040323 & 0.141704 &  0.004044 & 20 & 83.0565\%  &         \\
-ResNet34 pre-trained    & 0.060848 & 0.460187 &  0.000537 & 20 & 87.0431\%  & +3.9866\\
+ResNet34 from scratch    & 0.040323 & 0.141704 &  0.004044 & 20 & 83.06\%  &         \\
+ResNet34 pre-trained    & 0.060848 & 0.460187 &  0.000537 & 20 & 87.04\%  & +3.98\\
 \bottomrule
 \end{tabular}}
 \label{tbl:ResNet18_overview}
@@ -556,7 +556,7 @@ ResNet34 pre-trained    & 0.060848 & 0.460187 &  0.000537 & 20 & 87.0431\%  & +3
 
 ResNet18 and ResNet34 perform equally well when trained form scratch but differ slightly when pre-trained weights from ImageNet are used. The increased gain from transfer learning for ResNet18 is thus higher and since it has less parameters, it is the preferred architecture to be further evaluated.\\
 
-The graphs in Figure \ref{fig:resnet18-graph} show clearly that training converged much faster for the model with pre-trained weights. After only a few epochs it reached convergence while the model without pre-trained weights had to catch up over many epochs. Both models overfit strongly to the training data and yield lower results in the validation and test sets. Interestingly the validation accuracy of the model trained from scratch starts to decrease around epoch 30 although training accuracy still rises. This is considered bad and is also reflected in the final accuracies where the model without transfer learning scores around 5\% lower. \\
+The graphs in Figure~\ref{fig:resnet18-graph} show clearly that training converged much faster for the model with pre-trained weights. After only a few epochs it reached convergence while the model without pre-trained weights had to catch up over many epochs. Both models overfit strongly to the training data and yield lower results in the validation and test sets. Interestingly the validation accuracy of the model trained from scratch starts to decrease around epoch 30 although training accuracy still rises. This is considered bad and is also reflected in the final accuracies where the model without transfer learning scores around 5\% lower. \\
 
 
 \begin{figure}[!h]
@@ -571,8 +571,7 @@ The graphs in Figure \ref{fig:resnet18-graph} show clearly that training converg
 \label{fig:resnet18-graph}
 \end{figure}
 
-With the confusion matrix in Figure \ref{fig:resnet18-cm} we can see that the learning did not take any shortcuts and that the distinction between images with asbestos fibers and images without were clearly separated to some extent that is reflected in the overall accuracy reached. The Precision and Recall for the model trained from scratch are 77.78\% and 80.99\%, respectively. For the model with pre-trained weight, Precision and Recall are much better with 83.47\% and 87.60\%, respectively. \\
-
+The learning process did not take any shortcuts and the distinction between images with asbestos fibers and images without, were clearly separated as seen in the confusion matrix in Figure~\ref{fig:resnet18-cm}. This is also reflected in the reached overall accuracy. The Precision and Recall for the model trained from scratch are 77.78\% and 80.99\%, respectively. For the model with pre-trained weight, Precision and Recall are much better with 83.47\% and 87.60\%, respectively. \\
 
 \begin{figure}[!h]
 \centering
@@ -602,31 +601,31 @@ With the confusion matrix in Figure \ref{fig:resnet18-cm} we can see that the le
 
 
 
-\section{Densenet121}
+\section{Densenet}
 
-Densenet121 and Densenet169 were both optimized with SigOpt only. For each hyper parameter 10 runs were conducted summing up to 30 runs. It was used for training the architecture from scratch and with pre-trained weights. Table \ref{tbl:Densenet121_overview} shows a summary of the optimization process with the best accuracies and the delta between the pre-trained model and the model trained from scratch.\\
+Densenet121 and Densenet169 were both optimized with SigOpt only. For each hyper parameter 10 runs were conducted summing up to 30 runs. It was used for training the architecture from scratch and with pre-trained weights. Table~\ref{tbl:Densenet121_overview} shows a summary of the optimization process with the best accuracies and the delta between the pre-trained model and the model trained from scratch.\\
 
 
 \begin{table}[!h] \centering
 \ra{1.3}
-\caption{Hyper parameters for densenet121 optimized with SigOpt. First row shows hyperparameters training the architecture from scratch. Second row used pre-trained weights from ImageNet}
+\caption{Hyper parameters for Densenet121 optimized with SigOpt. First row shows hyper parameters training the architecture from scratch. Second row used pre-trained weights from ImageNet.}
 \resizebox{0.99\textwidth}{!}{%
 \begin{tabular}{@{}rrrrrrr@{}}
 \toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
 \midrule
-Densenet121 from scratch    & 0.035925 & 0.057618 &  0.009241 & 20 & 86.0465\%  &         \\
-\textbf{Densenet121 pre-trained}    & \textbf{0.018489}     & \textbf{0.369998} &  \textbf{0.004963} & \textbf{20} & \textbf{88.3721\%}  & \textbf{+2.3256} \\
+Densenet121 from scratch    & 0.035925 & 0.057618 &  0.009241 & 20 & 86.05\%  &         \\
+\textbf{Densenet121 pre-trained}    & \textbf{0.018489}     & \textbf{0.369998} &  \textbf{0.004963} & \textbf{20} & \textbf{88.37\%}  & \textbf{+2.32} \\
 \midrule
-Densenet169 from scratch    & 0.005812 & 0.777249 & 0.006999  & 20 & 85.3821\%  &         \\
-Densenet169 pre-trained    & 0.006347 & 0.447591 & 0.005180 & 20 & 89.3688\%  & +3.9867\\
+Densenet169 from scratch    & 0.005812 & 0.777249 & 0.006999  & 20 & 85.38\%  &     \\
+Densenet169 pre-trained    & 0.006347 & 0.447591 & 0.005180 & 20 & 89.37\%  & +3.99 \\
 \bottomrule
 \end{tabular}}
 \label{tbl:Densenet121_overview}
 \end{table}
 
-As already seen in the previous comparisons of VGG and ResNet architectues, the parameter size does not seem to play a role in this specific task. If the model is trained from scratch, Densenet121 achieves slightly higher accuracies than Densenet161. The opposite is true for the model trained with transfer learning where Densenet169 performs slightly better. Since the difference is very small Densenet121 is preferred for further investigation over the deeper Densenet169 architecture.
+As already seen in the previous comparisons of VGG and ResNet architectures, the parameter size does not seem to play a role in this specific task. If the model is trained from scratch, Densenet121 achieves slightly higher accuracies than Densenet161. The opposite is true for the model trained with transfer learning where Densenet169 performs slightly better. Since the difference is very small Densenet121 is preferred for further investigation over the deeper Densenet169 architecture.\\
 
-The graphs in Figure \ref{fig:densenet121-graph} show again a very similar and already known behavior. Convergence happens much faster with the pre-trained model. Training overfits strongly to the training data. Validation accuracies are similar to the test accuracies. Since the confusion matrices for the Densenet121 architecture look almost identical as in VGG13 and ResNet18 further inclusions are omitted for brevity. \\
+The graphs in Figure~\ref{fig:densenet121-graph} show again a very similar and already known behavior. Convergence happens much faster with the pre-trained model. Training overfits strongly to the training data. Validation accuracies are similar to the test accuracies. Since the confusion matrices for the Densenet121 architecture look almost identical as in VGG13 and ResNet18 further inclusions are omitted for brevity. \\
 
 
 \begin{figure}[!h]
@@ -658,24 +657,24 @@ The graphs in Figure \ref{fig:densenet121-graph} show again a very similar and a
 \section{Inception}
 
 
-Hyper parameter optimization for Inception v3 was done with SigOpt and for both variants, training from scratch and training with pre-trained weights from ImageNet. For each hyper parameter 10 runs were conducted summing up to 30 runs. It was used for training the architecture from scratch and with pre-trained weights. Table \ref{tbl:Inceptionv3_overview} shows a summary of the optimization process with the best accuracies and the delta between the pre-trained model and the model trained from scratch. \\
+Hyper parameter optimization for Inception v3 was done with SigOpt and for both variants, training from scratch and training with pre-trained weights from ImageNet. For each hyper parameter 10 runs were conducted summing up to 30 runs. It was used for training the architecture from scratch and with pre-trained weights. Table~\ref{tbl:Inceptionv3_overview} shows a summary of the optimization process with the best accuracies and the delta between the pre-trained model and the model trained from scratch. \\
 
 
 \begin{table}[!h] \centering
 \ra{1.3}
-\caption{Hyper parameters for Inception v3 optimized with SigOpt. First row shows hyper parameters training the architecture from scratch. Second row used pre-trained weights from ImageNet}
+\caption{Hyper parameters for Inception v3 optimized with SigOpt. First row shows hyper parameters training the architecture from scratch. Second row used pre-trained weights from ImageNet.}
 \resizebox{0.99\textwidth}{!}{%
 \begin{tabular}{@{}rrrrrrr@{}}
 \toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
 \midrule
-Inception v3 from scratch    & 0.070046 & 0.910505 & 0.006943 & 20 & 83.3887\%  &         \\
-\textbf{Inception v3 pre-trained}    & \textbf{0.029269} & \textbf{0.0} & \textbf{0.006320} & \textbf{20} & \textbf{88.7043\%}  & \textbf{+5.3156} \\
+Inception v3 from scratch    & 0.070046 & 0.910505 & 0.006943 & 20 & 83.39\%  &         \\
+\textbf{Inception v3 pre-trained}    & \textbf{0.029269} & \textbf{0.0} & \textbf{0.006320} & \textbf{20} & \textbf{88.70\%}  & \textbf{+5.31} \\
 \bottomrule
 \end{tabular}}
 \label{tbl:Inceptionv3_overview}
 \end{table}
 
-The same behavior is seen again with Inception v3 as with the previous architectures. Using pre-trained weights from ImageNet can help the model converge faster and find a better solution as seen in Figure \ref{fig:inception-graph}. The confusion matrices have been omitted since they look almost identical to the previous confusion matrices from VGG13 in Figure \ref{fig:vgg13_heatmap} and ResNet18 in Figure \ref{fig:resnet18-cm} \\
+The same behavior is seen again with Inception v3 as with the previous architectures. Using pre-trained weights from ImageNet can help the model converge faster and find a better solution as seen in Figure~\ref{fig:inception-graph}. The confusion matrices have been omitted since they look almost identical to the previous confusion matrices from VGG13 in Figure~\ref{fig:vgg13_heatmap} and ResNet18 in Figure~\ref{fig:resnet18-cm}. \\
 
 
 \begin{figure}[!h]
@@ -692,9 +691,9 @@ The same behavior is seen again with Inception v3 as with the previous architect
 
 \quad
 
-\section{Conclusion on Transfer Learning}
+\section{Conclusion}
 
-Using pre-trained weights from ImageNet increased accuracy of every single run performed on the above mentioned architectures. Apparently, learning feature representations from a broad dataset like the ImageNet does indeed transfer very well to different target domains. These findings align perfectly well with other research done on cross-domain transfer learning. By average the models get a 5.18\% boost from pre-training on ImageNet with Alexnet having the smallest increase of only 0.66\% while VGG16 had the biggest increase of 8.97\%. Table \ref{tbl:transferlearning_overview} summarizes the most relevant findings on transfer learning.
+Using pre-trained weights from ImageNet increased accuracy of every single run performed on the above mentioned architectures. Apparently, learning feature representations from a broad dataset like the ImageNet does indeed transfer very well to different target domains. These findings align perfectly well with other research done on cross-domain transfer learning. By average the models get a 5.18\% boost from pre-training on ImageNet with AlexNet having the smallest increase of only 0.66\% while VGG16 had the biggest increase of 8.97\%. Table~\ref{tbl:transferlearning_overview} summarizes the most relevant findings on transfer learning. \\
 
 \begin{table}[!h] \centering
 \ra{1.3}
@@ -703,17 +702,17 @@ Using pre-trained weights from ImageNet increased accuracy of every single run p
 \begin{tabular}{@{}rrrrrrr@{}}
 \toprule & learning rate & momentum & weight\_decay & lr-decay & accuracy & $\Delta$ \\
 \midrule
-VGG13\_bn from scratch    			& 0.054173 & 0.643504 &  0.003223 & 20 & 81.7276\%  &         \\
-\textbf{VGG13\_bn pre-trained} 	& \textbf{0.093533} & \textbf{0.041074} & \textbf{0.009734} & \textbf{20} & \textbf{90.3655\%}  & \textbf{+8.6379} \\
+VGG13\_bn from scratch    			& 0.054173 & 0.643504 &  0.003223 & 20 & 81.73\%  &         \\
+\textbf{VGG13\_bn pre-trained} 	& \textbf{0.093533} & \textbf{0.041074} & \textbf{0.009734} & \textbf{20} & \textbf{90.37\%}  & \textbf{+8.64} \\
 \midrule
-ResNet18 from scratch    & 0.033678 & 0.952630 &  0.007518 & 20 & 83.0565\%  &         \\
-\textbf{ResNet18 pre-trained}    & \textbf{0.039918} & \textbf{0.170826} & \textbf{0.001980} & \textbf{20} & \textbf{88.0399\%}  & \textbf{+4.9834}\\
+ResNet18 from scratch    & 0.033678 & 0.952630 &  0.007518 & 20 & 83.06\%  &         \\
+\textbf{ResNet18 pre-trained}    & \textbf{0.039918} & \textbf{0.170826} & \textbf{0.001980} & \textbf{20} & \textbf{88.04\%}  & \textbf{+4.98}\\
 \midrule
-Densenet121 from scratch    & 0.035925 & 0.057618 &  0.009241 & 20 & 86.0465\%  &         \\
-\textbf{Densenet121 pre-trained}    & \textbf{0.018489}     & \textbf{0.369998} &  \textbf{0.004963} & \textbf{20} & \textbf{88.3721\%}  & \textbf{+2.3256} \\
+Densenet121 from scratch    & 0.035925 & 0.057618 &  0.009241 & 20 & 86.05\%  &         \\
+\textbf{Densenet121 pre-trained}    & \textbf{0.018489}     & \textbf{0.369998} &  \textbf{0.004963} & \textbf{20} & \textbf{88.37\%}  & \textbf{+2.32} \\
 \midrule
-Inception v3 from scratch    & 0.070046 & 0.910505 & 0.006943 & 20 & 83.3887\%  &         \\
-\textbf{Inception v3 pre-trained}    & \textbf{0.029269} & \textbf{0.0} & \textbf{0.006320} & \textbf{20} & \textbf{88.7043\%}  & \textbf{+5.3156} \\
+Inception v3 from scratch    & 0.070046 & 0.910505 & 0.006943 & 20 & 83.39\%  &         \\
+\textbf{Inception v3 pre-trained}    & \textbf{0.029269} & \textbf{0.0} & \textbf{0.006320} & \textbf{20} & \textbf{88.70\%}  & \textbf{+5.31} \\
 \bottomrule
 \end{tabular}}
 \label{tbl:transferlearning_overview}
@@ -721,4 +720,4 @@ Inception v3 from scratch    & 0.070046 & 0.910505 & 0.006943 & 20 & 83.3887\%  
 
 Overfitting was mainly a problem with the pre-trained model since it converged so much faster than the same model trained from scratch. Sometimes the model without pre-training was able to somehow catch up with the pre-trained counterpart on the training set, but never on the test set. Overfitting is nontheless a big problem from both variant and needs to be addressed by cropping and resizing differently and by introducing some randomness, which could be as simple as randomly flipping and rotating the images before feeding them to the model.\\
 
-At first it was very surprising that learning from scratch never caught up with the models using transfer learning from ImageNet regardless for doubling and quadrupling the amount of epochs, running several times with randomly initialized  weights and optimizing the hyper parameters seperately. This finding contradicts the two cited and recent studies \cite{he2018rethinking, kornblith2018better} on transfer learning in Chapter 4. Visualizing some of the filters quickly made it clear that learning from scratch with the provided small dataset doesn't create elaborate feature mappings as seen from ImageNet. Most likely the vast majority of the feature mappings from ImageNet  are absolutely useless for the asbestos classification but some few feature mappings of e.g. that of grass or animal's fur might be similar enough for the filter to activate maximally, when asbestos is encountered in the image. Since the asbestos task is only a binary classification few of these filters are enough to predict asbestos with a high accuracy. These elaborate feature mappings are not able to be created from scratch with a dataset of only a few hundred, partially wrongly labeled images, thus the model trained from scratch never reaches the accuracy of the pre-trained model. Therefore it is safe to conclude that for the asbestos task transfer learning is invaluable even though the source domain and target domain are very far apart.
+At first it was very surprising that learning from scratch never caught up with the models using transfer learning from ImageNet regardless for doubling and quadrupling the amount of epochs, running several times with randomly initialized  weights and optimizing the hyper parameters seperately. This finding contradicts the two cited and recent studies~\cite{he2018rethinking, kornblith2018better} on transfer learning in Chapter 4. Visualizing some of the filters quickly made it clear that learning from scratch with the provided small dataset doesn't create elaborate feature mappings as seen from ImageNet. Most likely the vast majority of the feature mappings from ImageNet  are absolutely useless for the asbestos classification but some few feature mappings of e.g. that of grass or animal's fur might be similar enough for the filter to activate maximally, when asbestos is encountered in the image. Since the asbestos task is only a binary classification few of these filters are enough to predict asbestos with a high accuracy. These elaborate feature mappings are not able to be created from scratch with a dataset of only a few hundred, partially wrongly labeled images, thus the model trained from scratch never reaches the accuracy of the pre-trained model. Therefore it is safe to conclude that for the asbestos task transfer learning is invaluable even though the source domain and target domain are very far apart.
