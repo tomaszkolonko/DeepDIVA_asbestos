@@ -61,7 +61,7 @@ def save_class_activation_images(org_img, activation_map, file_name, target_laye
         activation_map (numpy arr): Activation map (grayscale) 0-255
         file_name (str): File name of the exported image
     """
-    path_to_output_files_on_server = '/home/thomas.kolonko/generated/vgg13_gradcam'
+    path_to_output_files_on_server = '/home/thomas.kolonko/generated/vgg13_gradcam_g_16'
     if not os.path.exists(path_to_output_files_on_server):
         os.makedirs(path_to_output_files_on_server)
     # Grayscale activation map
@@ -227,17 +227,21 @@ def get_example_params(example_index):
         # path_to_checkpoint = '/home/thomas.kolonko/f_vgg13_g_16_optimized/vgg13_bn_g_16_optimized/FINAL/model_name=vgg13_bn_g/epochs=50/lr=0.1/decay_lr=20/momentum=0.499036/weight_decay=1e-05/13-04-19-00h-11m-17s/checkpoint.pth.tar'
 
         # VGG13_bn_pre for chapter 5
-        # path_to_checkpoint = '/home/thomas.kolonko/OutputHistory/SIGOPT/output_asbestos_vgg13_bn_sigopt/' \
-        #                      'tz_asbestos_vgg13_bn_sigopt_pre/FINAL/model_name=vgg13_bn/epochs=50/pretrained=True/' \
-        #                      'lr=0.09353319065678362/decay_lr=20/momentum=0.04107414719444524/' \
-        #                      'weight_decay=0.009733960128499166/26-03-19-07h-13m-43s/checkpoint.pth.tar'
-        # VGG13_bn for chapter 5
         path_to_checkpoint = '/home/thomas.kolonko/OutputHistory/SIGOPT/output_asbestos_vgg13_bn_sigopt/' \
-                             'tz_asbestos_vgg13_bn_sigopt/FINAL/model_name=vgg13_bn/epochs=50/lr=0.05417303921420196/' \
-                             'decay_lr=20/momentum=0.6435035228001551/weight_decay=0.0032227545216798603/' \
-                             '28-03-19-22h-26m-56s/checkpoint.pth.tar'
+                             'tz_asbestos_vgg13_bn_sigopt_pre/FINAL/model_name=vgg13_bn/epochs=50/pretrained=True/' \
+                             'lr=0.09353319065678362/decay_lr=20/momentum=0.04107414719444524/' \
+                             'weight_decay=0.009733960128499166/26-03-19-07h-13m-43s/checkpoint.pth.tar'
+        # VGG13_bn for chapter 5
+        # path_to_checkpoint = '/home/thomas.kolonko/OutputHistory/SIGOPT/output_asbestos_vgg13_bn_sigopt/' \
+        #                      'tz_asbestos_vgg13_bn_sigopt/FINAL/model_name=vgg13_bn/epochs=50/lr=0.05417303921420196/' \
+        #                      'decay_lr=20/momentum=0.6435035228001551/weight_decay=0.0032227545216798603/' \
+        #                      '28-03-19-22h-26m-56s/checkpoint.pth.tar'
 
-        model = models.__dict__['vgg13_bn'](output_channels=2, pretrained=False)
+        path_to_checkpoint = '/home/thomas.kolonko/f_vgg13_g_16_optimized/vgg13_bn_g_16_optimized/FINAL/' \
+                             'model_name=vgg13_bn_g/epochs=50/lr=0.1/decay_lr=20/momentum=0.499036/weight_decay=1e-05/' \
+                             '13-04-19-00h-11m-17s/checkpoint.pth.tar'
+
+        model = models.__dict__['vgg13_bn_g'](output_channels=2, pretrained=False)
         if os.path.isfile(path_to_checkpoint):
             # TODO: Remove or make param: map_location
             model_dict = torch.load(path_to_checkpoint, map_location='cpu')

@@ -83,7 +83,10 @@ class GradCam():
         for i, w in enumerate(weights):
             cam += w * target[i, :, :]
         cam = np.maximum(cam, 0)
-        cam = (cam - np.min(cam)) / (np.max(cam) - np.min(cam))  # Normalize between 0-1
+        if((np.max(cam) - np.min(cam)) == 0):
+            cam = (cam - np.min(cam)) / 0.0000001
+        else:
+            cam = (cam - np.min(cam)) / (np.max(cam) - np.min(cam))  # Normalize between 0-1
         cam = np.uint8(cam * 255)  # Scale between 0-255 to visualize
         cam = np.uint8(Image.fromarray(cam).resize((input_image.shape[2],
                        input_image.shape[3]), Image.ANTIALIAS))
@@ -97,7 +100,7 @@ class GradCam():
 
 if __name__ == '__main__':
     # Get params
-    target_example = [0,1,3]
+    target_example = [0]
     target_layer = [0, 3, 7, 10, 14, 17, 21, 24, 28, 31]
     for te in target_example:
         (original_image, prep_img, target_class, file_name_to_export, pretrained_model) = get_example_params(te)

@@ -54,7 +54,7 @@ def tensor_to_image(image):
     return image
 
 
-confusion_matrix_heatmap = make_heatmap([[200, 300], [400, 500]], ("asbestos", "non-asbestos"))
+confusion_matrix_heatmap = make_heatmap([[98, 23], [28, 152]], ("asbestos  ", "non-asbestos  "))
 
 output_folder = os.path.dirname("/Users/tomasz/")
 dest_filename = os.path.join(output_folder, 'images.png')

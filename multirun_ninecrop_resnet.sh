@@ -1,34 +1,76 @@
 #!/bin/bash
 
+## ResNet18
+#python ./template/RunMe.py --runner-class image_classification_random_nine \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name resnet18 --epochs 50 --experiment-name tz_asbestos_resnet18 \
+#    --output-folder /home/thomas.kolonko/new_randomnine_output_asbestos_resnet18 --ignoregit \
+#    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20 --multi-run 3
+#
+## ResNet18 --pretrained
+#python ./template/RunMe.py --runner-class image_classification_random_nine \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name resnet18 --epochs 50 --experiment-name tz_asbestos_resnet18_pre \
+#    --output-folder /home/thomas.kolonko/new_randomnine_output_asbestos_resnet18 --ignoregit \
+#    --lr 0.039918 --momentum 0.170826 --weight-decay 0.001980 --decay-lr 20 --multi-run 3 \
+#    --pretrained
+#
+## ResNet18
+#python ./template/RunMe.py --runner-class image_classification_random_nine \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name resnet18 --epochs 50 --experiment-name tz_asbestos_resnet18 \
+#    --output-folder /home/thomas.kolonko/new2_randomnine_output_asbestos_resnet18 --ignoregit \
+#    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20 --multi-run 3
+#
+## ResNet18 --pretrained
+#python ./template/RunMe.py --runner-class image_classification_random_nine \
+#    --dataset-folder /home/thomas.kolonko/FINAL/ \
+#    --model-name resnet18 --epochs 50 --experiment-name tz_asbestos_resnet18_pre \
+#    --output-folder /home/thomas.kolonko/new2_randomnine_output_asbestos_resnet18 --ignoregit \
+#    --lr 0.039918 --momentum 0.170826 --weight-decay 0.001980 --decay-lr 20 --multi-run 3 \
+#    --pretrained
+
+
+
+
+
+
+
 # ResNet18
-python ./template/RunMe.py --runner-class image_classification_random_nine \
-    --dataset-folder /home/thomas.kolonko/FINAL_CH/ \
+python ./template/RunMe.py --runner-class image_classification_five_crop \
+    --dataset-folder /home/thomas.kolonko/FINAL/ \
     --model-name resnet18 --epochs 50 --experiment-name tz_asbestos_resnet18 \
-    --output-folder /home/thomas.kolonko/fch_randomnine_output_asbestos_resnet18 --ignoregit \
+    --output-folder /home/thomas.kolonko/new223_fivecrop_output_asbestos_resnet18 --ignoregit \
     --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
 
 # ResNet18 --pretrained
-python ./template/RunMe.py --runner-class image_classification_random_nine \
-    --dataset-folder /home/thomas.kolonko/FINAL_CH/ \
+python ./template/RunMe.py --runner-class image_classification_five_crop \
+    --dataset-folder /home/thomas.kolonko/FINAL/ \
     --model-name resnet18 --epochs 50 --experiment-name tz_asbestos_resnet18_pre \
-    --output-folder /home/thomas.kolonko/fch_randomnine_output_asbestos_resnet18 --ignoregit \
+    --output-folder /home/thomas.kolonko/new223_fivecrop_output_asbestos_resnet18 --ignoregit \
     --lr 0.039918 --momentum 0.170826 --weight-decay 0.001980 --decay-lr 20 \
     --pretrained
 
-# ResNet18
-python ./template/RunMe.py --runner-class image_classification_random_nine \
-    --dataset-folder /home/thomas.kolonko/FINAL_CH/ \
-    --model-name resnet_sixteen --epochs 50 --experiment-name tz_asbestos_resnet18 \
-    --output-folder /home/thomas.kolonko/fch_sixteen_randomnine_output_asbestos_resnet18 --ignoregit \
-    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
 
-# ResNet18 --pretrained
-python ./template/RunMe.py --runner-class image_classification_random_nine \
-    --dataset-folder /home/thomas.kolonko/FINAL_CH/ \
-    --model-name resnet_sixteen --epochs 50 --experiment-name tz_asbestos_resnet18_pre \
-    --output-folder /home/thomas.kolonko/fch_sixteen_randomnine_output_asbestos_resnet18 --ignoregit \
-    --lr 0.039918 --momentum 0.170826 --weight-decay 0.001980 --decay-lr 20 \
-    --pretrained
+
+
+
+
+
+## ResNet18
+#python ./template/RunMe.py --runner-class image_classification_random_nine \
+#    --dataset-folder /home/thomas.kolonko/FINAL_CH/ \
+#    --model-name resnet_sixteen --epochs 50 --experiment-name tz_asbestos_resnet18 \
+#    --output-folder /home/thomas.kolonko/fch_sixteen_randomnine_output_asbestos_resnet18 --ignoregit \
+#    --lr 0.033678 --momentum 0.952630 --weight-decay 0.007518 --decay-lr 20
+#
+## ResNet18 --pretrained
+#python ./template/RunMe.py --runner-class image_classification_random_nine \
+#    --dataset-folder /home/thomas.kolonko/FINAL_CH/ \
+#    --model-name resnet_sixteen --epochs 50 --experiment-name tz_asbestos_resnet18_pre \
+#    --output-folder /home/thomas.kolonko/fch_sixteen_randomnine_output_asbestos_resnet18 --ignoregit \
+#    --lr 0.039918 --momentum 0.170826 --weight-decay 0.001980 --decay-lr 20 \
+#    --pretrained
 
 ## ResNet18
 #python ./template/RunMe.py --runner-class image_classification_random_nine \
